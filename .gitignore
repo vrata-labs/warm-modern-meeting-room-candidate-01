@@ -1,0 +1,11 @@
+node_modules/
+.platform/
+__pycache__/
+*.pyc
+*.blend1
+*.blend2
+private/
+restricted/
+raw-attempts/
+.env
+.env.*

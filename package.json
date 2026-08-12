@@ -1,0 +1,27 @@
+{
+  "name": "@vrata/warm-modern-meeting-room-candidate-01",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@10.0.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "manifest:check": "node scripts/validate-repository.mjs --manifest-only",
+    "validate": "node scripts/validate-repository.mjs && node scripts/check-repository-boundary.mjs",
+    "inspect": "node scripts/inspect-releases.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "@gltf-transform/cli": "4.4.2",
+    "@gltf-transform/core": "4.4.2",
+    "@gltf-transform/extensions": "4.4.2",
+    "gltf-validator": "2.0.0-dev.3.10"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
+  }
+}
