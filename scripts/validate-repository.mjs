@@ -1,6 +1,9 @@
 import { createHash } from "node:crypto";
+import { execFile } from "node:child_process";
 import { readFile, readdir, stat } from "node:fs/promises";
 import { basename, join, resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+import { promisify } from "node:util";
 
 import { NodeIO } from "@gltf-transform/core";
 import { ALL_EXTENSIONS } from "@gltf-transform/extensions";
@@ -8,9 +11,21 @@ import validator from "gltf-validator";
 
 const root = resolve(import.meta.dirname, "..");
 const requiredReleaseFiles = ["LICENSES.md", "preview.webp", "scene.glb", "scene.json"];
+const execFileAsync = promisify(execFile);
+const projectOwnedLicenseSha256 = "52e75c4031230e573f309c41b098c8c5976ee5dd451ea42337edf626ff142f35";
 
 function assert(condition, code) {
   if (!condition) throw new Error(code);
+}
+
+function stableJson(value) {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
+  if (value && typeof value === "object") return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(",")}}`;
+  return JSON.stringify(value);
+}
+
+function canonicalSha256(value) {
+  return createHash("sha256").update(stableJson(value)).digest("hex");
 }
 
 async function json(path) {
@@ -49,6 +64,13 @@ const config = await json(join(root, "scene-repository.json"));
 const validatorCommit = (await readFile(join(root, "platform-validator.lock"), "utf8")).trim();
 const manifest = await json(join(root, "manifest.json"));
 const concept = await json(join(root, "source/concept-selection.json"));
+const sceneText = await readFile(join(root, "source/scene-spec.json"), "utf8");
+const assetLedgerText = await readFile(join(root, "provenance/asset-ledger.json"), "utf8");
+const generationLedgerText = await readFile(join(root, "provenance/generation-ledger.json"), "utf8");
+const sceneSpec = JSON.parse(sceneText);
+const assetLedger = JSON.parse(assetLedgerText);
+const generationLedger = JSON.parse(generationLedgerText);
+const sceneContractLock = await json(join(root, "source/scene-contract-lock.json"));
 
 assert(config.schemaVersion === 1 && config.oneSceneOnly === true, "invalid_scene_repository_config");
 assert(config.sceneId === basename(config.repository), "repository_scene_id_mismatch");
@@ -61,7 +83,7 @@ assert(manifest.blenderVersion === "4.5.12 LTS", "invalid_manifest_blender_versi
 assert(Array.isArray(manifest.releases), "invalid_manifest_releases");
 assert(concept.schemaVersion === 1 && concept.sceneId === config.sceneId, "invalid_concept_identity");
 assert(concept.status === "approved-low-fidelity-concept", "invalid_concept_status");
-assert(concept.selection?.conceptId === "concept-03-corrected", "invalid_selected_concept");
+assert(concept.selection?.conceptId === "concept-03-functional", "invalid_selected_concept");
 assert(concept.selection?.evidence === "interactive-user-approval", "missing_concept_approval");
 assert(/^[0-9a-f]{64}$/.test(concept.selection?.previewSha256 ?? ""), "invalid_concept_preview_digest");
 assert(concept.selection?.previewIncludedInRepository === false, "concept_preview_must_remain_private");
@@ -71,15 +93,48 @@ assert(JSON.stringify(concept.layoutIntent?.roomEnvelopeM) === JSON.stringify({ 
 assert(JSON.stringify(concept.layoutIntent?.conferenceTable) === JSON.stringify({
   center: { x: -0.45, y: 0.74, z: 0.05 },
   dimensionsM: { width: 4, height: 0.74, depth: 1.18 },
-  yawRadians: -0.20943951
+  yawRadians: 0
 }), "invalid_concept_table_layout");
 assert(concept.layoutIntent?.presentationWall === "west" && concept.layoutIntent?.mainWindowWall === "north" && concept.layoutIntent?.entranceWall === "south", "invalid_concept_wall_assignments");
-assert(concept.layoutIntent?.composition === "offset-table-axis-with-clear-east-entry-route", "invalid_concept_composition");
-assert(concept.boundaries?.approvedCandidateSpecificationCreated === false, "concept_must_not_claim_candidate_specification");
+assert(concept.layoutIntent?.composition === "offset-straight-table-axis-with-clear-east-entry-route", "invalid_concept_composition");
+assert(concept.boundaries?.approvedCandidateSpecificationCreated === true, "approved_candidate_specification_missing");
 assert(concept.boundaries?.assetRightsCleared === false
   && concept.boundaries?.releaseArtifactsCreated === false
   && concept.boundaries?.previewBinaryIncluded === false
   && concept.boundaries?.publicationReady === false, "concept_must_not_claim_release_readiness");
+assert(sceneSpec.sceneId === config.sceneId && sceneSpec.clearance?.minimumRouteWidthM === 0.9, "invalid_candidate_scene_specification");
+assert(sceneSpec.generator?.commit === sceneContractLock.validatorCommit, "candidate_generator_validator_drift");
+assert(sceneSpec.components?.length === 11 && sceneSpec.seats?.length === 8 && sceneSpec.clearance?.routes?.length === 10, "invalid_candidate_contract_counts");
+assert(sceneSpec.components.find(({ id }) => id === "conference-table")?.transform?.yaw === 0, "candidate_table_must_remain_route_safe");
+assert(sceneSpec.seats.every((seat) => sceneSpec.components.some(({ id, transform }) => id === seat.componentId && JSON.stringify(transform.position) === JSON.stringify(seat.position) && transform.yaw === seat.yaw)), "candidate_seat_component_drift");
+assert(assetLedger.sceneId === config.sceneId && assetLedger.records?.length === 1, "invalid_candidate_asset_ledger");
+assert(generationLedger.sceneId === config.sceneId && generationLedger.records?.length === 0, "invalid_candidate_generation_ledger");
+assert(sceneContractLock.status === "approved-candidate-specification-valid" && sceneContractLock.validatorCommit === "fa9767913fc3cc2b1d06fc00c44ed6a26369b219", "invalid_scene_contract_lock");
+assert(sceneContractLock.specificationSha256 === canonicalSha256(sceneSpec), "scene_specification_digest_drift");
+assert(sceneContractLock.assetLedgerSha256 === canonicalSha256(assetLedger), "asset_ledger_digest_drift");
+assert(sceneContractLock.generationLedgerSha256 === canonicalSha256(generationLedger), "generation_ledger_digest_drift");
+assert(sceneContractLock.componentCount === sceneSpec.components.length && sceneContractLock.seatCount === sceneSpec.seats.length, "scene_contract_count_drift");
+assert(Object.values(sceneContractLock.boundaries ?? {}).every((value) => value === false), "scene_contract_release_boundaries_must_remain_false");
+
+for (const record of assetLedger.records) {
+  const sourceRecord = await fileRecord(join(root, record.source.repositoryPath));
+  assert(sourceRecord.sha256 === record.originalSha256, `asset_source_digest_drift:${record.id}`);
+  assert(record.license.reference === "provenance/licenses/project-owned.txt", `asset_license_reference_drift:${record.id}`);
+}
+const projectOwnedLicense = await fileRecord(join(root, "provenance/licenses/project-owned.txt"));
+assert(projectOwnedLicense.sha256 === projectOwnedLicenseSha256, "project_owned_license_digest_drift");
+
+const sceneFactoryDir = resolve(root, process.env.SCENE_FACTORY_DIR ?? "../warm-modern-meeting-room-scene-factory");
+const { stdout: sceneFactoryHead } = await execFileAsync("git", ["-C", sceneFactoryDir, "rev-parse", "HEAD"]);
+assert(sceneFactoryHead.trim() === sceneContractLock.validatorCommit, "scene_factory_checkout_commit_mismatch");
+const { stdout: sceneFactoryStatus } = await execFileAsync("git", ["-C", sceneFactoryDir, "status", "--porcelain", "--untracked-files=no"]);
+assert(sceneFactoryStatus === "", "scene_factory_checkout_tracked_bytes_modified");
+const { parseSceneContract } = await import(pathToFileURL(join(sceneFactoryDir, "compiler/scene-contract.mjs")).href);
+const semanticReport = parseSceneContract({ sceneText, assetLedgerText, generationLedgerText });
+assert(semanticReport.sceneId === sceneContractLock.sceneId, "scene_contract_identity_drift");
+for (const key of ["specificationSha256", "assetLedgerSha256", "generationLedgerSha256", "assetRecordCount", "generationRecordCount", "componentCount", "seatCount"]) {
+  assert(semanticReport[key] === sceneContractLock[key], `scene_contract_report_drift:${key}`);
+}
 
 const releaseKeys = new Set();
 for (const release of manifest.releases) {

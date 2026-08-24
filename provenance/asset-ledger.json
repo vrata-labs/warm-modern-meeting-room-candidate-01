@@ -1,6 +1,19 @@
 {
   "schemaVersion": 1,
   "sceneId": "warm-modern-meeting-room-candidate-01",
-  "status": "awaiting-cleared-sources",
-  "records": []
+  "records": [
+    {
+      "id": "asset-layout-project",
+      "kind": "project-authored-input",
+      "source": { "classification": "project-authored", "publicUrl": null, "repositoryPath": "source/concept-selection.json" },
+      "authorProvider": "project-team",
+      "license": { "name": "LicenseRef-Project-Owned", "reference": "provenance/licenses/project-owned.txt", "commercialUse": true, "redistribution": true, "mlProcessing": true },
+      "acquiredOn": "2026-08-24",
+      "originalSha256": "978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a",
+      "allowedUse": { "staging": true, "production": false, "webRuntime": true, "screenshots": true, "optimization": true, "redistribution": true },
+      "modifications": [],
+      "outputSha256": [],
+      "attribution": null
+    }
+  ]
 }

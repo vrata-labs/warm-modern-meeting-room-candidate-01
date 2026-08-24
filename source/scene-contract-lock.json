@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "status": "approved-candidate-specification-valid",
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "validatorRepository": "vrata-labs/warm-modern-meeting-room-scene-factory",
+  "validatorCommit": "fa9767913fc3cc2b1d06fc00c44ed6a26369b219",
+  "specificationSha256": "29d76ca0feaefd4bf9cac9ebd25113c601e358c939778c4a0f43f3f94b58e0dd",
+  "assetLedgerSha256": "389335100442f2f6806d84be7074cb7a7c60022b588b6a7b4df9a05778dec80d",
+  "generationLedgerSha256": "42d49a3ad4f0f2a0b6f490461a30ed27a904396d51c34c9742862e02ba818930",
+  "assetRecordCount": 1,
+  "generationRecordCount": 0,
+  "componentCount": 11,
+  "seatCount": 8,
+  "minimumRouteWidthM": 0.9,
+  "boundaries": {
+    "releaseAssetsApproved": false,
+    "sceneBinaryCreated": false,
+    "publicationReady": false
+  }
+}

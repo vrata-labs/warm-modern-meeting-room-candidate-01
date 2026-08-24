@@ -30,6 +30,27 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Read scene contract validator lock
+        id: scene-contract-ref
+        shell: bash
+        run: |
+          sha="$(node -e 'process.stdout.write(require("./source/scene-contract-lock.json").validatorCommit)')"
+          if [[ ! "$sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "invalid_scene_contract_validator_lock" >&2
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout pinned scene contract validator
+        uses: actions/checkout@v4
+        with:
+          repository: vrata-labs/warm-modern-meeting-room-scene-factory
+          ref: ${{ steps.scene-contract-ref.outputs.sha }}
+          path: .scene-factory
+
+      - name: Install scene contract validator dependencies
+        run: pnpm --dir .scene-factory install --frozen-lockfile
+
       - name: Reject changes to published version paths
         shell: bash
         env:
@@ -48,6 +69,8 @@ jobs:
           done < <(git diff --no-renames --name-only "$BASE_SHA" HEAD -- assets/scenes)
 
       - name: Validate repository and release records
+        env:
+          SCENE_FACTORY_DIR: .scene-factory
         run: pnpm validate
 
       - name: Inspect GLB releases
