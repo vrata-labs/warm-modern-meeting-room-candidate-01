@@ -6,5 +6,8 @@ and release-ready source distinct. Do not add restricted references or raw
 rejected attempts.
 
 `concept-selection.json` records the approved low-fidelity layout intent and
-the SHA-256 of its private corrected preview. It is not a scene specification,
-asset-rights verdict, or release approval.
+the SHA-256 of its private functional correction preview. `scene-spec.json`
+records the exact validated room, component, seat, route, media-surface, and
+review-view contract. `scene-contract-lock.json` binds the exact Scene Factory
+validator commit and canonical contract hashes. None of these records approves
+future release assets or publication.

@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "generator": {
+    "repository": "vrata-labs/warm-modern-meeting-room-scene-factory",
+    "commit": "fa9767913fc3cc2b1d06fc00c44ed6a26369b219",
+    "blenderVersion": "4.5.12 LTS",
+    "blenderBuildHash": "84afd5f785f7",
+    "seed": 42,
+    "acceptedInputSha256": ["978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a"]
+  },
+  "room": {
+    "widthM": 7,
+    "depthM": 5,
+    "heightM": 3.1,
+    "wallThicknessM": 0.18,
+    "floorY": 0,
+    "ceilingY": 3.1,
+    "polygon": [
+      { "x": -3.5, "z": -2.5 },
+      { "x": 3.5, "z": -2.5 },
+      { "x": 3.5, "z": 2.5 },
+      { "x": -3.5, "z": 2.5 }
+    ]
+  },
+  "openings": [
+    { "id": "main-door", "kind": "door", "wall": "south", "offsetM": 5.2, "widthM": 1.1, "heightM": 2.2, "sillM": 0, "profileId": "door-frame-profile" },
+    { "id": "main-window", "kind": "window", "wall": "north", "offsetM": 2, "widthM": 3.4, "heightM": 1.8, "sillM": 0.7, "profileId": "window-frame-profile" }
+  ],
+  "profiles": [
+    { "id": "baseboard-profile", "kind": "baseboard", "widthM": 0.09, "depthM": 0.015, "materialRecipeId": "graphite-metal" },
+    { "id": "door-frame-profile", "kind": "door-frame", "widthM": 0.08, "depthM": 0.18, "materialRecipeId": "warm-oak" },
+    { "id": "window-frame-profile", "kind": "window-frame", "widthM": 0.08, "depthM": 0.18, "materialRecipeId": "graphite-metal" },
+    { "id": "oak-trim-profile", "kind": "trim", "widthM": 0.075, "depthM": 0.04, "materialRecipeId": "warm-oak" }
+  ],
+  "materialRecipes": [
+    { "id": "warm-oak", "category": "wood", "baseColorSrgb": "#A87543", "roughness": 0.46, "metalness": 0, "textureScaleM": 0.18, "sourceRecordId": "asset-layout-project" },
+    { "id": "mineral-plaster", "category": "mineral", "baseColorSrgb": "#DDD6C8", "roughness": 0.84, "metalness": 0, "textureScaleM": 0.5, "sourceRecordId": "asset-layout-project" },
+    { "id": "graphite-metal", "category": "metal", "baseColorSrgb": "#343A3C", "roughness": 0.35, "metalness": 0.7, "textureScaleM": 0.2, "sourceRecordId": "asset-layout-project" },
+    { "id": "sand-fabric", "category": "fabric", "baseColorSrgb": "#B9A98E", "roughness": 0.72, "metalness": 0, "textureScaleM": 0.003, "sourceRecordId": "asset-layout-project" }
+  ],
+  "materialZones": [
+    { "id": "floor-zone", "surface": "floor", "recipeId": "warm-oak" },
+    { "id": "ceiling-zone", "surface": "ceiling", "recipeId": "mineral-plaster" },
+    { "id": "north-wall-zone", "surface": "north", "recipeId": "mineral-plaster" },
+    { "id": "east-wall-zone", "surface": "east", "recipeId": "mineral-plaster" },
+    { "id": "south-wall-zone", "surface": "south", "recipeId": "mineral-plaster" },
+    { "id": "west-wall-zone", "surface": "west", "recipeId": "mineral-plaster" }
+  ],
+  "architecturalDetails": [
+    { "id": "north-baseboard", "kind": "baseboard", "wall": "north", "profileId": "baseboard-profile" },
+    { "id": "east-baseboard", "kind": "baseboard", "wall": "east", "profileId": "baseboard-profile" },
+    { "id": "south-baseboard", "kind": "baseboard", "wall": "south", "profileId": "baseboard-profile" },
+    { "id": "west-baseboard", "kind": "baseboard", "wall": "west", "profileId": "baseboard-profile" },
+    { "id": "window-reveal", "kind": "reveal", "wall": "north", "profileId": "oak-trim-profile" },
+    { "id": "window-sill", "kind": "sill", "wall": "north", "profileId": "oak-trim-profile" }
+  ],
+  "lighting": [
+    { "id": "window-daylight", "kind": "daylight", "position": { "x": 0, "y": 2.5, "z": 2.4 }, "temperatureK": 6500, "intensityLumens": 9000, "intendedContribution": "soft directional daylight through the main window" },
+    { "id": "table-pendant", "kind": "pendant", "position": { "x": -0.45, "y": 2.55, "z": 0.05 }, "temperatureK": 2900, "intensityLumens": 3200, "intendedContribution": "warm task light over the conference table" }
+  ],
+  "exterior": { "strategy": "project-authored-geometry", "windowOpeningId": "main-window", "sourceRecordIds": ["asset-layout-project"] },
+  "components": [
+    { "id": "conference-table", "family": "conference-table", "dimensions": { "widthM": 4, "heightM": 0.74, "depthM": 1.18 }, "transform": { "position": { "x": -0.45, "y": 0, "z": 0.05 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
+    { "id": "chair-01", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": -1.95, "y": 0, "z": 1.15 }, "yaw": 3.141593 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
+    { "id": "chair-02", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": -0.95, "y": 0, "z": 1.15 }, "yaw": 3.141593 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
+    { "id": "chair-03", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": 0.05, "y": 0, "z": 1.15 }, "yaw": 3.141593 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
+    { "id": "chair-04", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": 1.05, "y": 0, "z": 1.15 }, "yaw": 3.141593 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
+    { "id": "chair-05", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": -1.95, "y": 0, "z": -1.1 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
+    { "id": "chair-06", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": -0.95, "y": 0, "z": -1.1 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
+    { "id": "chair-07", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": 0.05, "y": 0, "z": -1.1 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
+    { "id": "chair-08", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": 1.05, "y": 0, "z": -1.1 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
+    { "id": "conference-av", "family": "conference-av", "dimensions": { "widthM": 0.4, "heightM": 0.12, "depthM": 0.25 }, "transform": { "position": { "x": -0.45, "y": 0.74, "z": 0.05 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
+    { "id": "pendant-fixture", "family": "pendant-luminaire", "dimensions": { "widthM": 2.2, "heightM": 0.18, "depthM": 0.22 }, "transform": { "position": { "x": -0.45, "y": 2.55, "z": 0.05 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null }
+  ],
+  "clearance": {
+    "minimumRouteWidthM": 0.9,
+    "routes": [
+      { "id": "route-main", "destinationId": "main", "widthM": 0.9, "points": [{ "x": 2.25, "z": -2.35 }, { "x": 2.25, "z": -1.94 }, { "x": 2.6, "z": -1.64 }] },
+      { "id": "route-presenter", "destinationId": "presenter", "widthM": 0.9, "points": [{ "x": 2.25, "z": -2.35 }, { "x": 2.25, "z": -1.94 }, { "x": 2.8, "z": -1.94 }, { "x": 2.8, "z": 1.94 }, { "x": 0, "z": 1.94 }] },
+      { "id": "route-seat-01", "destinationId": "seat-01", "widthM": 0.9, "points": [{ "x": 2.25, "z": -2.35 }, { "x": 2.25, "z": -1.94 }, { "x": 2.8, "z": -1.94 }, { "x": 2.8, "z": 1.94 }, { "x": -1.95, "z": 1.94 }, { "x": -1.95, "z": 1.15 }] },
+      { "id": "route-seat-02", "destinationId": "seat-02", "widthM": 0.9, "points": [{ "x": 2.25, "z": -2.35 }, { "x": 2.25, "z": -1.94 }, { "x": 2.8, "z": -1.94 }, { "x": 2.8, "z": 1.94 }, { "x": -0.95, "z": 1.94 }, { "x": -0.95, "z": 1.15 }] },
+      { "id": "route-seat-03", "destinationId": "seat-03", "widthM": 0.9, "points": [{ "x": 2.25, "z": -2.35 }, { "x": 2.25, "z": -1.94 }, { "x": 2.8, "z": -1.94 }, { "x": 2.8, "z": 1.94 }, { "x": 0.05, "z": 1.94 }, { "x": 0.05, "z": 1.15 }] },
+      { "id": "route-seat-04", "destinationId": "seat-04", "widthM": 0.9, "points": [{ "x": 2.25, "z": -2.35 }, { "x": 2.25, "z": -1.94 }, { "x": 2.8, "z": -1.94 }, { "x": 2.8, "z": 1.94 }, { "x": 1.05, "z": 1.94 }, { "x": 1.05, "z": 1.15 }] },
+      { "id": "route-seat-05", "destinationId": "seat-05", "widthM": 0.9, "points": [{ "x": 2.25, "z": -2.35 }, { "x": 2.25, "z": -1.94 }, { "x": 2.8, "z": -1.94 }, { "x": -1.95, "z": -1.94 }, { "x": -1.95, "z": -1.1 }] },
+      { "id": "route-seat-06", "destinationId": "seat-06", "widthM": 0.9, "points": [{ "x": 2.25, "z": -2.35 }, { "x": 2.25, "z": -1.94 }, { "x": 2.8, "z": -1.94 }, { "x": -0.95, "z": -1.94 }, { "x": -0.95, "z": -1.1 }] },
+      { "id": "route-seat-07", "destinationId": "seat-07", "widthM": 0.9, "points": [{ "x": 2.25, "z": -2.35 }, { "x": 2.25, "z": -1.94 }, { "x": 2.8, "z": -1.94 }, { "x": 0.05, "z": -1.94 }, { "x": 0.05, "z": -1.1 }] },
+      { "id": "route-seat-08", "destinationId": "seat-08", "widthM": 0.9, "points": [{ "x": 2.25, "z": -2.35 }, { "x": 2.25, "z": -1.94 }, { "x": 2.8, "z": -1.94 }, { "x": 1.05, "z": -1.94 }, { "x": 1.05, "z": -1.1 }] }
+    ]
+  },
+  "spawn": { "id": "main", "position": { "x": 2.6, "y": 0, "z": -1.64 }, "openRadiusM": 0.75 },
+  "seats": [
+    { "id": "seat-01", "position": { "x": -1.95, "y": 0, "z": 1.15 }, "yaw": 3.141593, "seatHeight": 0.47, "radius": 0.4, "componentId": "chair-01" },
+    { "id": "seat-02", "position": { "x": -0.95, "y": 0, "z": 1.15 }, "yaw": 3.141593, "seatHeight": 0.47, "radius": 0.4, "componentId": "chair-02" },
+    { "id": "seat-03", "position": { "x": 0.05, "y": 0, "z": 1.15 }, "yaw": 3.141593, "seatHeight": 0.47, "radius": 0.4, "componentId": "chair-03" },
+    { "id": "seat-04", "position": { "x": 1.05, "y": 0, "z": 1.15 }, "yaw": 3.141593, "seatHeight": 0.47, "radius": 0.4, "componentId": "chair-04" },
+    { "id": "seat-05", "position": { "x": -1.95, "y": 0, "z": -1.1 }, "yaw": 0, "seatHeight": 0.47, "radius": 0.4, "componentId": "chair-05" },
+    { "id": "seat-06", "position": { "x": -0.95, "y": 0, "z": -1.1 }, "yaw": 0, "seatHeight": 0.47, "radius": 0.4, "componentId": "chair-06" },
+    { "id": "seat-07", "position": { "x": 0.05, "y": 0, "z": -1.1 }, "yaw": 0, "seatHeight": 0.47, "radius": 0.4, "componentId": "chair-07" },
+    { "id": "seat-08", "position": { "x": 1.05, "y": 0, "z": -1.1 }, "yaw": 0, "seatHeight": 0.47, "radius": 0.4, "componentId": "chair-08" }
+  ],
+  "mediaSurfaces": [
+    { "surfaceId": "debug-main", "widthM": 3.2, "heightM": 1.8, "position": { "x": -3.4, "y": 1.55, "z": 0.15 }, "yaw": 1.5707963267948966 },
+    { "surfaceId": "whiteboard-wall", "widthM": 2.4, "heightM": 1.25, "position": { "x": 3.4, "y": 1.5, "z": 0.5 }, "yaw": -1.5707963267948966 }
+  ],
+  "reviewViews": [
+    { "id": "entry", "position": { "x": 2.6, "y": 1.6, "z": -1.64 }, "target": { "x": -0.45, "y": 1.2, "z": 0.05 }, "fovDegrees": 58 },
+    { "id": "participant", "position": { "x": -1.95, "y": 1.6, "z": 1.15 }, "target": { "x": -3.4, "y": 1.4, "z": 0.15 }, "fovDegrees": 55 },
+    { "id": "presenter", "position": { "x": 0, "y": 1.6, "z": 1.94 }, "target": { "x": -0.45, "y": 1.2, "z": 0.05 }, "fovDegrees": 60 },
+    { "id": "diagonal-overview", "position": { "x": -2.8, "y": 1.6, "z": -2 }, "target": { "x": -0.45, "y": 1.2, "z": 0.05 }, "fovDegrees": 62 }
+  ],
+  "assetLedgerPath": "provenance/asset-ledger.json",
+  "generationLedgerPath": "provenance/generation-ledger.json"
+}
