@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "status": "approved-low-fidelity-concept",
+  "selection": {
+    "conceptId": "concept-03-corrected",
+    "approvedOn": "2026-08-24",
+    "ownerRole": "experiment-sponsor",
+    "evidence": "interactive-user-approval",
+    "previewSha256": "f52b3722e71dd231ebe80424f0411e9771670fa37aff01eebbce42ff7d4c0a21",
+    "previewIncludedInRepository": false
+  },
+  "layoutIntent": {
+    "roomEnvelopeM": { "width": 7, "height": 3.1, "depth": 5 },
+    "conferenceTable": {
+      "center": { "x": -0.45, "y": 0.74, "z": 0.05 },
+      "dimensionsM": { "width": 4, "height": 0.74, "depth": 1.18 },
+      "yawRadians": -0.20943951
+    },
+    "seatCount": 8,
+    "chairOrientation": "seat-facing-table-back-facing-outward",
+    "presentationWall": "west",
+    "mainWindowWall": "north",
+    "entranceWall": "south",
+    "composition": "offset-table-axis-with-clear-east-entry-route"
+  },
+  "palette": {
+    "warmOakSrgb": "#A87543",
+    "mineralPlasterSrgb": "#DDD6C8",
+    "graphiteMetalSrgb": "#343A3C",
+    "sandFabricSrgb": "#B9A98E",
+    "mutedGreyGreenFabricSrgb": "#77877B"
+  },
+  "boundaries": {
+    "approvedCandidateSpecificationCreated": false,
+    "assetRightsCleared": false,
+    "releaseArtifactsCreated": false,
+    "previewBinaryIncluded": false,
+    "publicationReady": false
+  }
+}

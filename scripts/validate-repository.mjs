@@ -48,6 +48,7 @@ async function glbStats(path) {
 const config = await json(join(root, "scene-repository.json"));
 const validatorCommit = (await readFile(join(root, "platform-validator.lock"), "utf8")).trim();
 const manifest = await json(join(root, "manifest.json"));
+const concept = await json(join(root, "source/concept-selection.json"));
 
 assert(config.schemaVersion === 1 && config.oneSceneOnly === true, "invalid_scene_repository_config");
 assert(config.sceneId === basename(config.repository), "repository_scene_id_mismatch");
@@ -58,6 +59,27 @@ assert(manifest.sceneId === config.sceneId, "manifest_scene_id_mismatch");
 assert(manifest.platformValidatorCommit === validatorCommit, "manifest_validator_lock_mismatch");
 assert(manifest.blenderVersion === "4.5.12 LTS", "invalid_manifest_blender_version");
 assert(Array.isArray(manifest.releases), "invalid_manifest_releases");
+assert(concept.schemaVersion === 1 && concept.sceneId === config.sceneId, "invalid_concept_identity");
+assert(concept.status === "approved-low-fidelity-concept", "invalid_concept_status");
+assert(concept.selection?.conceptId === "concept-03-corrected", "invalid_selected_concept");
+assert(concept.selection?.evidence === "interactive-user-approval", "missing_concept_approval");
+assert(/^[0-9a-f]{64}$/.test(concept.selection?.previewSha256 ?? ""), "invalid_concept_preview_digest");
+assert(concept.selection?.previewIncludedInRepository === false, "concept_preview_must_remain_private");
+assert(concept.layoutIntent?.seatCount === 8, "invalid_concept_seat_count");
+assert(concept.layoutIntent?.chairOrientation === "seat-facing-table-back-facing-outward", "invalid_chair_orientation");
+assert(JSON.stringify(concept.layoutIntent?.roomEnvelopeM) === JSON.stringify({ width: 7, height: 3.1, depth: 5 }), "invalid_concept_room_envelope");
+assert(JSON.stringify(concept.layoutIntent?.conferenceTable) === JSON.stringify({
+  center: { x: -0.45, y: 0.74, z: 0.05 },
+  dimensionsM: { width: 4, height: 0.74, depth: 1.18 },
+  yawRadians: -0.20943951
+}), "invalid_concept_table_layout");
+assert(concept.layoutIntent?.presentationWall === "west" && concept.layoutIntent?.mainWindowWall === "north" && concept.layoutIntent?.entranceWall === "south", "invalid_concept_wall_assignments");
+assert(concept.layoutIntent?.composition === "offset-table-axis-with-clear-east-entry-route", "invalid_concept_composition");
+assert(concept.boundaries?.approvedCandidateSpecificationCreated === false, "concept_must_not_claim_candidate_specification");
+assert(concept.boundaries?.assetRightsCleared === false
+  && concept.boundaries?.releaseArtifactsCreated === false
+  && concept.boundaries?.previewBinaryIncluded === false
+  && concept.boundaries?.publicationReady === false, "concept_must_not_claim_release_readiness");
 
 const releaseKeys = new Set();
 for (const release of manifest.releases) {
