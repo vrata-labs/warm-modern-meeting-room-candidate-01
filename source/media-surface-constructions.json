@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "sourceRecordId": "asset-media-surface-constructions-project",
+  "surfaces": [
+    {
+      "surfaceId": "debug-main",
+      "purpose": "presentation-display",
+      "representation": "platform-runtime-plane",
+      "pixelDimensions": {
+        "width": 1920,
+        "height": 1080
+      },
+      "frontFace": "local-positive-z",
+      "input": {
+        "enabled": true,
+        "maxDistanceM": 0.05
+      }
+    },
+    {
+      "surfaceId": "whiteboard-wall",
+      "purpose": "collaboration-whiteboard",
+      "representation": "platform-runtime-plane",
+      "pixelDimensions": {
+        "width": 1920,
+        "height": 1000
+      },
+      "frontFace": "local-positive-z",
+      "input": {
+        "enabled": true,
+        "maxDistanceM": 0.05
+      }
+    }
+  ]
+}

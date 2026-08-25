@@ -5,8 +5,9 @@ import { resolve } from "node:path";
 import test from "node:test";
 
 const root = resolve(import.meta.dirname, "..");
-const validatorCommit = "60617c021a8434f6687af038706b411e2e4b265c";
+const validatorCommit = "c3157b65c739bf784d5b8654e0808a3c3a84f611";
 const constructionRawSha256 = "f32327442d015f4c89942bf752e959d6c0abc24613c72f32a8ba4c2b2b29d5d1";
+const mediaSurfaceRawSha256 = "0bdf11ca588d700c8a721d60cb503215c29ce021b48708302b8b9da45ec1036b";
 
 async function text(path) {
   return readFile(resolve(root, path), "utf8");
@@ -154,12 +155,45 @@ test("all parts remain inside component envelopes and resolve to 38 objects", as
   assert.equal(resolvedParts, 38);
 });
 
+test("media surfaces define exact runtime semantics without physical scene data", async () => {
+  const constructionText = await text("source/media-surface-constructions.json");
+  const construction = JSON.parse(constructionText);
+  assert.equal(constructionText, `${JSON.stringify(construction, null, 2)}\n`);
+  assert.deepEqual(construction, {
+    schemaVersion: 1,
+    sceneId: "warm-modern-meeting-room-candidate-01",
+    sourceRecordId: "asset-media-surface-constructions-project",
+    surfaces: [
+      {
+        surfaceId: "debug-main",
+        purpose: "presentation-display",
+        representation: "platform-runtime-plane",
+        pixelDimensions: { width: 1920, height: 1080 },
+        frontFace: "local-positive-z",
+        input: { enabled: true, maxDistanceM: 0.05 }
+      },
+      {
+        surfaceId: "whiteboard-wall",
+        purpose: "collaboration-whiteboard",
+        representation: "platform-runtime-plane",
+        pixelDimensions: { width: 1920, height: 1000 },
+        frontFace: "local-positive-z",
+        input: { enabled: true, maxDistanceM: 0.05 }
+      }
+    ]
+  });
+  for (const surface of construction.surfaces) {
+    for (const key of ["widthM", "heightM", "position", "yaw"]) assert.equal(Object.hasOwn(surface, key), false, `${surface.surfaceId}:${key}`);
+  }
+});
+
 test("scene binds components, materials, and accepted inputs to project-authored records", async () => {
   const scene = await json("source/scene-spec.json");
   assert.equal(scene.generator.commit, validatorCommit);
   assert.deepEqual(scene.generator.acceptedInputSha256, [
     "978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a",
-    constructionRawSha256
+    constructionRawSha256,
+    mediaSurfaceRawSha256
   ]);
   assert.ok(scene.components.every(({ sourceRecordId }) => sourceRecordId === "asset-component-constructions-project"));
   assert.ok(scene.components.every(({ generationRecordId }) => generationRecordId === null));
@@ -176,12 +210,17 @@ test("scene binds components, materials, and accepted inputs to project-authored
   });
 });
 
-test("asset provenance binds both raw source files to project-owned non-production rights", async () => {
+test("asset provenance binds all raw source files to project-owned non-production rights", async () => {
   const ledger = await json("provenance/asset-ledger.json");
-  assert.deepEqual(ledger.records.map(({ id }) => id), ["asset-layout-project", "asset-component-constructions-project"]);
+  assert.deepEqual(ledger.records.map(({ id }) => id), [
+    "asset-layout-project",
+    "asset-component-constructions-project",
+    "asset-media-surface-constructions-project"
+  ]);
   const expectedSources = new Map([
     ["asset-layout-project", ["source/concept-selection.json", "978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a"]],
-    ["asset-component-constructions-project", ["source/component-constructions.json", constructionRawSha256]]
+    ["asset-component-constructions-project", ["source/component-constructions.json", constructionRawSha256]],
+    ["asset-media-surface-constructions-project", ["source/media-surface-constructions.json", mediaSurfaceRawSha256]]
   ]);
   for (const record of ledger.records) {
     const [repositoryPath, digest] = expectedSources.get(record.id);
@@ -206,41 +245,49 @@ test("asset provenance binds both raw source files to project-owned non-producti
     });
   }
   const licenseText = await text("provenance/licenses/project-owned.txt");
-  assert.equal(sha256(licenseText), "f34c1ba81d9bec8c9d908584edfeae24931ec7d4f6f89c3e73660d907778e807");
-  assert.match(licenseText, /exact component-construction data authored for Candidate 01/);
-  assert.match(licenseText, /does not\s+approve or license future mesh, texture, generated, or external release assets/);
+  assert.equal(sha256(licenseText), "866ac71340f3d07af2b1535847fac9678dab70880171f8a9cd526fdc526e8d41");
+  assert.match(licenseText, /exact component-construction data/);
+  assert.match(licenseText, /exact media-surface construction data\s+authored for Candidate 01/);
+  assert.match(licenseText, /does not\s+approve or license future mesh, texture,\s+generated, or external release assets/);
 });
 
-test("schema v2 lock pins every canonical and raw contract digest", async () => {
-  const [scene, construction, assetLedger, generationLedger, constructionText] = await Promise.all([
+test("schema v3 lock pins every canonical and raw contract digest", async () => {
+  const [scene, construction, mediaSurfaceConstruction, assetLedger, generationLedger, constructionText, mediaSurfaceConstructionText] = await Promise.all([
     json("source/scene-spec.json"),
     json("source/component-constructions.json"),
+    json("source/media-surface-constructions.json"),
     json("provenance/asset-ledger.json"),
     json("provenance/generation-ledger.json"),
-    text("source/component-constructions.json")
+    text("source/component-constructions.json"),
+    text("source/media-surface-constructions.json")
   ]);
   const lock = await json("source/scene-contract-lock.json");
-  assert.equal(lock.schemaVersion, 2);
-  assert.equal(lock.status, "exact-component-specification-valid");
+  assert.equal(lock.schemaVersion, 3);
+  assert.equal(lock.status, "exact-media-surface-specification-valid");
   assert.equal(lock.validatorCommit, validatorCommit);
   assert.equal(lock.specificationSha256, canonicalSha256(scene));
   assert.equal(lock.assetLedgerSha256, canonicalSha256(assetLedger));
   assert.equal(lock.generationLedgerSha256, canonicalSha256(generationLedger));
   assert.equal(lock.componentConstructionSha256, canonicalSha256(construction));
   assert.equal(lock.componentConstructionRawSha256, sha256(constructionText));
+  assert.equal(lock.mediaSurfaceConstructionSha256, canonicalSha256(mediaSurfaceConstruction));
+  assert.equal(lock.mediaSurfaceConstructionRawSha256, sha256(mediaSurfaceConstructionText));
   assert.deepEqual({
     assets: lock.assetRecordCount,
     families: lock.familyCount,
     parts: lock.partCount,
     overrides: lock.overrideCount,
     components: lock.componentCount,
-    materials: lock.materialCount
-  }, { assets: 2, families: 4, parts: 38, overrides: 2, components: 11, materials: 5 });
+    materials: lock.materialCount,
+    surfaces: lock.surfaceCount
+  }, { assets: 3, families: 4, parts: 38, overrides: 2, components: 11, materials: 5, surfaces: 2 });
   assert.equal(lock.resolvedComponentCount, 11);
   assert.equal(lock.resolvedMaterialCount, 4);
+  assert.equal(lock.resolvedSurfaceCount, 2);
   assert.equal(lock.generationRecordCount, 0);
   assert.equal(lock.seatCount, 8);
   assert.equal(lock.objectNamePattern, "component.<componentId>.<partId>");
+  assert.equal(lock.representation, "platform-runtime-plane");
 });
 
 test("all release, compiler, preview, and publication boundaries remain negative", async () => {
@@ -248,6 +295,7 @@ test("all release, compiler, preview, and publication boundaries remain negative
   assert.deepEqual(lock.boundaries, {
     releaseAssetsApproved: false,
     componentsCompiled: false,
+    mediaSurfacesCompiled: false,
     finalCandidateGlbVerified: false,
     sceneBinaryCreated: false,
     previewBinaryIncluded: false,
