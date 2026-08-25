@@ -1,12 +1,13 @@
 import { createHash } from "node:crypto";
 import { execFile } from "node:child_process";
 import { readFile, readdir } from "node:fs/promises";
-import { relative, resolve, sep } from "node:path";
+import { extname, relative, resolve, sep } from "node:path";
 import { promisify } from "node:util";
 
 const root = resolve(import.meta.dirname, "..");
 const config = JSON.parse(await readFile(resolve(root, "scene-repository.json"), "utf8"));
 const forbiddenTopLevel = new Set(["compiler", "experiment", "lab", "schemas"]);
+const forbiddenSourceOnlyExtensions = new Set([".avif", ".blend", ".fbx", ".gif", ".glb", ".gltf", ".jpeg", ".jpg", ".png", ".svg", ".webp"]);
 const privatePreviewSha256 = new Set([
   "f52b3722e71dd231ebe80424f0411e9771670fa37aff01eebbce42ff7d4c0a21",
   "cd7456afb5c9c10ebf3d4a16fdb5173af2c68a9faf9ce2798ec8238e257309c7"
@@ -15,6 +16,14 @@ const execFileAsync = promisify(execFile);
 
 function posix(path) {
   return path.split(sep).join("/");
+}
+
+function isRasterPreview(bytes) {
+  return (bytes.length >= 8 && bytes.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])))
+    || (bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff)
+    || (bytes.length >= 12 && bytes.subarray(0, 4).toString("ascii") === "RIFF" && bytes.subarray(8, 12).toString("ascii") === "WEBP")
+    || (bytes.length >= 6 && ["GIF87a", "GIF89a"].includes(bytes.subarray(0, 6).toString("ascii")))
+    || (bytes.length >= 12 && bytes.subarray(4, 8).toString("ascii") === "ftyp" && ["avif", "avis"].includes(bytes.subarray(8, 12).toString("ascii")));
 }
 
 async function walk(directory) {
@@ -44,6 +53,17 @@ for (const path of await walk(root)) {
   const repositoryPath = posix(relative(root, path));
   if (repositoryPath.includes(siblingId)) throw new Error(`sibling_scene_reference_forbidden:${repositoryPath}`);
   if (/(^|\/)(alpha|beta)(\/|\.|$)/i.test(repositoryPath)) throw new Error(`blind_review_label_forbidden:${repositoryPath}`);
+  const bytes = await readFile(path).catch((error) => {
+    if (error.code === "EISDIR") return null;
+    throw error;
+  });
+  if (bytes && (forbiddenSourceOnlyExtensions.has(extname(repositoryPath).toLowerCase()) || isRasterPreview(bytes))) {
+    throw new Error(`source_only_binary_forbidden:${repositoryPath}`);
+  }
+  if (bytes) {
+    const digest = createHash("sha256").update(bytes).digest("hex");
+    if (privatePreviewSha256.has(digest)) throw new Error(`private_concept_preview_forbidden:${repositoryPath}`);
+  }
 }
 
 const { stdout: trackedOutput } = await execFileAsync("git", ["ls-files", "-z", "--cached"], { cwd: root, encoding: "buffer" });

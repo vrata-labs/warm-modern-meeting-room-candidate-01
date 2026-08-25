@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "sourceRecordId": "asset-component-constructions-project",
+  "materialSourceRecordId": "asset-layout-project",
+  "families": [
+    {
+      "id": "conference-table",
+      "defaultMaterials": [
+        { "slot": "surface", "materialRecipeId": "warm-oak" },
+        { "slot": "frame", "materialRecipeId": "graphite-metal" }
+      ],
+      "parts": [
+        { "id": "top", "geometry": "beveled-box", "dimensions": { "widthM": 3.6, "heightM": 0.12, "depthM": 1.18 }, "localTransform": { "position": { "x": 0, "y": 0.68, "z": 0 }, "yaw": 0 }, "bevel": { "widthM": 0.03, "segments": 3, "clampOverlap": true }, "materialSlotId": "surface" },
+        { "id": "leg-negative-x", "geometry": "beveled-box", "dimensions": { "widthM": 0.18, "heightM": 0.62, "depthM": 0.9 }, "localTransform": { "position": { "x": -1.35, "y": 0.31, "z": 0 }, "yaw": 0 }, "bevel": { "widthM": 0.025, "segments": 3, "clampOverlap": true }, "materialSlotId": "frame" },
+        { "id": "leg-positive-x", "geometry": "beveled-box", "dimensions": { "widthM": 0.18, "heightM": 0.62, "depthM": 0.9 }, "localTransform": { "position": { "x": 1.35, "y": 0.31, "z": 0 }, "yaw": 0 }, "bevel": { "widthM": 0.025, "segments": 3, "clampOverlap": true }, "materialSlotId": "frame" }
+      ]
+    },
+    {
+      "id": "task-chair",
+      "defaultMaterials": [
+        { "slot": "upholstery", "materialRecipeId": "sand-fabric" },
+        { "slot": "frame", "materialRecipeId": "graphite-metal" }
+      ],
+      "parts": [
+        { "id": "seat", "geometry": "beveled-box", "dimensions": { "widthM": 0.56, "heightM": 0.11, "depthM": 0.52 }, "localTransform": { "position": { "x": 0, "y": 0.47, "z": 0 }, "yaw": 0 }, "bevel": { "widthM": 0.03, "segments": 3, "clampOverlap": true }, "materialSlotId": "upholstery" },
+        { "id": "back", "geometry": "beveled-box", "dimensions": { "widthM": 0.56, "heightM": 0.6, "depthM": 0.1 }, "localTransform": { "position": { "x": 0, "y": 0.75, "z": -0.24 }, "yaw": 0 }, "bevel": { "widthM": 0.025, "segments": 3, "clampOverlap": true }, "materialSlotId": "upholstery" },
+        { "id": "leg-negative-x", "geometry": "beveled-box", "dimensions": { "widthM": 0.08, "heightM": 0.415, "depthM": 0.46 }, "localTransform": { "position": { "x": -0.22, "y": 0.2075, "z": 0 }, "yaw": 0 }, "bevel": { "widthM": 0.02, "segments": 3, "clampOverlap": true }, "materialSlotId": "frame" },
+        { "id": "leg-positive-x", "geometry": "beveled-box", "dimensions": { "widthM": 0.08, "heightM": 0.415, "depthM": 0.46 }, "localTransform": { "position": { "x": 0.22, "y": 0.2075, "z": 0 }, "yaw": 0 }, "bevel": { "widthM": 0.02, "segments": 3, "clampOverlap": true }, "materialSlotId": "frame" }
+      ]
+    },
+    {
+      "id": "conference-av",
+      "defaultMaterials": [
+        { "slot": "body", "materialRecipeId": "graphite-metal" }
+      ],
+      "parts": [
+        { "id": "body", "geometry": "beveled-box", "dimensions": { "widthM": 0.4, "heightM": 0.12, "depthM": 0.25 }, "localTransform": { "position": { "x": 0, "y": 0.06, "z": 0 }, "yaw": 0 }, "bevel": { "widthM": 0.02, "segments": 3, "clampOverlap": true }, "materialSlotId": "body" }
+      ]
+    },
+    {
+      "id": "pendant-luminaire",
+      "defaultMaterials": [
+        { "slot": "housing", "materialRecipeId": "graphite-metal" }
+      ],
+      "parts": [
+        { "id": "bar-negative-x", "geometry": "beveled-box", "dimensions": { "widthM": 0.8, "heightM": 0.1, "depthM": 0.12 }, "localTransform": { "position": { "x": -0.65, "y": 0.09, "z": 0 }, "yaw": 0 }, "bevel": { "widthM": 0.025, "segments": 3, "clampOverlap": true }, "materialSlotId": "housing" },
+        { "id": "bar-positive-x", "geometry": "beveled-box", "dimensions": { "widthM": 0.8, "heightM": 0.1, "depthM": 0.12 }, "localTransform": { "position": { "x": 0.65, "y": 0.09, "z": 0 }, "yaw": 0 }, "bevel": { "widthM": 0.025, "segments": 3, "clampOverlap": true }, "materialSlotId": "housing" }
+      ]
+    }
+  ],
+  "instanceMaterialOverrides": [
+    { "componentId": "chair-02", "slot": "upholstery", "materialRecipeId": "muted-grey-green-fabric" },
+    { "componentId": "chair-07", "slot": "upholstery", "materialRecipeId": "muted-grey-green-fabric" }
+  ]
+}

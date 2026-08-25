@@ -12,10 +12,15 @@ import validator from "gltf-validator";
 const root = resolve(import.meta.dirname, "..");
 const requiredReleaseFiles = ["LICENSES.md", "preview.webp", "scene.glb", "scene.json"];
 const execFileAsync = promisify(execFile);
-const projectOwnedLicenseSha256 = "52e75c4031230e573f309c41b098c8c5976ee5dd451ea42337edf626ff142f35";
+const projectOwnedLicenseSha256 = "f34c1ba81d9bec8c9d908584edfeae24931ec7d4f6f89c3e73660d907778e807";
 
 function assert(condition, code) {
   if (!condition) throw new Error(code);
+}
+
+function assertExactKeys(value, expected, code) {
+  assert(value && typeof value === "object" && !Array.isArray(value), code);
+  assert(JSON.stringify(Object.keys(value).sort()) === JSON.stringify([...expected].sort()), code);
 }
 
 function stableJson(value) {
@@ -65,9 +70,11 @@ const validatorCommit = (await readFile(join(root, "platform-validator.lock"), "
 const manifest = await json(join(root, "manifest.json"));
 const concept = await json(join(root, "source/concept-selection.json"));
 const sceneText = await readFile(join(root, "source/scene-spec.json"), "utf8");
+const componentConstructionText = await readFile(join(root, "source/component-constructions.json"), "utf8");
 const assetLedgerText = await readFile(join(root, "provenance/asset-ledger.json"), "utf8");
 const generationLedgerText = await readFile(join(root, "provenance/generation-ledger.json"), "utf8");
 const sceneSpec = JSON.parse(sceneText);
+const componentConstruction = JSON.parse(componentConstructionText);
 const assetLedger = JSON.parse(assetLedgerText);
 const generationLedger = JSON.parse(generationLedgerText);
 const sceneContractLock = await json(join(root, "source/scene-contract-lock.json"));
@@ -81,6 +88,7 @@ assert(manifest.sceneId === config.sceneId, "manifest_scene_id_mismatch");
 assert(manifest.platformValidatorCommit === validatorCommit, "manifest_validator_lock_mismatch");
 assert(manifest.blenderVersion === "4.5.12 LTS", "invalid_manifest_blender_version");
 assert(Array.isArray(manifest.releases), "invalid_manifest_releases");
+assert(manifest.releases.length === 0, "component_specification_release_manifest_must_remain_empty");
 assert(concept.schemaVersion === 1 && concept.sceneId === config.sceneId, "invalid_concept_identity");
 assert(concept.status === "approved-low-fidelity-concept", "invalid_concept_status");
 assert(concept.selection?.conceptId === "concept-03-functional", "invalid_selected_concept");
@@ -107,19 +115,88 @@ assert(sceneSpec.generator?.commit === sceneContractLock.validatorCommit, "candi
 assert(sceneSpec.components?.length === 11 && sceneSpec.seats?.length === 8 && sceneSpec.clearance?.routes?.length === 10, "invalid_candidate_contract_counts");
 assert(sceneSpec.components.find(({ id }) => id === "conference-table")?.transform?.yaw === 0, "candidate_table_must_remain_route_safe");
 assert(sceneSpec.seats.every((seat) => sceneSpec.components.some(({ id, transform }) => id === seat.componentId && JSON.stringify(transform.position) === JSON.stringify(seat.position) && transform.yaw === seat.yaw)), "candidate_seat_component_drift");
-assert(assetLedger.sceneId === config.sceneId && assetLedger.records?.length === 1, "invalid_candidate_asset_ledger");
+assert(componentConstruction.sceneId === config.sceneId, "invalid_component_construction_identity");
+assert(componentConstruction.sourceRecordId === "asset-component-constructions-project", "invalid_component_construction_source");
+assert(componentConstruction.materialSourceRecordId === "asset-layout-project", "invalid_component_material_source");
+assert(sceneSpec.components.every(({ sourceRecordId, generationRecordId }) => sourceRecordId === componentConstruction.sourceRecordId && generationRecordId === null), "invalid_component_provenance_binding");
+assert(JSON.stringify(sceneSpec.generator.acceptedInputSha256) === JSON.stringify([
+  "978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a",
+  sceneContractLock.componentConstructionRawSha256
+]), "invalid_generator_accepted_inputs");
+assert(sceneSpec.materialRecipes?.length === 5, "invalid_candidate_material_count");
+assert(sceneSpec.materialRecipes.every(({ sourceRecordId }) => sourceRecordId === componentConstruction.materialSourceRecordId), "invalid_component_material_provenance_binding");
+assert(JSON.stringify(sceneSpec.materialRecipes.find(({ id }) => id === "muted-grey-green-fabric")) === JSON.stringify({
+  id: "muted-grey-green-fabric",
+  category: "fabric",
+  baseColorSrgb: "#77877B",
+  roughness: 0.8,
+  metalness: 0,
+  textureScaleM: 0.003,
+  sourceRecordId: "asset-layout-project"
+}), "invalid_muted_grey_green_material");
+assert(assetLedger.sceneId === config.sceneId && assetLedger.records?.length === 2, "invalid_candidate_asset_ledger");
 assert(generationLedger.sceneId === config.sceneId && generationLedger.records?.length === 0, "invalid_candidate_generation_ledger");
-assert(sceneContractLock.status === "approved-candidate-specification-valid" && sceneContractLock.validatorCommit === "fa9767913fc3cc2b1d06fc00c44ed6a26369b219", "invalid_scene_contract_lock");
+assertExactKeys(sceneContractLock, [
+  "schemaVersion", "status", "sceneId", "validatorRepository", "validatorCommit",
+  "specificationSha256", "assetLedgerSha256", "generationLedgerSha256",
+  "componentConstructionSha256", "componentConstructionRawSha256",
+  "assetRecordCount", "generationRecordCount", "familyCount", "partCount",
+  "overrideCount", "componentCount", "resolvedComponentCount", "materialCount",
+  "resolvedMaterialCount", "seatCount", "minimumRouteWidthM", "objectNamePattern", "boundaries"
+], "invalid_scene_contract_lock_keys");
+assertExactKeys(sceneContractLock.boundaries, [
+  "releaseAssetsApproved", "componentsCompiled", "finalCandidateGlbVerified",
+  "sceneBinaryCreated", "previewBinaryIncluded", "publicationReady"
+], "invalid_scene_contract_boundary_keys");
+assert(sceneContractLock.schemaVersion === 2
+  && sceneContractLock.status === "exact-component-specification-valid"
+  && sceneContractLock.validatorRepository === "vrata-labs/warm-modern-meeting-room-scene-factory"
+  && sceneContractLock.validatorCommit === "60617c021a8434f6687af038706b411e2e4b265c", "invalid_scene_contract_lock");
 assert(sceneContractLock.specificationSha256 === canonicalSha256(sceneSpec), "scene_specification_digest_drift");
 assert(sceneContractLock.assetLedgerSha256 === canonicalSha256(assetLedger), "asset_ledger_digest_drift");
 assert(sceneContractLock.generationLedgerSha256 === canonicalSha256(generationLedger), "generation_ledger_digest_drift");
-assert(sceneContractLock.componentCount === sceneSpec.components.length && sceneContractLock.seatCount === sceneSpec.seats.length, "scene_contract_count_drift");
+assert(sceneContractLock.componentConstructionSha256 === canonicalSha256(componentConstruction), "component_construction_digest_drift");
+assert(sceneContractLock.componentConstructionRawSha256 === (await fileRecord(join(root, "source/component-constructions.json"))).sha256, "component_construction_raw_digest_drift");
+assert(sceneContractLock.assetRecordCount === assetLedger.records.length
+  && sceneContractLock.generationRecordCount === generationLedger.records.length
+  && sceneContractLock.familyCount === componentConstruction.families.length
+  && sceneContractLock.overrideCount === componentConstruction.instanceMaterialOverrides.length
+  && sceneContractLock.componentCount === sceneSpec.components.length
+  && sceneContractLock.resolvedComponentCount === sceneSpec.components.length
+  && sceneContractLock.materialCount === sceneSpec.materialRecipes.length
+  && sceneContractLock.seatCount === sceneSpec.seats.length
+  && sceneContractLock.minimumRouteWidthM === sceneSpec.clearance.minimumRouteWidthM, "scene_contract_count_drift");
 assert(Object.values(sceneContractLock.boundaries ?? {}).every((value) => value === false), "scene_contract_release_boundaries_must_remain_false");
 
+const expectedAssetSources = new Map([
+  ["asset-layout-project", { repositoryPath: "source/concept-selection.json", sha256: "978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a" }],
+  ["asset-component-constructions-project", { repositoryPath: "source/component-constructions.json", sha256: sceneContractLock.componentConstructionRawSha256 }]
+]);
+assert(JSON.stringify(assetLedger.records.map(({ id }) => id).sort()) === JSON.stringify([...expectedAssetSources.keys()].sort()), "candidate_asset_record_set_drift");
 for (const record of assetLedger.records) {
+  const expectedSource = expectedAssetSources.get(record.id);
+  assert(expectedSource !== undefined, `unexpected_asset_source:${record.id}`);
+  assert(record.kind === "project-authored-input"
+    && record.source.classification === "project-authored"
+    && record.source.publicUrl === null
+    && record.source.repositoryPath === expectedSource.repositoryPath, `asset_source_provenance_drift:${record.id}`);
   const sourceRecord = await fileRecord(join(root, record.source.repositoryPath));
-  assert(sourceRecord.sha256 === record.originalSha256, `asset_source_digest_drift:${record.id}`);
-  assert(record.license.reference === "provenance/licenses/project-owned.txt", `asset_license_reference_drift:${record.id}`);
+  assert(sourceRecord.sha256 === expectedSource.sha256 && sourceRecord.sha256 === record.originalSha256, `asset_source_digest_drift:${record.id}`);
+  assert(JSON.stringify(record.license) === JSON.stringify({
+    name: "LicenseRef-Project-Owned",
+    reference: "provenance/licenses/project-owned.txt",
+    commercialUse: true,
+    redistribution: true,
+    mlProcessing: true
+  }), `asset_license_rights_drift:${record.id}`);
+  assert(JSON.stringify(record.allowedUse) === JSON.stringify({
+    staging: true,
+    production: false,
+    webRuntime: true,
+    screenshots: true,
+    optimization: true,
+    redistribution: true
+  }), `asset_allowed_use_drift:${record.id}`);
 }
 const projectOwnedLicense = await fileRecord(join(root, "provenance/licenses/project-owned.txt"));
 assert(projectOwnedLicense.sha256 === projectOwnedLicenseSha256, "project_owned_license_digest_drift");
@@ -129,11 +206,31 @@ const { stdout: sceneFactoryHead } = await execFileAsync("git", ["-C", sceneFact
 assert(sceneFactoryHead.trim() === sceneContractLock.validatorCommit, "scene_factory_checkout_commit_mismatch");
 const { stdout: sceneFactoryStatus } = await execFileAsync("git", ["-C", sceneFactoryDir, "status", "--porcelain", "--untracked-files=no"]);
 assert(sceneFactoryStatus === "", "scene_factory_checkout_tracked_bytes_modified");
-const { parseSceneContract } = await import(pathToFileURL(join(sceneFactoryDir, "compiler/scene-contract.mjs")).href);
-const semanticReport = parseSceneContract({ sceneText, assetLedgerText, generationLedgerText });
+const { parseComponentConstructionContract } = await import(pathToFileURL(join(sceneFactoryDir, "compiler/scene-contract.mjs")).href);
+const semanticReport = parseComponentConstructionContract({ sceneText, assetLedgerText, generationLedgerText, componentConstructionText });
+assertExactKeys(semanticReport, [
+  "status", "sceneId", "specificationSha256", "assetLedgerSha256", "generationLedgerSha256",
+  "assetRecordCount", "generationRecordCount", "componentCount", "seatCount",
+  "componentConstructionSha256", "componentConstructionRawSha256", "familyCount", "partCount",
+  "overrideCount", "resolvedComponentCount", "resolvedMaterialCount", "objectNamePattern", "boundaries"
+], "scene_contract_report_keys_drift");
+assertExactKeys(semanticReport.boundaries, [
+  "componentsSpecified", "componentsCompiled", "finalCandidateGlbVerified", "publicationReady"
+], "scene_contract_report_boundary_keys_drift");
+assert(semanticReport.status === "stage3-component-construction-contract-valid", "scene_contract_report_status_drift");
 assert(semanticReport.sceneId === sceneContractLock.sceneId, "scene_contract_identity_drift");
-for (const key of ["specificationSha256", "assetLedgerSha256", "generationLedgerSha256", "assetRecordCount", "generationRecordCount", "componentCount", "seatCount"]) {
+for (const key of [
+  "specificationSha256", "assetLedgerSha256", "generationLedgerSha256",
+  "componentConstructionSha256", "componentConstructionRawSha256",
+  "assetRecordCount", "generationRecordCount", "componentCount", "seatCount",
+  "familyCount", "partCount", "overrideCount", "resolvedComponentCount",
+  "resolvedMaterialCount", "objectNamePattern"
+]) {
   assert(semanticReport[key] === sceneContractLock[key], `scene_contract_report_drift:${key}`);
+}
+assert(semanticReport.boundaries.componentsSpecified === true, "scene_contract_components_not_specified");
+for (const key of ["componentsCompiled", "finalCandidateGlbVerified", "publicationReady"]) {
+  assert(semanticReport.boundaries[key] === sceneContractLock.boundaries[key], `scene_contract_report_boundary_drift:${key}`);
 }
 
 const releaseKeys = new Set();

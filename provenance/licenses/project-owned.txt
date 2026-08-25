@@ -1,5 +1,5 @@
-Project-authored specification placeholder record.
+Project-authored candidate specification record.
 
-This record covers only the low-fidelity layout intent and scalar material
-recipes authored for Candidate 01. It does not approve or license future mesh,
-texture, generated, or external release assets.
+This record covers the low-fidelity layout intent, scalar material recipes,
+and exact component-construction data authored for Candidate 01. It does not
+approve or license future mesh, texture, generated, or external release assets.
