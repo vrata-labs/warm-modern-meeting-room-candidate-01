@@ -3,11 +3,11 @@
   "sceneId": "warm-modern-meeting-room-candidate-01",
   "generator": {
     "repository": "vrata-labs/warm-modern-meeting-room-scene-factory",
-    "commit": "60617c021a8434f6687af038706b411e2e4b265c",
+    "commit": "c3157b65c739bf784d5b8654e0808a3c3a84f611",
     "blenderVersion": "4.5.12 LTS",
     "blenderBuildHash": "84afd5f785f7",
     "seed": 42,
-    "acceptedInputSha256": ["978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a", "f32327442d015f4c89942bf752e959d6c0abc24613c72f32a8ba4c2b2b29d5d1"]
+    "acceptedInputSha256": ["978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a", "f32327442d015f4c89942bf752e959d6c0abc24613c72f32a8ba4c2b2b29d5d1", "0bdf11ca588d700c8a721d60cb503215c29ce021b48708302b8b9da45ec1036b"]
   },
   "room": {
     "widthM": 7,

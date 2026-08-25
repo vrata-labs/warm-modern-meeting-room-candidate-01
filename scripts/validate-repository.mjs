@@ -12,7 +12,7 @@ import validator from "gltf-validator";
 const root = resolve(import.meta.dirname, "..");
 const requiredReleaseFiles = ["LICENSES.md", "preview.webp", "scene.glb", "scene.json"];
 const execFileAsync = promisify(execFile);
-const projectOwnedLicenseSha256 = "f34c1ba81d9bec8c9d908584edfeae24931ec7d4f6f89c3e73660d907778e807";
+const projectOwnedLicenseSha256 = "866ac71340f3d07af2b1535847fac9678dab70880171f8a9cd526fdc526e8d41";
 
 function assert(condition, code) {
   if (!condition) throw new Error(code);
@@ -71,10 +71,12 @@ const manifest = await json(join(root, "manifest.json"));
 const concept = await json(join(root, "source/concept-selection.json"));
 const sceneText = await readFile(join(root, "source/scene-spec.json"), "utf8");
 const componentConstructionText = await readFile(join(root, "source/component-constructions.json"), "utf8");
+const mediaSurfaceConstructionText = await readFile(join(root, "source/media-surface-constructions.json"), "utf8");
 const assetLedgerText = await readFile(join(root, "provenance/asset-ledger.json"), "utf8");
 const generationLedgerText = await readFile(join(root, "provenance/generation-ledger.json"), "utf8");
 const sceneSpec = JSON.parse(sceneText);
 const componentConstruction = JSON.parse(componentConstructionText);
+const mediaSurfaceConstruction = JSON.parse(mediaSurfaceConstructionText);
 const assetLedger = JSON.parse(assetLedgerText);
 const generationLedger = JSON.parse(generationLedgerText);
 const sceneContractLock = await json(join(root, "source/scene-contract-lock.json"));
@@ -119,9 +121,12 @@ assert(componentConstruction.sceneId === config.sceneId, "invalid_component_cons
 assert(componentConstruction.sourceRecordId === "asset-component-constructions-project", "invalid_component_construction_source");
 assert(componentConstruction.materialSourceRecordId === "asset-layout-project", "invalid_component_material_source");
 assert(sceneSpec.components.every(({ sourceRecordId, generationRecordId }) => sourceRecordId === componentConstruction.sourceRecordId && generationRecordId === null), "invalid_component_provenance_binding");
+assert(mediaSurfaceConstruction.sceneId === config.sceneId, "invalid_media_surface_construction_identity");
+assert(mediaSurfaceConstruction.sourceRecordId === "asset-media-surface-constructions-project", "invalid_media_surface_construction_source");
 assert(JSON.stringify(sceneSpec.generator.acceptedInputSha256) === JSON.stringify([
   "978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a",
-  sceneContractLock.componentConstructionRawSha256
+  sceneContractLock.componentConstructionRawSha256,
+  sceneContractLock.mediaSurfaceConstructionRawSha256
 ]), "invalid_generator_accepted_inputs");
 assert(sceneSpec.materialRecipes?.length === 5, "invalid_candidate_material_count");
 assert(sceneSpec.materialRecipes.every(({ sourceRecordId }) => sourceRecordId === componentConstruction.materialSourceRecordId), "invalid_component_material_provenance_binding");
@@ -134,29 +139,33 @@ assert(JSON.stringify(sceneSpec.materialRecipes.find(({ id }) => id === "muted-g
   textureScaleM: 0.003,
   sourceRecordId: "asset-layout-project"
 }), "invalid_muted_grey_green_material");
-assert(assetLedger.sceneId === config.sceneId && assetLedger.records?.length === 2, "invalid_candidate_asset_ledger");
+assert(assetLedger.sceneId === config.sceneId && assetLedger.records?.length === 3, "invalid_candidate_asset_ledger");
 assert(generationLedger.sceneId === config.sceneId && generationLedger.records?.length === 0, "invalid_candidate_generation_ledger");
 assertExactKeys(sceneContractLock, [
   "schemaVersion", "status", "sceneId", "validatorRepository", "validatorCommit",
   "specificationSha256", "assetLedgerSha256", "generationLedgerSha256",
   "componentConstructionSha256", "componentConstructionRawSha256",
+  "mediaSurfaceConstructionSha256", "mediaSurfaceConstructionRawSha256",
   "assetRecordCount", "generationRecordCount", "familyCount", "partCount",
   "overrideCount", "componentCount", "resolvedComponentCount", "materialCount",
-  "resolvedMaterialCount", "seatCount", "minimumRouteWidthM", "objectNamePattern", "boundaries"
+  "resolvedMaterialCount", "seatCount", "minimumRouteWidthM", "objectNamePattern",
+  "surfaceCount", "resolvedSurfaceCount", "representation", "boundaries"
 ], "invalid_scene_contract_lock_keys");
 assertExactKeys(sceneContractLock.boundaries, [
-  "releaseAssetsApproved", "componentsCompiled", "finalCandidateGlbVerified",
-  "sceneBinaryCreated", "previewBinaryIncluded", "publicationReady"
+  "releaseAssetsApproved", "componentsCompiled", "mediaSurfacesCompiled",
+  "finalCandidateGlbVerified", "sceneBinaryCreated", "previewBinaryIncluded", "publicationReady"
 ], "invalid_scene_contract_boundary_keys");
-assert(sceneContractLock.schemaVersion === 2
-  && sceneContractLock.status === "exact-component-specification-valid"
+assert(sceneContractLock.schemaVersion === 3
+  && sceneContractLock.status === "exact-media-surface-specification-valid"
   && sceneContractLock.validatorRepository === "vrata-labs/warm-modern-meeting-room-scene-factory"
-  && sceneContractLock.validatorCommit === "60617c021a8434f6687af038706b411e2e4b265c", "invalid_scene_contract_lock");
+  && sceneContractLock.validatorCommit === "c3157b65c739bf784d5b8654e0808a3c3a84f611", "invalid_scene_contract_lock");
 assert(sceneContractLock.specificationSha256 === canonicalSha256(sceneSpec), "scene_specification_digest_drift");
 assert(sceneContractLock.assetLedgerSha256 === canonicalSha256(assetLedger), "asset_ledger_digest_drift");
 assert(sceneContractLock.generationLedgerSha256 === canonicalSha256(generationLedger), "generation_ledger_digest_drift");
 assert(sceneContractLock.componentConstructionSha256 === canonicalSha256(componentConstruction), "component_construction_digest_drift");
 assert(sceneContractLock.componentConstructionRawSha256 === (await fileRecord(join(root, "source/component-constructions.json"))).sha256, "component_construction_raw_digest_drift");
+assert(sceneContractLock.mediaSurfaceConstructionSha256 === canonicalSha256(mediaSurfaceConstruction), "media_surface_construction_digest_drift");
+assert(sceneContractLock.mediaSurfaceConstructionRawSha256 === (await fileRecord(join(root, "source/media-surface-constructions.json"))).sha256, "media_surface_construction_raw_digest_drift");
 assert(sceneContractLock.assetRecordCount === assetLedger.records.length
   && sceneContractLock.generationRecordCount === generationLedger.records.length
   && sceneContractLock.familyCount === componentConstruction.families.length
@@ -164,13 +173,18 @@ assert(sceneContractLock.assetRecordCount === assetLedger.records.length
   && sceneContractLock.componentCount === sceneSpec.components.length
   && sceneContractLock.resolvedComponentCount === sceneSpec.components.length
   && sceneContractLock.materialCount === sceneSpec.materialRecipes.length
+  && sceneContractLock.resolvedMaterialCount === 4
   && sceneContractLock.seatCount === sceneSpec.seats.length
-  && sceneContractLock.minimumRouteWidthM === sceneSpec.clearance.minimumRouteWidthM, "scene_contract_count_drift");
+  && sceneContractLock.minimumRouteWidthM === sceneSpec.clearance.minimumRouteWidthM
+  && sceneContractLock.surfaceCount === mediaSurfaceConstruction.surfaces.length
+  && sceneContractLock.resolvedSurfaceCount === sceneSpec.mediaSurfaces.length
+  && sceneContractLock.representation === "platform-runtime-plane", "scene_contract_count_drift");
 assert(Object.values(sceneContractLock.boundaries ?? {}).every((value) => value === false), "scene_contract_release_boundaries_must_remain_false");
 
 const expectedAssetSources = new Map([
   ["asset-layout-project", { repositoryPath: "source/concept-selection.json", sha256: "978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a" }],
-  ["asset-component-constructions-project", { repositoryPath: "source/component-constructions.json", sha256: sceneContractLock.componentConstructionRawSha256 }]
+  ["asset-component-constructions-project", { repositoryPath: "source/component-constructions.json", sha256: sceneContractLock.componentConstructionRawSha256 }],
+  ["asset-media-surface-constructions-project", { repositoryPath: "source/media-surface-constructions.json", sha256: sceneContractLock.mediaSurfaceConstructionRawSha256 }]
 ]);
 assert(JSON.stringify(assetLedger.records.map(({ id }) => id).sort()) === JSON.stringify([...expectedAssetSources.keys()].sort()), "candidate_asset_record_set_drift");
 for (const record of assetLedger.records) {
@@ -206,19 +220,19 @@ const { stdout: sceneFactoryHead } = await execFileAsync("git", ["-C", sceneFact
 assert(sceneFactoryHead.trim() === sceneContractLock.validatorCommit, "scene_factory_checkout_commit_mismatch");
 const { stdout: sceneFactoryStatus } = await execFileAsync("git", ["-C", sceneFactoryDir, "status", "--porcelain", "--untracked-files=no"]);
 assert(sceneFactoryStatus === "", "scene_factory_checkout_tracked_bytes_modified");
-const { parseComponentConstructionContract } = await import(pathToFileURL(join(sceneFactoryDir, "compiler/scene-contract.mjs")).href);
-const semanticReport = parseComponentConstructionContract({ sceneText, assetLedgerText, generationLedgerText, componentConstructionText });
-assertExactKeys(semanticReport, [
+const { parseComponentConstructionContract, parseMediaSurfaceConstructionContract } = await import(pathToFileURL(join(sceneFactoryDir, "compiler/scene-contract.mjs")).href);
+const componentReport = parseComponentConstructionContract({ sceneText, assetLedgerText, generationLedgerText, componentConstructionText });
+assertExactKeys(componentReport, [
   "status", "sceneId", "specificationSha256", "assetLedgerSha256", "generationLedgerSha256",
   "assetRecordCount", "generationRecordCount", "componentCount", "seatCount",
   "componentConstructionSha256", "componentConstructionRawSha256", "familyCount", "partCount",
   "overrideCount", "resolvedComponentCount", "resolvedMaterialCount", "objectNamePattern", "boundaries"
 ], "scene_contract_report_keys_drift");
-assertExactKeys(semanticReport.boundaries, [
+assertExactKeys(componentReport.boundaries, [
   "componentsSpecified", "componentsCompiled", "finalCandidateGlbVerified", "publicationReady"
 ], "scene_contract_report_boundary_keys_drift");
-assert(semanticReport.status === "stage3-component-construction-contract-valid", "scene_contract_report_status_drift");
-assert(semanticReport.sceneId === sceneContractLock.sceneId, "scene_contract_identity_drift");
+assert(componentReport.status === "stage3-component-construction-contract-valid", "scene_contract_report_status_drift");
+assert(componentReport.sceneId === sceneContractLock.sceneId, "scene_contract_identity_drift");
 for (const key of [
   "specificationSha256", "assetLedgerSha256", "generationLedgerSha256",
   "componentConstructionSha256", "componentConstructionRawSha256",
@@ -226,11 +240,39 @@ for (const key of [
   "familyCount", "partCount", "overrideCount", "resolvedComponentCount",
   "resolvedMaterialCount", "objectNamePattern"
 ]) {
-  assert(semanticReport[key] === sceneContractLock[key], `scene_contract_report_drift:${key}`);
+  assert(componentReport[key] === sceneContractLock[key], `scene_contract_report_drift:${key}`);
 }
-assert(semanticReport.boundaries.componentsSpecified === true, "scene_contract_components_not_specified");
+assert(componentReport.boundaries.componentsSpecified === true, "scene_contract_components_not_specified");
 for (const key of ["componentsCompiled", "finalCandidateGlbVerified", "publicationReady"]) {
-  assert(semanticReport.boundaries[key] === sceneContractLock.boundaries[key], `scene_contract_report_boundary_drift:${key}`);
+  assert(componentReport.boundaries[key] === sceneContractLock.boundaries[key], `scene_contract_report_boundary_drift:${key}`);
+}
+
+const mediaSurfaceReport = parseMediaSurfaceConstructionContract({ sceneText, assetLedgerText, generationLedgerText, mediaSurfaceConstructionText });
+assertExactKeys(mediaSurfaceReport, [
+  "status", "sceneId", "specificationSha256", "assetLedgerSha256", "generationLedgerSha256",
+  "assetRecordCount", "generationRecordCount", "componentCount", "seatCount",
+  "mediaSurfaceConstructionSha256", "mediaSurfaceConstructionRawSha256", "surfaceCount",
+  "resolvedSurfaceCount", "representation", "boundaries"
+], "media_surface_contract_report_keys_drift");
+assertExactKeys(mediaSurfaceReport.boundaries, [
+  "mediaSurfacesSpecified", "mediaSurfacesCompiled", "finalCandidateGlbVerified", "publicationReady"
+], "media_surface_contract_report_boundary_keys_drift");
+assert(mediaSurfaceReport.status === "stage3-media-surface-construction-contract-valid", "media_surface_contract_report_status_drift");
+assert(mediaSurfaceReport.sceneId === sceneContractLock.sceneId, "media_surface_contract_identity_drift");
+for (const key of [
+  "specificationSha256", "assetLedgerSha256", "generationLedgerSha256",
+  "mediaSurfaceConstructionSha256", "mediaSurfaceConstructionRawSha256",
+  "assetRecordCount", "generationRecordCount", "componentCount", "seatCount",
+  "surfaceCount", "resolvedSurfaceCount", "representation"
+]) {
+  assert(mediaSurfaceReport[key] === sceneContractLock[key], `media_surface_contract_report_drift:${key}`);
+}
+assert(mediaSurfaceReport.boundaries.mediaSurfacesSpecified === true, "scene_contract_media_surfaces_not_specified");
+for (const key of ["mediaSurfacesCompiled", "finalCandidateGlbVerified", "publicationReady"]) {
+  assert(mediaSurfaceReport.boundaries[key] === sceneContractLock.boundaries[key], `media_surface_contract_report_boundary_drift:${key}`);
+}
+for (const key of ["sceneId", "specificationSha256", "assetLedgerSha256", "generationLedgerSha256", "assetRecordCount", "generationRecordCount", "componentCount", "seatCount"]) {
+  assert(componentReport[key] === mediaSurfaceReport[key], `scene_contract_common_report_drift:${key}`);
 }
 
 const releaseKeys = new Set();

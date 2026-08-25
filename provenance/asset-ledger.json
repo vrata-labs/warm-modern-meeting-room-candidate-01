@@ -27,6 +27,19 @@
       "modifications": [],
       "outputSha256": [],
       "attribution": null
+    },
+    {
+      "id": "asset-media-surface-constructions-project",
+      "kind": "project-authored-input",
+      "source": { "classification": "project-authored", "publicUrl": null, "repositoryPath": "source/media-surface-constructions.json" },
+      "authorProvider": "project-team",
+      "license": { "name": "LicenseRef-Project-Owned", "reference": "provenance/licenses/project-owned.txt", "commercialUse": true, "redistribution": true, "mlProcessing": true },
+      "acquiredOn": "2026-08-25",
+      "originalSha256": "0bdf11ca588d700c8a721d60cb503215c29ce021b48708302b8b9da45ec1036b",
+      "allowedUse": { "staging": true, "production": false, "webRuntime": true, "screenshots": true, "optimization": true, "redistribution": true },
+      "modifications": [],
+      "outputSha256": [],
+      "attribution": null
     }
   ]
 }
