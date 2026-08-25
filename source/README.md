@@ -8,6 +8,8 @@ rejected attempts.
 `concept-selection.json` records the approved low-fidelity layout intent and
 the SHA-256 of its private functional correction preview. `scene-spec.json`
 records the exact validated room, component, seat, route, media-surface, and
-review-view contract. `scene-contract-lock.json` binds the exact Scene Factory
-validator commit and canonical contract hashes. None of these records approves
-future release assets or publication.
+review-view contract. `component-constructions.json` records the exact
+candidate-owned beveled-box parts, material slots, and two approved chair
+upholstery overrides. `scene-contract-lock.json` binds the exact Scene Factory
+validator commit, canonical contract hashes, and raw construction source hash.
+None of these records approves future release assets or publication.

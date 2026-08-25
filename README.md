@@ -26,8 +26,13 @@ research, reusable Scene Factory code, restricted references, or credentials.
 ## Layout
 
 ```text
-source/
+source/concept-selection.json
+source/scene-spec.json
+source/component-constructions.json
+source/scene-contract-lock.json
 provenance/asset-ledger.json
+provenance/generation-ledger.json
+provenance/licenses/project-owned.txt
 assets/scenes/warm-modern-meeting-room-candidate-01/<version>/
 manifest.json
 platform-validator.lock
@@ -47,3 +52,9 @@ pnpm test
 No scene binary may be committed before source rights are cleared. A release
 must contain exactly `scene.json`, `scene.glb`, `preview.webp`, and
 `LICENSES.md`, and must satisfy the eight-seat review contract.
+
+The current repository state is an exact source-only component specification.
+It contains four construction families resolving to 38 component parts. The
+contract is validated by the exact Scene Factory commit recorded in
+`source/scene-contract-lock.json`. No compiler, release bundle, or preview
+binary exists, and project-authored inputs remain disallowed for production.

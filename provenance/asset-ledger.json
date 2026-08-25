@@ -14,6 +14,19 @@
       "modifications": [],
       "outputSha256": [],
       "attribution": null
+    },
+    {
+      "id": "asset-component-constructions-project",
+      "kind": "project-authored-input",
+      "source": { "classification": "project-authored", "publicUrl": null, "repositoryPath": "source/component-constructions.json" },
+      "authorProvider": "project-team",
+      "license": { "name": "LicenseRef-Project-Owned", "reference": "provenance/licenses/project-owned.txt", "commercialUse": true, "redistribution": true, "mlProcessing": true },
+      "acquiredOn": "2026-08-25",
+      "originalSha256": "f32327442d015f4c89942bf752e959d6c0abc24613c72f32a8ba4c2b2b29d5d1",
+      "allowedUse": { "staging": true, "production": false, "webRuntime": true, "screenshots": true, "optimization": true, "redistribution": true },
+      "modifications": [],
+      "outputSha256": [],
+      "attribution": null
     }
   ]
 }

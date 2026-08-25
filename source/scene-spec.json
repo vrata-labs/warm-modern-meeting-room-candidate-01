@@ -3,11 +3,11 @@
   "sceneId": "warm-modern-meeting-room-candidate-01",
   "generator": {
     "repository": "vrata-labs/warm-modern-meeting-room-scene-factory",
-    "commit": "fa9767913fc3cc2b1d06fc00c44ed6a26369b219",
+    "commit": "60617c021a8434f6687af038706b411e2e4b265c",
     "blenderVersion": "4.5.12 LTS",
     "blenderBuildHash": "84afd5f785f7",
     "seed": 42,
-    "acceptedInputSha256": ["978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a"]
+    "acceptedInputSha256": ["978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a", "f32327442d015f4c89942bf752e959d6c0abc24613c72f32a8ba4c2b2b29d5d1"]
   },
   "room": {
     "widthM": 7,
@@ -37,7 +37,8 @@
     { "id": "warm-oak", "category": "wood", "baseColorSrgb": "#A87543", "roughness": 0.46, "metalness": 0, "textureScaleM": 0.18, "sourceRecordId": "asset-layout-project" },
     { "id": "mineral-plaster", "category": "mineral", "baseColorSrgb": "#DDD6C8", "roughness": 0.84, "metalness": 0, "textureScaleM": 0.5, "sourceRecordId": "asset-layout-project" },
     { "id": "graphite-metal", "category": "metal", "baseColorSrgb": "#343A3C", "roughness": 0.35, "metalness": 0.7, "textureScaleM": 0.2, "sourceRecordId": "asset-layout-project" },
-    { "id": "sand-fabric", "category": "fabric", "baseColorSrgb": "#B9A98E", "roughness": 0.72, "metalness": 0, "textureScaleM": 0.003, "sourceRecordId": "asset-layout-project" }
+    { "id": "sand-fabric", "category": "fabric", "baseColorSrgb": "#B9A98E", "roughness": 0.72, "metalness": 0, "textureScaleM": 0.003, "sourceRecordId": "asset-layout-project" },
+    { "id": "muted-grey-green-fabric", "category": "fabric", "baseColorSrgb": "#77877B", "roughness": 0.8, "metalness": 0, "textureScaleM": 0.003, "sourceRecordId": "asset-layout-project" }
   ],
   "materialZones": [
     { "id": "floor-zone", "surface": "floor", "recipeId": "warm-oak" },
@@ -61,17 +62,17 @@
   ],
   "exterior": { "strategy": "project-authored-geometry", "windowOpeningId": "main-window", "sourceRecordIds": ["asset-layout-project"] },
   "components": [
-    { "id": "conference-table", "family": "conference-table", "dimensions": { "widthM": 4, "heightM": 0.74, "depthM": 1.18 }, "transform": { "position": { "x": -0.45, "y": 0, "z": 0.05 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
-    { "id": "chair-01", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": -1.95, "y": 0, "z": 1.15 }, "yaw": 3.141593 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
-    { "id": "chair-02", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": -0.95, "y": 0, "z": 1.15 }, "yaw": 3.141593 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
-    { "id": "chair-03", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": 0.05, "y": 0, "z": 1.15 }, "yaw": 3.141593 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
-    { "id": "chair-04", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": 1.05, "y": 0, "z": 1.15 }, "yaw": 3.141593 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
-    { "id": "chair-05", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": -1.95, "y": 0, "z": -1.1 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
-    { "id": "chair-06", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": -0.95, "y": 0, "z": -1.1 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
-    { "id": "chair-07", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": 0.05, "y": 0, "z": -1.1 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
-    { "id": "chair-08", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": 1.05, "y": 0, "z": -1.1 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
-    { "id": "conference-av", "family": "conference-av", "dimensions": { "widthM": 0.4, "heightM": 0.12, "depthM": 0.25 }, "transform": { "position": { "x": -0.45, "y": 0.74, "z": 0.05 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null },
-    { "id": "pendant-fixture", "family": "pendant-luminaire", "dimensions": { "widthM": 2.2, "heightM": 0.18, "depthM": 0.22 }, "transform": { "position": { "x": -0.45, "y": 2.55, "z": 0.05 }, "yaw": 0 }, "sourceRecordId": "asset-layout-project", "generationRecordId": null }
+    { "id": "conference-table", "family": "conference-table", "dimensions": { "widthM": 4, "heightM": 0.74, "depthM": 1.18 }, "transform": { "position": { "x": -0.45, "y": 0, "z": 0.05 }, "yaw": 0 }, "sourceRecordId": "asset-component-constructions-project", "generationRecordId": null },
+    { "id": "chair-01", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": -1.95, "y": 0, "z": 1.15 }, "yaw": 3.141593 }, "sourceRecordId": "asset-component-constructions-project", "generationRecordId": null },
+    { "id": "chair-02", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": -0.95, "y": 0, "z": 1.15 }, "yaw": 3.141593 }, "sourceRecordId": "asset-component-constructions-project", "generationRecordId": null },
+    { "id": "chair-03", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": 0.05, "y": 0, "z": 1.15 }, "yaw": 3.141593 }, "sourceRecordId": "asset-component-constructions-project", "generationRecordId": null },
+    { "id": "chair-04", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": 1.05, "y": 0, "z": 1.15 }, "yaw": 3.141593 }, "sourceRecordId": "asset-component-constructions-project", "generationRecordId": null },
+    { "id": "chair-05", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": -1.95, "y": 0, "z": -1.1 }, "yaw": 0 }, "sourceRecordId": "asset-component-constructions-project", "generationRecordId": null },
+    { "id": "chair-06", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": -0.95, "y": 0, "z": -1.1 }, "yaw": 0 }, "sourceRecordId": "asset-component-constructions-project", "generationRecordId": null },
+    { "id": "chair-07", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": 0.05, "y": 0, "z": -1.1 }, "yaw": 0 }, "sourceRecordId": "asset-component-constructions-project", "generationRecordId": null },
+    { "id": "chair-08", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": 1.05, "y": 0, "z": -1.1 }, "yaw": 0 }, "sourceRecordId": "asset-component-constructions-project", "generationRecordId": null },
+    { "id": "conference-av", "family": "conference-av", "dimensions": { "widthM": 0.4, "heightM": 0.12, "depthM": 0.25 }, "transform": { "position": { "x": -0.45, "y": 0.74, "z": 0.05 }, "yaw": 0 }, "sourceRecordId": "asset-component-constructions-project", "generationRecordId": null },
+    { "id": "pendant-fixture", "family": "pendant-luminaire", "dimensions": { "widthM": 2.2, "heightM": 0.18, "depthM": 0.22 }, "transform": { "position": { "x": -0.45, "y": 2.55, "z": 0.05 }, "yaw": 0 }, "sourceRecordId": "asset-component-constructions-project", "generationRecordId": null }
   ],
   "clearance": {
     "minimumRouteWidthM": 0.9,
