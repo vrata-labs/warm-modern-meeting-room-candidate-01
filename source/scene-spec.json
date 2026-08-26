@@ -3,11 +3,11 @@
   "sceneId": "warm-modern-meeting-room-candidate-01",
   "generator": {
     "repository": "vrata-labs/warm-modern-meeting-room-scene-factory",
-    "commit": "c3157b65c739bf784d5b8654e0808a3c3a84f611",
+    "commit": "156bbc3b3e15f8d24ee3d60ee01f6f4ac2c91de2",
     "blenderVersion": "4.5.12 LTS",
     "blenderBuildHash": "84afd5f785f7",
     "seed": 42,
-    "acceptedInputSha256": ["978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a", "f32327442d015f4c89942bf752e959d6c0abc24613c72f32a8ba4c2b2b29d5d1", "0bdf11ca588d700c8a721d60cb503215c29ce021b48708302b8b9da45ec1036b"]
+    "acceptedInputSha256": ["978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a", "f32327442d015f4c89942bf752e959d6c0abc24613c72f32a8ba4c2b2b29d5d1", "0bdf11ca588d700c8a721d60cb503215c29ce021b48708302b8b9da45ec1036b", "54a9e7b3b20c94844380c524443005006225eccbe22b4a57f4df50782e859639"]
   },
   "room": {
     "widthM": 7,
@@ -60,7 +60,7 @@
     { "id": "window-daylight", "kind": "daylight", "position": { "x": 0, "y": 2.5, "z": 2.4 }, "temperatureK": 6500, "intensityLumens": 9000, "intendedContribution": "soft directional daylight through the main window" },
     { "id": "table-pendant", "kind": "pendant", "position": { "x": -0.45, "y": 2.55, "z": 0.05 }, "temperatureK": 2900, "intensityLumens": 3200, "intendedContribution": "warm task light over the conference table" }
   ],
-  "exterior": { "strategy": "project-authored-geometry", "windowOpeningId": "main-window", "sourceRecordIds": ["asset-layout-project"] },
+  "exterior": { "strategy": "project-authored-geometry", "windowOpeningId": "main-window", "sourceRecordIds": ["asset-exterior-constructions-project"] },
   "components": [
     { "id": "conference-table", "family": "conference-table", "dimensions": { "widthM": 4, "heightM": 0.74, "depthM": 1.18 }, "transform": { "position": { "x": -0.45, "y": 0, "z": 0.05 }, "yaw": 0 }, "sourceRecordId": "asset-component-constructions-project", "generationRecordId": null },
     { "id": "chair-01", "family": "task-chair", "dimensions": { "widthM": 0.62, "heightM": 1.05, "depthM": 0.62 }, "transform": { "position": { "x": -1.95, "y": 0, "z": 1.15 }, "yaw": 3.141593 }, "sourceRecordId": "asset-component-constructions-project", "generationRecordId": null },

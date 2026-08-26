@@ -30,6 +30,7 @@ source/concept-selection.json
 source/scene-spec.json
 source/component-constructions.json
 source/media-surface-constructions.json
+source/exterior-constructions.json
 source/scene-contract-lock.json
 provenance/asset-ledger.json
 provenance/generation-ledger.json
@@ -55,11 +56,13 @@ No scene binary may be committed before source rights are cleared. A release
 must contain exactly `scene.json`, `scene.glb`, `preview.webp`, and
 `LICENSES.md`, and must satisfy the eight-seat review contract.
 
-The current repository state is an exact source-only component and media-surface
-specification. It contains four construction families resolving to 38 component
-parts and two media surfaces bound to platform-owned runtime planes. Physical
+The current repository state is an exact source-only component, media-surface,
+and exterior specification. It contains four construction families resolving to
+38 component parts, two media surfaces bound to platform-owned runtime planes,
+and four project-authored exterior volumes with three scalar materials. Physical
 surface dimensions, positions, and yaw remain solely in `source/scene-spec.json`.
-The contract is validated by the exact Scene Factory commit recorded in
-`source/scene-contract-lock.json`. No compiler, release bundle, preview binary,
-or production-track mapping exists, and project-authored inputs remain
-disallowed for production.
+The exterior source binds the north window to nearby ground, one planted hedge,
+and one restrained middle-distance context mass. The contract is validated by
+the exact Scene Factory commit recorded in `source/scene-contract-lock.json`. No
+compiler, release bundle, preview binary, or production-track mapping exists,
+and project-authored inputs remain disallowed for production.
