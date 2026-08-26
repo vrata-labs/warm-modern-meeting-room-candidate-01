@@ -40,6 +40,19 @@
       "modifications": [],
       "outputSha256": [],
       "attribution": null
+    },
+    {
+      "id": "asset-exterior-constructions-project",
+      "kind": "project-authored-input",
+      "source": { "classification": "project-authored", "publicUrl": null, "repositoryPath": "source/exterior-constructions.json" },
+      "authorProvider": "project-team",
+      "license": { "name": "LicenseRef-Project-Owned", "reference": "provenance/licenses/project-owned.txt", "commercialUse": true, "redistribution": true, "mlProcessing": true },
+      "acquiredOn": "2026-08-26",
+      "originalSha256": "54a9e7b3b20c94844380c524443005006225eccbe22b4a57f4df50782e859639",
+      "allowedUse": { "staging": true, "production": false, "webRuntime": true, "screenshots": true, "optimization": true, "redistribution": true },
+      "modifications": [],
+      "outputSha256": [],
+      "attribution": null
     }
   ]
 }

@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "sourceRecordId": "asset-exterior-constructions-project",
+  "strategy": "project-authored-geometry",
+  "windowOpeningId": "main-window",
+  "boundsM": {
+    "min": {
+      "x": -5,
+      "y": -0.18,
+      "z": 2.6
+    },
+    "max": {
+      "x": 5,
+      "y": 3,
+      "z": 12.6
+    }
+  },
+  "materials": [
+    {
+      "id": "ground-mineral",
+      "category": "ground",
+      "baseColorSrgb": "#B8B3A8",
+      "roughness": 0.88,
+      "metalness": 0,
+      "textureScaleM": 0.5
+    },
+    {
+      "id": "exterior-graphite",
+      "category": "metal",
+      "baseColorSrgb": "#343A3C",
+      "roughness": 0.35,
+      "metalness": 0.7,
+      "textureScaleM": 0.2
+    },
+    {
+      "id": "exterior-vegetation",
+      "category": "vegetation",
+      "baseColorSrgb": "#77877B",
+      "roughness": 0.8,
+      "metalness": 0,
+      "textureScaleM": 0.25
+    }
+  ],
+  "objects": [
+    {
+      "id": "near-ground",
+      "role": "nearby-ground",
+      "geometry": "beveled-box",
+      "dimensions": {
+        "widthM": 10,
+        "heightM": 0.18,
+        "depthM": 10
+      },
+      "transform": {
+        "position": {
+          "x": 0,
+          "y": -0.09,
+          "z": 7.6
+        },
+        "yaw": 0
+      },
+      "bevel": {
+        "widthM": 0.01,
+        "segments": 3,
+        "clampOverlap": true
+      },
+      "materialId": "ground-mineral",
+      "supportObjectId": null
+    },
+    {
+      "id": "planter",
+      "role": "vegetation-container",
+      "geometry": "beveled-box",
+      "dimensions": {
+        "widthM": 1.45,
+        "heightM": 0.62,
+        "depthM": 0.55
+      },
+      "transform": {
+        "position": {
+          "x": -1.35,
+          "y": 0.31,
+          "z": 4.65
+        },
+        "yaw": 0
+      },
+      "bevel": {
+        "widthM": 0.015,
+        "segments": 3,
+        "clampOverlap": true
+      },
+      "materialId": "exterior-graphite",
+      "supportObjectId": "near-ground"
+    },
+    {
+      "id": "hedge",
+      "role": "vegetation",
+      "geometry": "beveled-box",
+      "dimensions": {
+        "widthM": 1.1,
+        "heightM": 0.68,
+        "depthM": 0.42
+      },
+      "transform": {
+        "position": {
+          "x": -1.35,
+          "y": 0.96,
+          "z": 4.65
+        },
+        "yaw": 0
+      },
+      "bevel": {
+        "widthM": 0.025,
+        "segments": 3,
+        "clampOverlap": true
+      },
+      "materialId": "exterior-vegetation",
+      "supportObjectId": "planter"
+    },
+    {
+      "id": "context-mass",
+      "role": "middle-distance-context",
+      "geometry": "beveled-box",
+      "dimensions": {
+        "widthM": 2.6,
+        "heightM": 3,
+        "depthM": 1.4
+      },
+      "transform": {
+        "position": {
+          "x": 1.65,
+          "y": 1.5,
+          "z": 9.4
+        },
+        "yaw": 0
+      },
+      "bevel": {
+        "widthM": 0.02,
+        "segments": 3,
+        "clampOverlap": true
+      },
+      "materialId": "exterior-graphite",
+      "supportObjectId": "near-ground"
+    }
+  ]
+}
