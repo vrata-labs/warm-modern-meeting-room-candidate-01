@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 4,
-  "status": "exact-exterior-construction-specification-valid",
+  "schemaVersion": 5,
+  "status": "exact-lighting-construction-specification-valid",
   "sceneId": "warm-modern-meeting-room-candidate-01",
   "validatorRepository": "vrata-labs/warm-modern-meeting-room-scene-factory",
-  "validatorCommit": "156bbc3b3e15f8d24ee3d60ee01f6f4ac2c91de2",
-  "specificationSha256": "d26cad260909d50082c07b13a86dd3ea8af4b6b32b591b825957dd26c9b53b12",
-  "assetLedgerSha256": "d3b01c23d371221783fd6f59e637f9fe619f1970a8683d07fef899464773b2ef",
+  "validatorCommit": "ec0a8fb118ef9c5589ebb0bd4a9b9047616a56c2",
+  "specificationSha256": "09daa22e838269f557ac3d1364048599d442fb4782eec4816b23587662152a52",
+  "assetLedgerSha256": "31451ef5d098c9557e179684af966270410ecce96548c8433554d9ee96b936bb",
   "generationLedgerSha256": "42d49a3ad4f0f2a0b6f490461a30ed27a904396d51c34c9742862e02ba818930",
   "componentConstructionSha256": "a28310aa7806fb05b8b08087a8b13de900498c3a12dbc6c3e0a5cc77ae7a3709",
   "componentConstructionRawSha256": "f32327442d015f4c89942bf752e959d6c0abc24613c72f32a8ba4c2b2b29d5d1",
@@ -13,7 +13,10 @@
   "mediaSurfaceConstructionRawSha256": "0bdf11ca588d700c8a721d60cb503215c29ce021b48708302b8b9da45ec1036b",
   "exteriorConstructionSha256": "5a02dc468db992bb7b12aa783b485408e4dde29ac4c29e09753c86c9c226a330",
   "exteriorConstructionRawSha256": "54a9e7b3b20c94844380c524443005006225eccbe22b4a57f4df50782e859639",
-  "assetRecordCount": 4,
+  "lightingConstructionSha256": "a7debec463c57f30a7016addff5fb722dd301dc9d810275920c64df78a8277d7",
+  "lightingConstructionRawSha256": "ecb7c8da21191c2a9f893c0975de3bf2b8187cf6cd8a711bb3bb2b71f3610cad",
+  "styleBibleSha256": "d8147f9495fb8d2cb50bbccf6849cf272b30b662bffb985b6e46e3c604384656",
+  "assetRecordCount": 5,
   "generationRecordCount": 0,
   "familyCount": 4,
   "partCount": 38,
@@ -39,11 +42,79 @@
     "min": { "x": -5, "y": -0.18, "z": 2.6 },
     "max": { "x": 5, "y": 3, "z": 12.6 }
   },
+  "lightCount": 3,
+  "resolvedLightCount": 3,
+  "lightingObjectNamePattern": "light.<sceneLightId>",
+  "resolvedIntensityOutputs": [
+    { "sceneLightId": "window-daylight", "value": 2.5, "unit": "watt-per-square-meter" },
+    { "sceneLightId": "ceiling-fill", "value": 18, "unit": "watt" },
+    { "sceneLightId": "table-pendant", "value": 32, "unit": "watt" }
+  ],
+  "firstViewAcceptance": {
+    "reviewViewId": "entry",
+    "capture": {
+      "engine": "CYCLES",
+      "device": "CPU",
+      "projection": "perspective",
+      "fovAxis": "vertical",
+      "resolution": {
+        "widthPx": 960,
+        "heightPx": 540,
+        "pixelAspectRatio": 1
+      },
+      "samples": 64,
+      "seed": 42,
+      "adaptiveSampling": false,
+      "denoising": false,
+      "transparentBackground": false,
+      "world": {
+        "colorSrgb": "#000000",
+        "strength": 0
+      },
+      "colorManagement": {
+        "displayDevice": "sRGB",
+        "viewTransform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0,
+        "gamma": 1
+      },
+      "output": {
+        "format": "PNG",
+        "colorMode": "RGB",
+        "colorDepthBits": 8
+      }
+    },
+    "measurement": {
+      "metric": "display-srgb8-rec709-luma-v1",
+      "scope": "all-rendered-pixels",
+      "sampleEncoding": "display-srgb8-encoded-rgb-bytes",
+      "channelValueDomain": "integer-0-to-255",
+      "linearization": "none",
+      "integerArithmetic": {
+        "redWeight": 2126,
+        "greenWeight": 7152,
+        "blueWeight": 722,
+        "divisor": 10000,
+        "weightedNumerator": "2126-times-r-plus-7152-times-g-plus-722-times-b",
+        "averagePass": "sum-weighted-numerators-gte-average-minimum-times-divisor-times-pixel-count",
+        "darkPixel": "weighted-numerator-lt-dark-pixel-threshold-times-divisor",
+        "darkRatioPass": "dark-count-times-10-lte-pixel-count-times-7"
+      },
+      "darkPixelThreshold": 40
+    },
+    "criteria": {
+      "averageLuminanceMinimum": 40,
+      "darkPixelRatioMaximum": 0.7
+    }
+  },
   "boundaries": {
     "releaseAssetsApproved": false,
     "componentsCompiled": false,
     "mediaSurfacesCompiled": false,
     "exteriorCompiled": false,
+    "lightingCompiled": false,
+    "firstViewRendered": false,
+    "firstViewAcceptanceVerified": false,
     "finalCandidateGlbVerified": false,
     "sceneBinaryCreated": false,
     "previewBinaryIncluded": false,

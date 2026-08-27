@@ -5,10 +5,12 @@ import { resolve } from "node:path";
 import test from "node:test";
 
 const root = resolve(import.meta.dirname, "..");
-const validatorCommit = "156bbc3b3e15f8d24ee3d60ee01f6f4ac2c91de2";
+const validatorCommit = "ec0a8fb118ef9c5589ebb0bd4a9b9047616a56c2";
 const constructionRawSha256 = "f32327442d015f4c89942bf752e959d6c0abc24613c72f32a8ba4c2b2b29d5d1";
 const mediaSurfaceRawSha256 = "0bdf11ca588d700c8a721d60cb503215c29ce021b48708302b8b9da45ec1036b";
 const exteriorConstructionRawSha256 = "54a9e7b3b20c94844380c524443005006225eccbe22b4a57f4df50782e859639";
+const lightingConstructionRawSha256 = "ecb7c8da21191c2a9f893c0975de3bf2b8187cf6cd8a711bb3bb2b71f3610cad";
+const styleBibleSha256 = "d8147f9495fb8d2cb50bbccf6849cf272b30b662bffb985b6e46e3c604384656";
 
 async function text(path) {
   return readFile(resolve(root, path), "utf8");
@@ -213,6 +215,143 @@ test("exterior source is canonical project-authored bounded geometry", async () 
     && transform.yaw === 0 && bevel.segments === 3 && bevel.clampOverlap === true));
 });
 
+test("lighting source is canonical and binds exact candidate emitters", async () => {
+  const constructionText = await text("source/lighting-constructions.json");
+  const construction = JSON.parse(constructionText);
+  assert.equal(constructionText, `${JSON.stringify(construction, null, 2)}\n`);
+  assert.equal(sha256(constructionText), lightingConstructionRawSha256);
+  assert.equal(construction.sceneId, "warm-modern-meeting-room-candidate-01");
+  assert.equal(construction.sourceRecordId, "asset-lighting-constructions-project");
+  assert.equal(construction.styleBibleSha256, styleBibleSha256);
+  assert.deepEqual(construction.lights.map(({ sceneLightId }) => sceneLightId), ["window-daylight", "ceiling-fill", "table-pendant"]);
+
+  const sharedMapping = {
+    coordinateConversion: {
+      id: "scene-y-up-to-blender-z-up-v1",
+      blenderX: "scene-x",
+      blenderY: "scene-z",
+      blenderZ: "scene-y"
+    },
+    orientationConvention: {
+      forwardAxis: "local-negative-z",
+      forwardTarget: "source-to-target",
+      upAxis: "local-y",
+      rollAxis: "local-negative-z",
+      rollOrder: "after-target-alignment"
+    }
+  };
+  assert.deepEqual(construction.lights[0], {
+    sceneLightId: "window-daylight",
+    binding: { type: "opening", openingId: "main-window" },
+    emitter: {
+      type: "directional",
+      target: { x: -0.45, y: 1.2, z: 0.05 },
+      rollRadians: 0,
+      intensityMapping: { source: "scene-intensity-lumens", operation: "divide", divisor: 3600, outputUnit: "watt-per-square-meter" },
+      ...sharedMapping,
+      angularDiameterDegrees: 5,
+      angularDiameterMapping: {
+        inputUnit: "degrees",
+        operation: "multiply-by-pi-divide-by-180",
+        blenderLightType: "SUN",
+        blenderProperty: "angle",
+        blenderUnit: "radians"
+      },
+      colorSource: "scene-temperature-kelvin",
+      kelvinConversion: "tanner-helland-2012-clamped-srgb-to-linear-v1",
+      castShadow: true
+    }
+  });
+
+  const expectedSpot = (sceneLightId, binding, target, rangeM, innerConeHalfAngleRadians, outerConeHalfAngleRadians, radiusM) => ({
+    sceneLightId,
+    binding,
+    emitter: {
+      type: "spot",
+      target,
+      rollRadians: 0,
+      intensityMapping: { source: "scene-intensity-lumens", operation: "divide", divisor: 100, outputUnit: "watt" },
+      ...sharedMapping,
+      rangeM,
+      rangeMapping: {
+        useCustomDistanceProperty: "use_custom_distance",
+        useCustomDistanceValue: true,
+        cutoffDistanceProperty: "cutoff_distance",
+        cutoffDistanceSource: "range-m"
+      },
+      innerConeHalfAngleRadians,
+      outerConeHalfAngleRadians,
+      coneMapping: {
+        angleConvention: "half-angles-radians",
+        spotSizeProperty: "spot_size",
+        spotSizeFormula: "two-times-outer-cone-half-angle",
+        spotBlendProperty: "spot_blend",
+        spotBlendFormula: "one-minus-inner-cone-half-angle-divided-by-outer-cone-half-angle"
+      },
+      radiusM,
+      radiusMapping: { blenderProperty: "shadow_soft_size", source: "radius-m" },
+      colorSource: "scene-temperature-kelvin",
+      kelvinConversion: "tanner-helland-2012-clamped-srgb-to-linear-v1",
+      castShadow: true
+    }
+  });
+  assert.deepEqual(construction.lights[1], expectedSpot(
+    "ceiling-fill",
+    { type: "room-surface", surface: "ceiling" },
+    { x: -3.4, y: 1.55, z: 0.15 },
+    8,
+    0.7,
+    1.1,
+    0.12
+  ));
+  assert.deepEqual(construction.lights[2], expectedSpot(
+    "table-pendant",
+    { type: "component", componentId: "pendant-fixture" },
+    { x: -0.45, y: 0.74, z: 0.05 },
+    6,
+    0.65,
+    1,
+    0.08
+  ));
+  assert.deepEqual(construction.firstViewAcceptance, {
+    reviewViewId: "entry",
+    capture: {
+      engine: "CYCLES",
+      device: "CPU",
+      projection: "perspective",
+      fovAxis: "vertical",
+      resolution: { widthPx: 960, heightPx: 540, pixelAspectRatio: 1 },
+      samples: 64,
+      seed: 42,
+      adaptiveSampling: false,
+      denoising: false,
+      transparentBackground: false,
+      world: { colorSrgb: "#000000", strength: 0 },
+      colorManagement: { displayDevice: "sRGB", viewTransform: "AgX", look: "AgX - Medium High Contrast", exposure: 0, gamma: 1 },
+      output: { format: "PNG", colorMode: "RGB", colorDepthBits: 8 }
+    },
+    measurement: {
+      metric: "display-srgb8-rec709-luma-v1",
+      scope: "all-rendered-pixels",
+      sampleEncoding: "display-srgb8-encoded-rgb-bytes",
+      channelValueDomain: "integer-0-to-255",
+      linearization: "none",
+      integerArithmetic: {
+        redWeight: 2126,
+        greenWeight: 7152,
+        blueWeight: 722,
+        divisor: 10000,
+        weightedNumerator: "2126-times-r-plus-7152-times-g-plus-722-times-b",
+        averagePass: "sum-weighted-numerators-gte-average-minimum-times-divisor-times-pixel-count",
+        darkPixel: "weighted-numerator-lt-dark-pixel-threshold-times-divisor",
+        darkRatioPass: "dark-count-times-10-lte-pixel-count-times-7"
+      },
+      darkPixelThreshold: 40
+    },
+    criteria: { averageLuminanceMinimum: 40, darkPixelRatioMaximum: 0.7 }
+  });
+});
+
 test("scene binds components, materials, and accepted inputs to project-authored records", async () => {
   const scene = await json("source/scene-spec.json");
   assert.equal(scene.generator.commit, validatorCommit);
@@ -220,7 +359,13 @@ test("scene binds components, materials, and accepted inputs to project-authored
     "978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a",
     constructionRawSha256,
     mediaSurfaceRawSha256,
-    exteriorConstructionRawSha256
+    exteriorConstructionRawSha256,
+    lightingConstructionRawSha256
+  ]);
+  assert.deepEqual(scene.lighting, [
+    { id: "window-daylight", kind: "daylight", position: { x: 0, y: 2.5, z: 2.4 }, temperatureK: 6500, intensityLumens: 9000, intendedContribution: "soft directional daylight through the main window" },
+    { id: "ceiling-fill", kind: "spot", position: { x: 1.5, y: 2.95, z: -1 }, temperatureK: 2900, intensityLumens: 1800, intendedContribution: "warm architectural fill for entrance and west display" },
+    { id: "table-pendant", kind: "pendant", position: { x: -0.45, y: 2.55, z: 0.05 }, temperatureK: 2900, intensityLumens: 3200, intendedContribution: "warm task light over the conference table" }
   ]);
   assert.ok(scene.components.every(({ sourceRecordId }) => sourceRecordId === "asset-component-constructions-project"));
   assert.ok(scene.components.every(({ generationRecordId }) => generationRecordId === null));
@@ -243,13 +388,15 @@ test("asset provenance binds all raw source files to project-owned non-productio
     "asset-layout-project",
     "asset-component-constructions-project",
     "asset-media-surface-constructions-project",
-    "asset-exterior-constructions-project"
+    "asset-exterior-constructions-project",
+    "asset-lighting-constructions-project"
   ]);
   const expectedSources = new Map([
     ["asset-layout-project", ["source/concept-selection.json", "978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a"]],
     ["asset-component-constructions-project", ["source/component-constructions.json", constructionRawSha256]],
     ["asset-media-surface-constructions-project", ["source/media-surface-constructions.json", mediaSurfaceRawSha256]],
-    ["asset-exterior-constructions-project", ["source/exterior-constructions.json", exteriorConstructionRawSha256]]
+    ["asset-exterior-constructions-project", ["source/exterior-constructions.json", exteriorConstructionRawSha256]],
+    ["asset-lighting-constructions-project", ["source/lighting-constructions.json", lightingConstructionRawSha256]]
   ]);
   for (const record of ledger.records) {
     const [repositoryPath, digest] = expectedSources.get(record.id);
@@ -273,29 +420,33 @@ test("asset provenance binds all raw source files to project-owned non-productio
       redistribution: true
     });
   }
+  assert.equal(ledger.records.find(({ id }) => id === "asset-lighting-constructions-project").acquiredOn, "2026-08-27");
   const licenseText = await text("provenance/licenses/project-owned.txt");
-  assert.equal(sha256(licenseText), "772942feac63365171b7a5f1f0cfb605d953b236ac652d29aee4d5af47811a44");
+  assert.equal(sha256(licenseText), "56be457108896a56b706ffcd10d7e1e45778cb33812d98fea6979eb5539fb490");
   assert.match(licenseText, /exact component-construction data/);
   assert.match(licenseText, /exact media-surface construction data/);
-  assert.match(licenseText, /exact exterior-construction data authored for Candidate 01/);
-  assert.match(licenseText, /does not approve\s+or license future mesh, texture, generated, or external release assets/);
+  assert.match(licenseText, /exact exterior-construction data/);
+  assert.match(licenseText, /exact lighting-construction data authored\s+for Candidate 01/);
+  assert.match(licenseText, /does not approve\s+or license future mesh, texture,\s+generated, or external release assets/);
 });
 
-test("schema v4 lock pins every canonical and raw contract digest", async () => {
-  const [scene, construction, mediaSurfaceConstruction, exteriorConstruction, assetLedger, generationLedger, constructionText, mediaSurfaceConstructionText, exteriorConstructionText] = await Promise.all([
+test("schema v5 lock pins every canonical and raw contract digest and lighting report value", async () => {
+  const [scene, construction, mediaSurfaceConstruction, exteriorConstruction, lightingConstruction, assetLedger, generationLedger, constructionText, mediaSurfaceConstructionText, exteriorConstructionText, lightingConstructionText] = await Promise.all([
     json("source/scene-spec.json"),
     json("source/component-constructions.json"),
     json("source/media-surface-constructions.json"),
     json("source/exterior-constructions.json"),
+    json("source/lighting-constructions.json"),
     json("provenance/asset-ledger.json"),
     json("provenance/generation-ledger.json"),
     text("source/component-constructions.json"),
     text("source/media-surface-constructions.json"),
-    text("source/exterior-constructions.json")
+    text("source/exterior-constructions.json"),
+    text("source/lighting-constructions.json")
   ]);
   const lock = await json("source/scene-contract-lock.json");
-  assert.equal(lock.schemaVersion, 4);
-  assert.equal(lock.status, "exact-exterior-construction-specification-valid");
+  assert.equal(lock.schemaVersion, 5);
+  assert.equal(lock.status, "exact-lighting-construction-specification-valid");
   assert.equal(lock.validatorCommit, validatorCommit);
   assert.equal(lock.specificationSha256, canonicalSha256(scene));
   assert.equal(lock.assetLedgerSha256, canonicalSha256(assetLedger));
@@ -306,6 +457,9 @@ test("schema v4 lock pins every canonical and raw contract digest", async () => 
   assert.equal(lock.mediaSurfaceConstructionRawSha256, sha256(mediaSurfaceConstructionText));
   assert.equal(lock.exteriorConstructionSha256, canonicalSha256(exteriorConstruction));
   assert.equal(lock.exteriorConstructionRawSha256, sha256(exteriorConstructionText));
+  assert.equal(lock.lightingConstructionSha256, canonicalSha256(lightingConstruction));
+  assert.equal(lock.lightingConstructionRawSha256, sha256(lightingConstructionText));
+  assert.equal(lock.styleBibleSha256, styleBibleSha256);
   assert.deepEqual({
     assets: lock.assetRecordCount,
     families: lock.familyCount,
@@ -314,7 +468,7 @@ test("schema v4 lock pins every canonical and raw contract digest", async () => 
     components: lock.componentCount,
     materials: lock.materialCount,
     surfaces: lock.surfaceCount
-  }, { assets: 4, families: 4, parts: 38, overrides: 2, components: 11, materials: 5, surfaces: 2 });
+  }, { assets: 5, families: 4, parts: 38, overrides: 2, components: 11, materials: 5, surfaces: 2 });
   assert.equal(lock.resolvedComponentCount, 11);
   assert.equal(lock.resolvedMaterialCount, 4);
   assert.equal(lock.resolvedSurfaceCount, 2);
@@ -341,15 +495,27 @@ test("schema v4 lock pins every canonical and raw contract digest", async () => 
     objectNamePattern: "exterior.<objectId>",
     boundsM: { min: { x: -5, y: -0.18, z: 2.6 }, max: { x: 5, y: 3, z: 12.6 } }
   });
+  assert.equal(lock.lightCount, 3);
+  assert.equal(lock.resolvedLightCount, 3);
+  assert.equal(lock.lightingObjectNamePattern, "light.<sceneLightId>");
+  assert.deepEqual(lock.resolvedIntensityOutputs, [
+    { sceneLightId: "window-daylight", value: 2.5, unit: "watt-per-square-meter" },
+    { sceneLightId: "ceiling-fill", value: 18, unit: "watt" },
+    { sceneLightId: "table-pendant", value: 32, unit: "watt" }
+  ]);
+  assert.deepEqual(lock.firstViewAcceptance, lightingConstruction.firstViewAcceptance);
 });
 
-test("all release, compiler, preview, and publication boundaries remain negative", async () => {
+test("all release, compiler, render, preview, and publication boundaries remain negative", async () => {
   const lock = await json("source/scene-contract-lock.json");
   assert.deepEqual(lock.boundaries, {
     releaseAssetsApproved: false,
     componentsCompiled: false,
     mediaSurfacesCompiled: false,
     exteriorCompiled: false,
+    lightingCompiled: false,
+    firstViewRendered: false,
+    firstViewAcceptanceVerified: false,
     finalCandidateGlbVerified: false,
     sceneBinaryCreated: false,
     previewBinaryIncluded: false,

@@ -3,11 +3,11 @@
   "sceneId": "warm-modern-meeting-room-candidate-01",
   "generator": {
     "repository": "vrata-labs/warm-modern-meeting-room-scene-factory",
-    "commit": "156bbc3b3e15f8d24ee3d60ee01f6f4ac2c91de2",
+    "commit": "ec0a8fb118ef9c5589ebb0bd4a9b9047616a56c2",
     "blenderVersion": "4.5.12 LTS",
     "blenderBuildHash": "84afd5f785f7",
     "seed": 42,
-    "acceptedInputSha256": ["978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a", "f32327442d015f4c89942bf752e959d6c0abc24613c72f32a8ba4c2b2b29d5d1", "0bdf11ca588d700c8a721d60cb503215c29ce021b48708302b8b9da45ec1036b", "54a9e7b3b20c94844380c524443005006225eccbe22b4a57f4df50782e859639"]
+    "acceptedInputSha256": ["978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a", "f32327442d015f4c89942bf752e959d6c0abc24613c72f32a8ba4c2b2b29d5d1", "0bdf11ca588d700c8a721d60cb503215c29ce021b48708302b8b9da45ec1036b", "54a9e7b3b20c94844380c524443005006225eccbe22b4a57f4df50782e859639", "ecb7c8da21191c2a9f893c0975de3bf2b8187cf6cd8a711bb3bb2b71f3610cad"]
   },
   "room": {
     "widthM": 7,
@@ -58,6 +58,7 @@
   ],
   "lighting": [
     { "id": "window-daylight", "kind": "daylight", "position": { "x": 0, "y": 2.5, "z": 2.4 }, "temperatureK": 6500, "intensityLumens": 9000, "intendedContribution": "soft directional daylight through the main window" },
+    { "id": "ceiling-fill", "kind": "spot", "position": { "x": 1.5, "y": 2.95, "z": -1 }, "temperatureK": 2900, "intensityLumens": 1800, "intendedContribution": "warm architectural fill for entrance and west display" },
     { "id": "table-pendant", "kind": "pendant", "position": { "x": -0.45, "y": 2.55, "z": 0.05 }, "temperatureK": 2900, "intensityLumens": 3200, "intendedContribution": "warm task light over the conference table" }
   ],
   "exterior": { "strategy": "project-authored-geometry", "windowOpeningId": "main-window", "sourceRecordIds": ["asset-exterior-constructions-project"] },

@@ -15,6 +15,8 @@ IDs to exact purpose, pixel dimensions, front-face, and input semantics while
 leaving physical dimensions, transforms, and yaw solely in `scene-spec.json`.
 `exterior-constructions.json` records the project-authored north-window ground,
 planted vegetation, middle-distance context, support graph, and scalar materials.
-`scene-contract-lock.json` binds the exact Scene Factory validator commit and
-the canonical and raw source hashes for all three construction contracts. None of
-these records approves future release assets or publication.
+`lighting-constructions.json` records the exact three-light order, scene-to-Blender
+emitter mappings, and deterministic entry-view acceptance policy without compiling
+or rendering lighting. `scene-contract-lock.json` binds the exact Scene Factory
+validator commit and the canonical and raw source hashes for all four construction
+contracts. None of these records approves future release assets or publication.
