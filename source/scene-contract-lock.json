@@ -4,7 +4,7 @@
   "sceneId": "warm-modern-meeting-room-candidate-01",
   "validatorRepository": "vrata-labs/warm-modern-meeting-room-scene-factory",
   "validatorCommit": "ec0a8fb118ef9c5589ebb0bd4a9b9047616a56c2",
-  "specificationSha256": "09daa22e838269f557ac3d1364048599d442fb4782eec4816b23587662152a52",
+  "specificationSha256": "7867defa7627115c756ceda215e4a176473f13ec841a7b10b90e7dd17159aad2",
   "assetLedgerSha256": "31451ef5d098c9557e179684af966270410ecce96548c8433554d9ee96b936bb",
   "generationLedgerSha256": "42d49a3ad4f0f2a0b6f490461a30ed27a904396d51c34c9742862e02ba818930",
   "componentConstructionSha256": "a28310aa7806fb05b8b08087a8b13de900498c3a12dbc6c3e0a5cc77ae7a3709",
@@ -46,9 +46,9 @@
   "resolvedLightCount": 3,
   "lightingObjectNamePattern": "light.<sceneLightId>",
   "resolvedIntensityOutputs": [
-    { "sceneLightId": "window-daylight", "value": 2.5, "unit": "watt-per-square-meter" },
-    { "sceneLightId": "ceiling-fill", "value": 18, "unit": "watt" },
-    { "sceneLightId": "table-pendant", "value": 32, "unit": "watt" }
+    { "sceneLightId": "window-daylight", "value": 25, "unit": "watt-per-square-meter" },
+    { "sceneLightId": "ceiling-fill", "value": 180, "unit": "watt" },
+    { "sceneLightId": "table-pendant", "value": 320, "unit": "watt" }
   ],
   "firstViewAcceptance": {
     "reviewViewId": "entry",

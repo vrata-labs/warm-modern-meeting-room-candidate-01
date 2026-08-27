@@ -363,9 +363,9 @@ test("scene binds components, materials, and accepted inputs to project-authored
     lightingConstructionRawSha256
   ]);
   assert.deepEqual(scene.lighting, [
-    { id: "window-daylight", kind: "daylight", position: { x: 0, y: 2.5, z: 2.4 }, temperatureK: 6500, intensityLumens: 9000, intendedContribution: "soft directional daylight through the main window" },
-    { id: "ceiling-fill", kind: "spot", position: { x: 1.5, y: 2.95, z: -1 }, temperatureK: 2900, intensityLumens: 1800, intendedContribution: "warm architectural fill for entrance and west display" },
-    { id: "table-pendant", kind: "pendant", position: { x: -0.45, y: 2.55, z: 0.05 }, temperatureK: 2900, intensityLumens: 3200, intendedContribution: "warm task light over the conference table" }
+    { id: "window-daylight", kind: "daylight", position: { x: 0, y: 2.5, z: 2.4 }, temperatureK: 6500, intensityLumens: 90000, intendedContribution: "soft directional daylight through the main window" },
+    { id: "ceiling-fill", kind: "spot", position: { x: 1.5, y: 2.95, z: -1 }, temperatureK: 2900, intensityLumens: 18000, intendedContribution: "warm architectural fill for entrance and west display" },
+    { id: "table-pendant", kind: "pendant", position: { x: -0.45, y: 2.55, z: 0.05 }, temperatureK: 2900, intensityLumens: 32000, intendedContribution: "warm task light over the conference table" }
   ]);
   assert.ok(scene.components.every(({ sourceRecordId }) => sourceRecordId === "asset-component-constructions-project"));
   assert.ok(scene.components.every(({ generationRecordId }) => generationRecordId === null));
@@ -499,9 +499,9 @@ test("schema v5 lock pins every canonical and raw contract digest and lighting r
   assert.equal(lock.resolvedLightCount, 3);
   assert.equal(lock.lightingObjectNamePattern, "light.<sceneLightId>");
   assert.deepEqual(lock.resolvedIntensityOutputs, [
-    { sceneLightId: "window-daylight", value: 2.5, unit: "watt-per-square-meter" },
-    { sceneLightId: "ceiling-fill", value: 18, unit: "watt" },
-    { sceneLightId: "table-pendant", value: 32, unit: "watt" }
+    { sceneLightId: "window-daylight", value: 25, unit: "watt-per-square-meter" },
+    { sceneLightId: "ceiling-fill", value: 180, unit: "watt" },
+    { sceneLightId: "table-pendant", value: 320, unit: "watt" }
   ]);
   assert.deepEqual(lock.firstViewAcceptance, lightingConstruction.firstViewAcceptance);
 });
