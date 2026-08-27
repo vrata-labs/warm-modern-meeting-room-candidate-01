@@ -12,7 +12,7 @@ import validator from "gltf-validator";
 const root = resolve(import.meta.dirname, "..");
 const requiredReleaseFiles = ["LICENSES.md", "preview.webp", "scene.glb", "scene.json"];
 const execFileAsync = promisify(execFile);
-const projectOwnedLicenseSha256 = "772942feac63365171b7a5f1f0cfb605d953b236ac652d29aee4d5af47811a44";
+const projectOwnedLicenseSha256 = "56be457108896a56b706ffcd10d7e1e45778cb33812d98fea6979eb5539fb490";
 
 function assert(condition, code) {
   if (!condition) throw new Error(code);
@@ -73,12 +73,14 @@ const sceneText = await readFile(join(root, "source/scene-spec.json"), "utf8");
 const componentConstructionText = await readFile(join(root, "source/component-constructions.json"), "utf8");
 const mediaSurfaceConstructionText = await readFile(join(root, "source/media-surface-constructions.json"), "utf8");
 const exteriorConstructionText = await readFile(join(root, "source/exterior-constructions.json"), "utf8");
+const lightingConstructionText = await readFile(join(root, "source/lighting-constructions.json"), "utf8");
 const assetLedgerText = await readFile(join(root, "provenance/asset-ledger.json"), "utf8");
 const generationLedgerText = await readFile(join(root, "provenance/generation-ledger.json"), "utf8");
 const sceneSpec = JSON.parse(sceneText);
 const componentConstruction = JSON.parse(componentConstructionText);
 const mediaSurfaceConstruction = JSON.parse(mediaSurfaceConstructionText);
 const exteriorConstruction = JSON.parse(exteriorConstructionText);
+const lightingConstruction = JSON.parse(lightingConstructionText);
 const assetLedger = JSON.parse(assetLedgerText);
 const generationLedger = JSON.parse(generationLedgerText);
 const sceneContractLock = await json(join(root, "source/scene-contract-lock.json"));
@@ -130,11 +132,18 @@ assert(exteriorConstruction.sourceRecordId === "asset-exterior-constructions-pro
 assert(exteriorConstruction.strategy === sceneSpec.exterior.strategy
   && exteriorConstruction.windowOpeningId === sceneSpec.exterior.windowOpeningId
   && JSON.stringify(sceneSpec.exterior.sourceRecordIds) === JSON.stringify([exteriorConstruction.sourceRecordId]), "invalid_exterior_scene_binding");
+assert(lightingConstructionText === `${JSON.stringify(lightingConstruction, null, 2)}\n`, "lighting_construction_encoding_noncanonical");
+assert(lightingConstruction.sceneId === config.sceneId, "invalid_lighting_construction_identity");
+assert(lightingConstruction.sourceRecordId === "asset-lighting-constructions-project", "invalid_lighting_construction_source");
+assert(lightingConstruction.styleBibleSha256 === "d8147f9495fb8d2cb50bbccf6849cf272b30b662bffb985b6e46e3c604384656", "invalid_lighting_style_bible_digest");
+assert(JSON.stringify(sceneSpec.lighting.map(({ id }) => id)) === JSON.stringify(["window-daylight", "ceiling-fill", "table-pendant"]), "invalid_scene_lighting_order");
+assert(JSON.stringify(lightingConstruction.lights.map(({ sceneLightId }) => sceneLightId)) === JSON.stringify(sceneSpec.lighting.map(({ id }) => id)), "invalid_lighting_construction_order");
 assert(JSON.stringify(sceneSpec.generator.acceptedInputSha256) === JSON.stringify([
   "978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a",
   sceneContractLock.componentConstructionRawSha256,
   sceneContractLock.mediaSurfaceConstructionRawSha256,
-  sceneContractLock.exteriorConstructionRawSha256
+  sceneContractLock.exteriorConstructionRawSha256,
+  sceneContractLock.lightingConstructionRawSha256
 ]), "invalid_generator_accepted_inputs");
 assert(sceneSpec.materialRecipes?.length === 5, "invalid_candidate_material_count");
 assert(sceneSpec.materialRecipes.every(({ sourceRecordId }) => sourceRecordId === componentConstruction.materialSourceRecordId), "invalid_component_material_provenance_binding");
@@ -147,7 +156,7 @@ assert(JSON.stringify(sceneSpec.materialRecipes.find(({ id }) => id === "muted-g
   textureScaleM: 0.003,
   sourceRecordId: "asset-layout-project"
 }), "invalid_muted_grey_green_material");
-assert(assetLedger.sceneId === config.sceneId && assetLedger.records?.length === 4, "invalid_candidate_asset_ledger");
+assert(assetLedger.sceneId === config.sceneId && assetLedger.records?.length === 5, "invalid_candidate_asset_ledger");
 assert(generationLedger.sceneId === config.sceneId && generationLedger.records?.length === 0, "invalid_candidate_generation_ledger");
 assertExactKeys(sceneContractLock, [
   "schemaVersion", "status", "sceneId", "validatorRepository", "validatorCommit",
@@ -155,23 +164,26 @@ assertExactKeys(sceneContractLock, [
   "componentConstructionSha256", "componentConstructionRawSha256",
   "mediaSurfaceConstructionSha256", "mediaSurfaceConstructionRawSha256",
   "exteriorConstructionSha256", "exteriorConstructionRawSha256",
+  "lightingConstructionSha256", "lightingConstructionRawSha256", "styleBibleSha256",
   "assetRecordCount", "generationRecordCount", "familyCount", "partCount",
   "overrideCount", "componentCount", "resolvedComponentCount", "materialCount",
   "resolvedMaterialCount", "seatCount", "minimumRouteWidthM", "objectNamePattern",
   "surfaceCount", "resolvedSurfaceCount", "representation", "exteriorObjectCount",
   "exteriorResolvedObjectCount", "exteriorMaterialCount", "exteriorRoleCount",
   "exteriorStrategy", "exteriorWindowOpeningId", "exteriorObjectNamePattern",
-  "exteriorBoundsM", "boundaries"
+  "exteriorBoundsM", "lightCount", "resolvedLightCount", "lightingObjectNamePattern",
+  "resolvedIntensityOutputs", "firstViewAcceptance", "boundaries"
 ], "invalid_scene_contract_lock_keys");
 assertExactKeys(sceneContractLock.boundaries, [
   "releaseAssetsApproved", "componentsCompiled", "mediaSurfacesCompiled",
-  "exteriorCompiled", "finalCandidateGlbVerified", "sceneBinaryCreated",
-  "previewBinaryIncluded", "publicationReady"
+  "exteriorCompiled", "lightingCompiled", "firstViewRendered",
+  "firstViewAcceptanceVerified", "finalCandidateGlbVerified",
+  "sceneBinaryCreated", "previewBinaryIncluded", "publicationReady"
 ], "invalid_scene_contract_boundary_keys");
-assert(sceneContractLock.schemaVersion === 4
-  && sceneContractLock.status === "exact-exterior-construction-specification-valid"
+assert(sceneContractLock.schemaVersion === 5
+  && sceneContractLock.status === "exact-lighting-construction-specification-valid"
   && sceneContractLock.validatorRepository === "vrata-labs/warm-modern-meeting-room-scene-factory"
-  && sceneContractLock.validatorCommit === "156bbc3b3e15f8d24ee3d60ee01f6f4ac2c91de2", "invalid_scene_contract_lock");
+  && sceneContractLock.validatorCommit === "ec0a8fb118ef9c5589ebb0bd4a9b9047616a56c2", "invalid_scene_contract_lock");
 assert(sceneContractLock.specificationSha256 === canonicalSha256(sceneSpec), "scene_specification_digest_drift");
 assert(sceneContractLock.assetLedgerSha256 === canonicalSha256(assetLedger), "asset_ledger_digest_drift");
 assert(sceneContractLock.generationLedgerSha256 === canonicalSha256(generationLedger), "generation_ledger_digest_drift");
@@ -181,6 +193,9 @@ assert(sceneContractLock.mediaSurfaceConstructionSha256 === canonicalSha256(medi
 assert(sceneContractLock.mediaSurfaceConstructionRawSha256 === (await fileRecord(join(root, "source/media-surface-constructions.json"))).sha256, "media_surface_construction_raw_digest_drift");
 assert(sceneContractLock.exteriorConstructionSha256 === canonicalSha256(exteriorConstruction), "exterior_construction_digest_drift");
 assert(sceneContractLock.exteriorConstructionRawSha256 === (await fileRecord(join(root, "source/exterior-constructions.json"))).sha256, "exterior_construction_raw_digest_drift");
+assert(sceneContractLock.lightingConstructionSha256 === canonicalSha256(lightingConstruction), "lighting_construction_digest_drift");
+assert(sceneContractLock.lightingConstructionRawSha256 === (await fileRecord(join(root, "source/lighting-constructions.json"))).sha256, "lighting_construction_raw_digest_drift");
+assert(sceneContractLock.styleBibleSha256 === lightingConstruction.styleBibleSha256, "lighting_style_bible_digest_drift");
 assert(sceneContractLock.assetRecordCount === assetLedger.records.length
   && sceneContractLock.generationRecordCount === generationLedger.records.length
   && sceneContractLock.familyCount === componentConstruction.families.length
@@ -201,14 +216,19 @@ assert(sceneContractLock.assetRecordCount === assetLedger.records.length
   && sceneContractLock.exteriorStrategy === exteriorConstruction.strategy
   && sceneContractLock.exteriorWindowOpeningId === exteriorConstruction.windowOpeningId
   && sceneContractLock.exteriorObjectNamePattern === "exterior.<objectId>"
-  && stableJson(sceneContractLock.exteriorBoundsM) === stableJson(exteriorConstruction.boundsM), "scene_contract_count_drift");
+  && stableJson(sceneContractLock.exteriorBoundsM) === stableJson(exteriorConstruction.boundsM)
+  && sceneContractLock.lightCount === lightingConstruction.lights.length
+  && sceneContractLock.resolvedLightCount === sceneSpec.lighting.length
+  && sceneContractLock.lightingObjectNamePattern === "light.<sceneLightId>"
+  && stableJson(sceneContractLock.firstViewAcceptance) === stableJson(lightingConstruction.firstViewAcceptance), "scene_contract_count_drift");
 assert(Object.values(sceneContractLock.boundaries ?? {}).every((value) => value === false), "scene_contract_release_boundaries_must_remain_false");
 
 const expectedAssetSources = new Map([
-  ["asset-layout-project", { repositoryPath: "source/concept-selection.json", sha256: "978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a" }],
-  ["asset-component-constructions-project", { repositoryPath: "source/component-constructions.json", sha256: sceneContractLock.componentConstructionRawSha256 }],
-  ["asset-media-surface-constructions-project", { repositoryPath: "source/media-surface-constructions.json", sha256: sceneContractLock.mediaSurfaceConstructionRawSha256 }],
-  ["asset-exterior-constructions-project", { repositoryPath: "source/exterior-constructions.json", sha256: sceneContractLock.exteriorConstructionRawSha256 }]
+  ["asset-layout-project", { repositoryPath: "source/concept-selection.json", sha256: "978d0c7d75dd73d9c4d4419daa2f1530b0fdfac26c0eee1bcd7ef4e76501272a", acquiredOn: "2026-08-24" }],
+  ["asset-component-constructions-project", { repositoryPath: "source/component-constructions.json", sha256: sceneContractLock.componentConstructionRawSha256, acquiredOn: "2026-08-25" }],
+  ["asset-media-surface-constructions-project", { repositoryPath: "source/media-surface-constructions.json", sha256: sceneContractLock.mediaSurfaceConstructionRawSha256, acquiredOn: "2026-08-25" }],
+  ["asset-exterior-constructions-project", { repositoryPath: "source/exterior-constructions.json", sha256: sceneContractLock.exteriorConstructionRawSha256, acquiredOn: "2026-08-26" }],
+  ["asset-lighting-constructions-project", { repositoryPath: "source/lighting-constructions.json", sha256: sceneContractLock.lightingConstructionRawSha256, acquiredOn: "2026-08-27" }]
 ]);
 assert(JSON.stringify(assetLedger.records.map(({ id }) => id).sort()) === JSON.stringify([...expectedAssetSources.keys()].sort()), "candidate_asset_record_set_drift");
 for (const record of assetLedger.records) {
@@ -218,6 +238,7 @@ for (const record of assetLedger.records) {
     && record.source.classification === "project-authored"
     && record.source.publicUrl === null
     && record.source.repositoryPath === expectedSource.repositoryPath, `asset_source_provenance_drift:${record.id}`);
+  assert(record.authorProvider === "project-team" && record.acquiredOn === expectedSource.acquiredOn, `asset_source_authorship_drift:${record.id}`);
   const sourceRecord = await fileRecord(join(root, record.source.repositoryPath));
   assert(sourceRecord.sha256 === expectedSource.sha256 && sourceRecord.sha256 === record.originalSha256, `asset_source_digest_drift:${record.id}`);
   assert(JSON.stringify(record.license) === JSON.stringify({
@@ -235,6 +256,9 @@ for (const record of assetLedger.records) {
     optimization: true,
     redistribution: true
   }), `asset_allowed_use_drift:${record.id}`);
+  assert(JSON.stringify(record.modifications) === "[]"
+    && JSON.stringify(record.outputSha256) === "[]"
+    && record.attribution === null, `asset_source_output_drift:${record.id}`);
 }
 const projectOwnedLicense = await fileRecord(join(root, "provenance/licenses/project-owned.txt"));
 assert(projectOwnedLicense.sha256 === projectOwnedLicenseSha256, "project_owned_license_digest_drift");
@@ -244,7 +268,12 @@ const { stdout: sceneFactoryHead } = await execFileAsync("git", ["-C", sceneFact
 assert(sceneFactoryHead.trim() === sceneContractLock.validatorCommit, "scene_factory_checkout_commit_mismatch");
 const { stdout: sceneFactoryStatus } = await execFileAsync("git", ["-C", sceneFactoryDir, "status", "--porcelain", "--untracked-files=no"]);
 assert(sceneFactoryStatus === "", "scene_factory_checkout_tracked_bytes_modified");
-const { parseComponentConstructionContract, parseExteriorConstructionContract, parseMediaSurfaceConstructionContract } = await import(pathToFileURL(join(sceneFactoryDir, "compiler/scene-contract.mjs")).href);
+const {
+  parseComponentConstructionContract,
+  parseExteriorConstructionContract,
+  parseLightingConstructionContract,
+  parseMediaSurfaceConstructionContract
+} = await import(pathToFileURL(join(sceneFactoryDir, "compiler/scene-contract.mjs")).href);
 const componentReport = parseComponentConstructionContract({ sceneText, assetLedgerText, generationLedgerText, componentConstructionText });
 assertExactKeys(componentReport, [
   "status", "sceneId", "specificationSha256", "assetLedgerSha256", "generationLedgerSha256",
@@ -337,6 +366,52 @@ for (const key of ["exteriorCompiled", "finalCandidateGlbVerified", "publication
 }
 for (const key of ["sceneId", "specificationSha256", "assetLedgerSha256", "generationLedgerSha256", "assetRecordCount", "generationRecordCount", "componentCount", "seatCount"]) {
   assert(componentReport[key] === exteriorReport[key] && mediaSurfaceReport[key] === exteriorReport[key], `scene_contract_all_reports_drift:${key}`);
+}
+
+const lightingReport = parseLightingConstructionContract({ sceneText, assetLedgerText, generationLedgerText, lightingConstructionText });
+assertExactKeys(lightingReport, [
+  "status", "sceneId", "specificationSha256", "assetLedgerSha256", "generationLedgerSha256",
+  "assetRecordCount", "generationRecordCount", "componentCount", "seatCount",
+  "lightingConstructionSha256", "lightingConstructionRawSha256", "lightCount",
+  "resolvedLightCount", "objectNamePattern", "resolvedIntensityOutputs",
+  "firstViewAcceptance", "boundaries"
+], "lighting_contract_report_keys_drift");
+assertExactKeys(lightingReport.boundaries, [
+  "lightingSpecified", "firstViewAcceptanceSpecified", "lightingCompiled",
+  "firstViewRendered", "firstViewAcceptanceVerified", "finalCandidateGlbVerified",
+  "publicationReady"
+], "lighting_contract_report_boundary_keys_drift");
+assert(lightingReport.status === "stage3-lighting-construction-contract-valid", "lighting_contract_report_status_drift");
+for (const [reportKey, lockKey] of [
+  ["sceneId", "sceneId"],
+  ["specificationSha256", "specificationSha256"],
+  ["assetLedgerSha256", "assetLedgerSha256"],
+  ["generationLedgerSha256", "generationLedgerSha256"],
+  ["assetRecordCount", "assetRecordCount"],
+  ["generationRecordCount", "generationRecordCount"],
+  ["componentCount", "componentCount"],
+  ["seatCount", "seatCount"],
+  ["lightingConstructionSha256", "lightingConstructionSha256"],
+  ["lightingConstructionRawSha256", "lightingConstructionRawSha256"],
+  ["lightCount", "lightCount"],
+  ["resolvedLightCount", "resolvedLightCount"],
+  ["objectNamePattern", "lightingObjectNamePattern"]
+]) assert(lightingReport[reportKey] === sceneContractLock[lockKey], `lighting_contract_report_drift:${reportKey}`);
+assert(stableJson(lightingReport.resolvedIntensityOutputs) === stableJson(sceneContractLock.resolvedIntensityOutputs), "lighting_contract_intensity_outputs_drift");
+assert(stableJson(lightingReport.firstViewAcceptance) === stableJson(sceneContractLock.firstViewAcceptance), "lighting_contract_first_view_acceptance_drift");
+assert(lightingReport.boundaries.lightingSpecified === true, "scene_contract_lighting_not_specified");
+assert(lightingReport.boundaries.firstViewAcceptanceSpecified === true, "scene_contract_first_view_acceptance_not_specified");
+for (const key of ["lightingCompiled", "firstViewRendered", "firstViewAcceptanceVerified", "finalCandidateGlbVerified", "publicationReady"]) {
+  assert(lightingReport.boundaries[key] === sceneContractLock.boundaries[key], `lighting_contract_report_boundary_drift:${key}`);
+}
+
+const commonReportKeys = [
+  "sceneId", "specificationSha256", "assetLedgerSha256", "generationLedgerSha256",
+  "assetRecordCount", "generationRecordCount", "componentCount", "seatCount"
+];
+const constructionReports = [componentReport, mediaSurfaceReport, exteriorReport, lightingReport];
+for (const key of commonReportKeys) {
+  assert(constructionReports.every((report) => report[key] === constructionReports[0][key]), `scene_contract_all_reports_drift:${key}`);
 }
 
 const releaseKeys = new Set();

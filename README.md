@@ -31,6 +31,7 @@ source/scene-spec.json
 source/component-constructions.json
 source/media-surface-constructions.json
 source/exterior-constructions.json
+source/lighting-constructions.json
 source/scene-contract-lock.json
 provenance/asset-ledger.json
 provenance/generation-ledger.json
@@ -57,12 +58,16 @@ must contain exactly `scene.json`, `scene.glb`, `preview.webp`, and
 `LICENSES.md`, and must satisfy the eight-seat review contract.
 
 The current repository state is an exact source-only component, media-surface,
-and exterior specification. It contains four construction families resolving to
-38 component parts, two media surfaces bound to platform-owned runtime planes,
-and four project-authored exterior volumes with three scalar materials. Physical
-surface dimensions, positions, and yaw remain solely in `source/scene-spec.json`.
-The exterior source binds the north window to nearby ground, one planted hedge,
-and one restrained middle-distance context mass. The contract is validated by
-the exact Scene Factory commit recorded in `source/scene-contract-lock.json`. No
-compiler, release bundle, preview binary, or production-track mapping exists,
-and project-authored inputs remain disallowed for production.
+exterior, and lighting specification. It contains four construction families
+resolving to 38 component parts, two media surfaces bound to platform-owned
+runtime planes, four project-authored exterior volumes with three scalar
+materials, and three resolved lighting constructions. Physical surface
+dimensions, positions, and yaw remain solely in `source/scene-spec.json`. The
+exterior source binds the north window to nearby ground, one planted hedge, and
+one restrained middle-distance context mass. The lighting source specifies the
+daylight, architectural fill, pendant emitter mappings, and deterministic entry
+view acceptance policy; it does not compile lighting, render that view, or claim
+acceptance. The contract is validated by the exact Scene Factory commit recorded
+in `source/scene-contract-lock.json`. No compiler, release bundle, preview binary,
+or production-track mapping exists, and project-authored inputs remain disallowed
+for production.

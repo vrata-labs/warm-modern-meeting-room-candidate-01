@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "sourceRecordId": "asset-lighting-constructions-project",
+  "styleBibleSha256": "d8147f9495fb8d2cb50bbccf6849cf272b30b662bffb985b6e46e3c604384656",
+  "lights": [
+    {
+      "sceneLightId": "window-daylight",
+      "binding": {
+        "type": "opening",
+        "openingId": "main-window"
+      },
+      "emitter": {
+        "type": "directional",
+        "target": {
+          "x": -0.45,
+          "y": 1.2,
+          "z": 0.05
+        },
+        "rollRadians": 0,
+        "intensityMapping": {
+          "source": "scene-intensity-lumens",
+          "operation": "divide",
+          "divisor": 3600,
+          "outputUnit": "watt-per-square-meter"
+        },
+        "coordinateConversion": {
+          "id": "scene-y-up-to-blender-z-up-v1",
+          "blenderX": "scene-x",
+          "blenderY": "scene-z",
+          "blenderZ": "scene-y"
+        },
+        "orientationConvention": {
+          "forwardAxis": "local-negative-z",
+          "forwardTarget": "source-to-target",
+          "upAxis": "local-y",
+          "rollAxis": "local-negative-z",
+          "rollOrder": "after-target-alignment"
+        },
+        "angularDiameterDegrees": 5,
+        "angularDiameterMapping": {
+          "inputUnit": "degrees",
+          "operation": "multiply-by-pi-divide-by-180",
+          "blenderLightType": "SUN",
+          "blenderProperty": "angle",
+          "blenderUnit": "radians"
+        },
+        "colorSource": "scene-temperature-kelvin",
+        "kelvinConversion": "tanner-helland-2012-clamped-srgb-to-linear-v1",
+        "castShadow": true
+      }
+    },
+    {
+      "sceneLightId": "ceiling-fill",
+      "binding": {
+        "type": "room-surface",
+        "surface": "ceiling"
+      },
+      "emitter": {
+        "type": "spot",
+        "target": {
+          "x": -3.4,
+          "y": 1.55,
+          "z": 0.15
+        },
+        "rollRadians": 0,
+        "intensityMapping": {
+          "source": "scene-intensity-lumens",
+          "operation": "divide",
+          "divisor": 100,
+          "outputUnit": "watt"
+        },
+        "coordinateConversion": {
+          "id": "scene-y-up-to-blender-z-up-v1",
+          "blenderX": "scene-x",
+          "blenderY": "scene-z",
+          "blenderZ": "scene-y"
+        },
+        "orientationConvention": {
+          "forwardAxis": "local-negative-z",
+          "forwardTarget": "source-to-target",
+          "upAxis": "local-y",
+          "rollAxis": "local-negative-z",
+          "rollOrder": "after-target-alignment"
+        },
+        "rangeM": 8,
+        "rangeMapping": {
+          "useCustomDistanceProperty": "use_custom_distance",
+          "useCustomDistanceValue": true,
+          "cutoffDistanceProperty": "cutoff_distance",
+          "cutoffDistanceSource": "range-m"
+        },
+        "innerConeHalfAngleRadians": 0.7,
+        "outerConeHalfAngleRadians": 1.1,
+        "coneMapping": {
+          "angleConvention": "half-angles-radians",
+          "spotSizeProperty": "spot_size",
+          "spotSizeFormula": "two-times-outer-cone-half-angle",
+          "spotBlendProperty": "spot_blend",
+          "spotBlendFormula": "one-minus-inner-cone-half-angle-divided-by-outer-cone-half-angle"
+        },
+        "radiusM": 0.12,
+        "radiusMapping": {
+          "blenderProperty": "shadow_soft_size",
+          "source": "radius-m"
+        },
+        "colorSource": "scene-temperature-kelvin",
+        "kelvinConversion": "tanner-helland-2012-clamped-srgb-to-linear-v1",
+        "castShadow": true
+      }
+    },
+    {
+      "sceneLightId": "table-pendant",
+      "binding": {
+        "type": "component",
+        "componentId": "pendant-fixture"
+      },
+      "emitter": {
+        "type": "spot",
+        "target": {
+          "x": -0.45,
+          "y": 0.74,
+          "z": 0.05
+        },
+        "rollRadians": 0,
+        "intensityMapping": {
+          "source": "scene-intensity-lumens",
+          "operation": "divide",
+          "divisor": 100,
+          "outputUnit": "watt"
+        },
+        "coordinateConversion": {
+          "id": "scene-y-up-to-blender-z-up-v1",
+          "blenderX": "scene-x",
+          "blenderY": "scene-z",
+          "blenderZ": "scene-y"
+        },
+        "orientationConvention": {
+          "forwardAxis": "local-negative-z",
+          "forwardTarget": "source-to-target",
+          "upAxis": "local-y",
+          "rollAxis": "local-negative-z",
+          "rollOrder": "after-target-alignment"
+        },
+        "rangeM": 6,
+        "rangeMapping": {
+          "useCustomDistanceProperty": "use_custom_distance",
+          "useCustomDistanceValue": true,
+          "cutoffDistanceProperty": "cutoff_distance",
+          "cutoffDistanceSource": "range-m"
+        },
+        "innerConeHalfAngleRadians": 0.65,
+        "outerConeHalfAngleRadians": 1,
+        "coneMapping": {
+          "angleConvention": "half-angles-radians",
+          "spotSizeProperty": "spot_size",
+          "spotSizeFormula": "two-times-outer-cone-half-angle",
+          "spotBlendProperty": "spot_blend",
+          "spotBlendFormula": "one-minus-inner-cone-half-angle-divided-by-outer-cone-half-angle"
+        },
+        "radiusM": 0.08,
+        "radiusMapping": {
+          "blenderProperty": "shadow_soft_size",
+          "source": "radius-m"
+        },
+        "colorSource": "scene-temperature-kelvin",
+        "kelvinConversion": "tanner-helland-2012-clamped-srgb-to-linear-v1",
+        "castShadow": true
+      }
+    }
+  ],
+  "firstViewAcceptance": {
+    "reviewViewId": "entry",
+    "capture": {
+      "engine": "CYCLES",
+      "device": "CPU",
+      "projection": "perspective",
+      "fovAxis": "vertical",
+      "resolution": {
+        "widthPx": 960,
+        "heightPx": 540,
+        "pixelAspectRatio": 1
+      },
+      "samples": 64,
+      "seed": 42,
+      "adaptiveSampling": false,
+      "denoising": false,
+      "transparentBackground": false,
+      "world": {
+        "colorSrgb": "#000000",
+        "strength": 0
+      },
+      "colorManagement": {
+        "displayDevice": "sRGB",
+        "viewTransform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0,
+        "gamma": 1
+      },
+      "output": {
+        "format": "PNG",
+        "colorMode": "RGB",
+        "colorDepthBits": 8
+      }
+    },
+    "measurement": {
+      "metric": "display-srgb8-rec709-luma-v1",
+      "scope": "all-rendered-pixels",
+      "sampleEncoding": "display-srgb8-encoded-rgb-bytes",
+      "channelValueDomain": "integer-0-to-255",
+      "linearization": "none",
+      "integerArithmetic": {
+        "redWeight": 2126,
+        "greenWeight": 7152,
+        "blueWeight": 722,
+        "divisor": 10000,
+        "weightedNumerator": "2126-times-r-plus-7152-times-g-plus-722-times-b",
+        "averagePass": "sum-weighted-numerators-gte-average-minimum-times-divisor-times-pixel-count",
+        "darkPixel": "weighted-numerator-lt-dark-pixel-threshold-times-divisor",
+        "darkRatioPass": "dark-count-times-10-lte-pixel-count-times-7"
+      },
+      "darkPixelThreshold": 40
+    },
+    "criteria": {
+      "averageLuminanceMinimum": 40,
+      "darkPixelRatioMaximum": 0.7
+    }
+  }
+}
