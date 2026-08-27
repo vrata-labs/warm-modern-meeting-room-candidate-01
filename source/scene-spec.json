@@ -57,9 +57,9 @@
     { "id": "window-sill", "kind": "sill", "wall": "north", "profileId": "oak-trim-profile" }
   ],
   "lighting": [
-    { "id": "window-daylight", "kind": "daylight", "position": { "x": 0, "y": 2.5, "z": 2.4 }, "temperatureK": 6500, "intensityLumens": 9000, "intendedContribution": "soft directional daylight through the main window" },
-    { "id": "ceiling-fill", "kind": "spot", "position": { "x": 1.5, "y": 2.95, "z": -1 }, "temperatureK": 2900, "intensityLumens": 1800, "intendedContribution": "warm architectural fill for entrance and west display" },
-    { "id": "table-pendant", "kind": "pendant", "position": { "x": -0.45, "y": 2.55, "z": 0.05 }, "temperatureK": 2900, "intensityLumens": 3200, "intendedContribution": "warm task light over the conference table" }
+    { "id": "window-daylight", "kind": "daylight", "position": { "x": 0, "y": 2.5, "z": 2.4 }, "temperatureK": 6500, "intensityLumens": 90000, "intendedContribution": "soft directional daylight through the main window" },
+    { "id": "ceiling-fill", "kind": "spot", "position": { "x": 1.5, "y": 2.95, "z": -1 }, "temperatureK": 2900, "intensityLumens": 18000, "intendedContribution": "warm architectural fill for entrance and west display" },
+    { "id": "table-pendant", "kind": "pendant", "position": { "x": -0.45, "y": 2.55, "z": 0.05 }, "temperatureK": 2900, "intensityLumens": 32000, "intendedContribution": "warm task light over the conference table" }
   ],
   "exterior": { "strategy": "project-authored-geometry", "windowOpeningId": "main-window", "sourceRecordIds": ["asset-exterior-constructions-project"] },
   "components": [
