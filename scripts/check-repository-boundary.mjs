@@ -7,7 +7,16 @@ import { promisify } from "node:util";
 const root = resolve(import.meta.dirname, "..");
 const config = JSON.parse(await readFile(resolve(root, "scene-repository.json"), "utf8"));
 const forbiddenTopLevel = new Set(["compiler", "experiment", "lab", "schemas"]);
-const forbiddenSourceOnlyExtensions = new Set([".avif", ".blend", ".fbx", ".gif", ".glb", ".gltf", ".jpeg", ".jpg", ".png", ".svg", ".webp"]);
+const binaryExtensions = new Set([".avif", ".blend", ".fbx", ".gif", ".glb", ".gltf", ".jpeg", ".jpg", ".png", ".svg", ".webp"]);
+const allowedBinaryPaths = new Set([
+  "source/accepted-scene.blend",
+  "source/review/entry.webp",
+  "source/review/participant.webp",
+  "source/review/presenter.webp",
+  "source/review/diagonal-overview.webp",
+  `assets/scenes/${config.sceneId}/0.1.0/scene.glb`,
+  `assets/scenes/${config.sceneId}/0.1.0/preview.webp`
+]);
 const privatePreviewSha256 = new Set([
   "f52b3722e71dd231ebe80424f0411e9771670fa37aff01eebbce42ff7d4c0a21",
   "cd7456afb5c9c10ebf3d4a16fdb5173af2c68a9faf9ce2798ec8238e257309c7"
@@ -29,7 +38,7 @@ function isRasterPreview(bytes) {
 async function walk(directory) {
   const paths = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
-    if (entry.name === ".git" || entry.name === ".platform" || entry.name === ".scene-factory" || entry.name === "node_modules") continue;
+    if (entry.name === ".git" || entry.name === ".platform" || entry.name === ".scene-factory" || entry.name === "node_modules" || entry.name === "build") continue;
     const path = resolve(directory, entry.name);
     paths.push(path);
     if (entry.isDirectory()) paths.push(...await walk(path));
@@ -57,8 +66,8 @@ for (const path of await walk(root)) {
     if (error.code === "EISDIR") return null;
     throw error;
   });
-  if (bytes && (forbiddenSourceOnlyExtensions.has(extname(repositoryPath).toLowerCase()) || isRasterPreview(bytes))) {
-    throw new Error(`source_only_binary_forbidden:${repositoryPath}`);
+  if (bytes && (binaryExtensions.has(extname(repositoryPath).toLowerCase()) || isRasterPreview(bytes)) && !allowedBinaryPaths.has(repositoryPath)) {
+    throw new Error(`unapproved_binary_forbidden:${repositoryPath}`);
   }
   if (bytes) {
     const digest = createHash("sha256").update(bytes).digest("hex");

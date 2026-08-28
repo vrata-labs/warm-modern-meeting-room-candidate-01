@@ -54,13 +54,42 @@ test("repository is pinned to one neutral scene", async () => {
   assert.equal(config.reviewIdentity, "neutral-candidate-01");
 });
 
-test("source-only manifest remains empty and uses the platform validator lock", async () => {
+test("manifest records the accepted release and uses the platform validator lock", async () => {
   const config = await json("scene-repository.json");
   const manifest = await json("manifest.json");
   assert.equal(manifest.sceneId, config.sceneId);
   assert.equal(manifest.platformValidatorCommit, config.platformValidatorCommit);
-  assert.deepEqual(manifest.releases, []);
-  assert.deepEqual(await readdir(resolve(root, "assets/scenes/warm-modern-meeting-room-candidate-01")), [".gitkeep"]);
+  assert.equal(manifest.releases.length, 1);
+  assert.equal(manifest.releases[0].version, "0.1.0");
+  assert.equal(manifest.releases[0].files["scene.glb"].sha256, "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5");
+  assert.deepEqual((await readdir(resolve(root, "assets/scenes/warm-modern-meeting-room-candidate-01"))).sort(), [".gitkeep", "0.1.0"]);
+});
+
+test("accepted source, review evidence, rights, and deterministic release are locked", async () => {
+  const lock = await json("source/accepted-source-lock.json");
+  const ledger = await json("provenance/release-asset-ledger.json");
+  assert.equal(lock.status, "accepted-reproducible-source");
+  assert.equal(lock.acceptedOn, "2026-08-29");
+  assert.equal(lock.reproducibility.scope, "same-host-same-blender-binary-two-run");
+  assert.equal(lock.reproducibility.runs, 2);
+  assert.equal(lock.reproducibility.sha256, lock.release.glbSha256);
+  assert.deepEqual(lock.boundaries, {
+    visualAccepted: true,
+    rightsApproved: true,
+    acceptedSourceStored: true,
+    releaseGlbVerified: true,
+    publicationReady: false
+  });
+  assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.blendPath))), lock.acceptedSource.blendSha256);
+  assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.visualCompletionScriptPath))), lock.acceptedSource.visualCompletionScriptSha256);
+  assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.exportScriptPath))), lock.acceptedSource.exportScriptSha256);
+  assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.renderScriptPath))), lock.acceptedSource.renderScriptSha256);
+  assert.equal(sha256(await readFile(resolve(root, lock.release.path, "scene.glb"))), lock.release.glbSha256);
+  assert.equal(ledger.approval.decision, "approved");
+  assert.equal(ledger.allowedUse.production, true);
+  assert.equal(ledger.allowedUse.redistribution, true);
+  assert.equal(ledger.records.length, 17);
+  assert.equal(new Set(ledger.records.map(({ id }) => id)).size, 17);
 });
 
 test("approved concept remains private-preview and release bounded", async () => {
@@ -506,7 +535,7 @@ test("schema v5 lock pins every canonical and raw contract digest and lighting r
   assert.deepEqual(lock.firstViewAcceptance, lightingConstruction.firstViewAcceptance);
 });
 
-test("all release, compiler, render, preview, and publication boundaries remain negative", async () => {
+test("historical specification lock keeps its pre-release boundaries negative", async () => {
   const lock = await json("source/scene-contract-lock.json");
   assert.deepEqual(lock.boundaries, {
     releaseAssetsApproved: false,

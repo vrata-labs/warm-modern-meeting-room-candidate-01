@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.1.0",
+  "approval": {
+    "decision": "approved",
+    "approvedOn": "2026-08-29",
+    "ownerRole": "human-rights-owner",
+    "evidencePath": "provenance/rights-verdict-2026-08-29.md"
+  },
+  "upstreamLedgerPath": "provenance/asset-ledger.json",
+  "upstreamSourceRecordIds": [
+    "asset-layout-project",
+    "asset-component-constructions-project",
+    "asset-media-surface-constructions-project",
+    "asset-exterior-constructions-project",
+    "asset-lighting-constructions-project"
+  ],
+  "license": {
+    "name": "LicenseRef-Project-Owned-Release",
+    "reference": "provenance/licenses/project-owned-release.txt",
+    "commercialUse": true,
+    "redistribution": true,
+    "mlProcessing": true
+  },
+  "allowedUse": {
+    "staging": true,
+    "production": true,
+    "webRuntime": true,
+    "screenshots": true,
+    "optimization": true,
+    "redistribution": true
+  },
+  "reviewImageConversion": {
+    "sourceFormat": "PNG",
+    "outputFormat": "WebP",
+    "tool": "cwebp",
+    "version": "1.6.0",
+    "quality": 90
+  },
+  "records": [
+    {
+      "id": "asset-accepted-scene-source-project",
+      "kind": "project-authored-scene-source",
+      "repositoryPath": "source/accepted-scene.blend",
+      "originalSha256": "fbddeac0c0fc8e65f3beb736917574f9515116fdb4ef42e4a9cdaa7d10f12b16",
+      "outputSha256": ["bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-visual-completion-script-project",
+      "kind": "project-authored-authoring-script",
+      "repositoryPath": "source/visual-completion.py",
+      "originalSha256": "ad19cf4a99fce41ba88f53dd0a08ccc2e46252af256340e7ca32dc135d9494ca",
+      "outputSha256": [
+        "fbddeac0c0fc8e65f3beb736917574f9515116fdb4ef42e4a9cdaa7d10f12b16",
+        "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"
+      ],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-release-export-script-project",
+      "kind": "project-authored-build-script",
+      "repositoryPath": "source/export-release.py",
+      "originalSha256": "8cb8079da4c82eb1440262a1ca55293852ec4def3f94cf84628f21b373d3037d",
+      "outputSha256": ["bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-render-script-project",
+      "kind": "project-authored-build-script",
+      "repositoryPath": "source/render-review.py",
+      "originalSha256": "ad247836a9709283499a08ec50b56bfa6a39cfd6de078bf6a76d765011fd5575",
+      "outputSha256": [
+        "77e795fcd9844a29b88754290ba90832f10437c9dfe6d3188427f13672c7cad8",
+        "b2aefbab92b1de1538d3858716f15b45796302a9d7c48edbe0ab026a15d805e3",
+        "623da5d7e40836a6c92b0625a4f08b677bf9ddccbe944bc99a4419c818d61377",
+        "981c8828e3363b829c6769fe37a2023bbfdd3062b51eef026758f8003872daae"
+      ],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-mineral-plaster-project",
+      "kind": "project-authored-generated-texture",
+      "generatorPath": "source/visual-completion.py",
+      "acceptedContainerPath": "source/accepted-scene.blend",
+      "materialIds": ["material.mineral-plaster"],
+      "originalSha256": "c25ead50e2613b7dfc4a5f7f541d23114155e67fc3753b934a7c04016a85a2e1",
+      "outputSha256": ["bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-floor-oak-project",
+      "kind": "project-authored-generated-texture",
+      "generatorPath": "source/visual-completion.py",
+      "acceptedContainerPath": "source/accepted-scene.blend",
+      "materialIds": ["material.review-floor-oak"],
+      "originalSha256": "5d69649d20cb53d609ed34d8cf32806f9515db1ba53959e9fe1bf0700e572a4e",
+      "outputSha256": ["bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-warm-oak-project",
+      "kind": "project-authored-generated-texture",
+      "generatorPath": "source/visual-completion.py",
+      "acceptedContainerPath": "source/accepted-scene.blend",
+      "materialIds": ["material.warm-oak"],
+      "originalSha256": "eb58385c05b06991bd7738f3b723ecf622037b1d640566d347208c6de0d369b8",
+      "outputSha256": ["bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-graphite-metal-project",
+      "kind": "project-authored-generated-texture",
+      "generatorPath": "source/visual-completion.py",
+      "acceptedContainerPath": "source/accepted-scene.blend",
+      "materialIds": ["material.graphite-metal"],
+      "originalSha256": "7d7f592af4a8eaf9b31db26e93920bea4b9de1a89deb8e33747f41b1454d2bc4",
+      "outputSha256": ["bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-sand-fabric-project",
+      "kind": "project-authored-generated-texture",
+      "generatorPath": "source/visual-completion.py",
+      "acceptedContainerPath": "source/accepted-scene.blend",
+      "materialIds": ["material.sand-fabric"],
+      "originalSha256": "a932f8ba67e1e8f9fdef48f56879c730336b511fd48e2641435bef2e3dd6081b",
+      "outputSha256": ["bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-grey-green-fabric-project",
+      "kind": "project-authored-generated-texture",
+      "generatorPath": "source/visual-completion.py",
+      "acceptedContainerPath": "source/accepted-scene.blend",
+      "materialIds": ["material.muted-grey-green-fabric"],
+      "originalSha256": "b65b8a9d17d0935ed6d291fc6856cc77567f14a4cfa51c8b64bbc9242b101092",
+      "outputSha256": ["bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-exterior-graphite-project",
+      "kind": "project-authored-generated-texture",
+      "generatorPath": "source/visual-completion.py",
+      "acceptedContainerPath": "source/accepted-scene.blend",
+      "materialIds": ["material.exterior-graphite"],
+      "originalSha256": "780652403852087167094bcae93a65dd3ab7a1e58c8654fa9259861cab3937a8",
+      "outputSha256": ["bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-exterior-vegetation-project",
+      "kind": "project-authored-generated-texture",
+      "generatorPath": "source/visual-completion.py",
+      "acceptedContainerPath": "source/accepted-scene.blend",
+      "materialIds": ["material.exterior-vegetation"],
+      "originalSha256": "ec6276174fb420445d1d7cbd1a0738e195df069f0ca64b305ead4e9db9fbcae6",
+      "outputSha256": ["bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-ground-mineral-project",
+      "kind": "project-authored-generated-texture",
+      "generatorPath": "source/visual-completion.py",
+      "acceptedContainerPath": "source/accepted-scene.blend",
+      "materialIds": ["material.ground-mineral"],
+      "originalSha256": "ddf1e2f1157ba655343f4c52a0d7ca108461bb4fddc10400903331ed351545b6",
+      "outputSha256": ["bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-entry-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/review/entry.webp",
+      "originalSha256": "77e795fcd9844a29b88754290ba90832f10437c9dfe6d3188427f13672c7cad8",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-participant-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/review/participant.webp",
+      "originalSha256": "b2aefbab92b1de1538d3858716f15b45796302a9d7c48edbe0ab026a15d805e3",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-presenter-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/review/presenter.webp",
+      "originalSha256": "623da5d7e40836a6c92b0625a4f08b677bf9ddccbe944bc99a4419c818d61377",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-diagonal-overview-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/review/diagonal-overview.webp",
+      "originalSha256": "981c8828e3363b829c6769fe37a2023bbfdd3062b51eef026758f8003872daae",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    }
+  ]
+}

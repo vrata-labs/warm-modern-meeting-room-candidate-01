@@ -17,6 +17,12 @@ leaving physical dimensions, transforms, and yaw solely in `scene-spec.json`.
 planted vegetation, middle-distance context, support graph, and scalar materials.
 `lighting-constructions.json` records the exact three-light order, scene-to-Blender
 emitter mappings, and deterministic entry-view acceptance policy without compiling
-or rendering lighting. `scene-contract-lock.json` binds the exact Scene Factory
-validator commit and the canonical and raw source hashes for all four construction
-contracts. None of these records approves future release assets or publication.
+or rendering lighting. `scene-contract-lock.json` preserves that historical
+pre-release specification boundary and its negative publication claims.
+
+`accepted-scene.blend` is the visual- and rights-approved source of truth for release
+`0.1.0`. `visual-completion.py` records the scene-specific authoring pass;
+`export-release.py` deterministically exports the accepted Blend without embedded
+lights or cameras; `render-review.py` recreates the four semantic review views.
+`accepted-source-lock.json` pins their hashes, Blender toolchain, rights evidence,
+review images, release GLB, and same-host two-run byte-identity result.

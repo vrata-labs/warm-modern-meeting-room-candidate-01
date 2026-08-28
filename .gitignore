@@ -1,4 +1,5 @@
 node_modules/
+build/
 .platform/
 __pycache__/
 *.pyc
