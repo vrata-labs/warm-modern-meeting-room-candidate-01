@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.1.1",
+  "supersedes": "0.1.0",
+  "reason": "Release 0.1.0 copied semantic authoring-space z coordinates into Three.js runtime space after a Blender Y-up GLB export.",
+  "coordinateTransform": {
+    "x": "x",
+    "y": "y",
+    "z": "-z"
+  },
+  "correctedManifestFields": [
+    "spawnPoints[].position",
+    "anchors.seatAnchors[].position",
+    "mediaSurfaces[].transform"
+  ],
+  "unchangedReleaseFiles": {
+    "scene.glb": "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5",
+    "preview.webp": "77e795fcd9844a29b88754290ba90832f10437c9dfe6d3188427f13672c7cad8",
+    "LICENSES.md": "f4f7b3d2efcee8a69b66a9b2928bf8f302b3d7c70fbbe5d836d6e6815730068e"
+  },
+  "verification": {
+    "repositoryCoordinatesLocked": true,
+    "staging": "pending"
+  }
+}

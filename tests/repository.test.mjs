@@ -34,6 +34,10 @@ function canonicalSha256(value) {
   return sha256(stableJson(value));
 }
 
+function toRuntimePosition(position) {
+  return { x: position.x, y: position.y, z: -position.z };
+}
+
 function part(id, dimensions, position, bevelWidthM, materialSlotId) {
   const [widthM, heightM, depthM] = dimensions;
   const [x, y, z] = position;
@@ -54,15 +58,19 @@ test("repository is pinned to one neutral scene", async () => {
   assert.equal(config.reviewIdentity, "neutral-candidate-01");
 });
 
-test("manifest records the accepted release and uses the platform validator lock", async () => {
+test("manifest preserves the superseded release and selects the coordinate-corrected release", async () => {
   const config = await json("scene-repository.json");
   const manifest = await json("manifest.json");
   assert.equal(manifest.sceneId, config.sceneId);
   assert.equal(manifest.platformValidatorCommit, config.platformValidatorCommit);
-  assert.equal(manifest.releases.length, 1);
-  assert.equal(manifest.releases[0].version, "0.1.0");
-  assert.equal(manifest.releases[0].files["scene.glb"].sha256, "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5");
-  assert.deepEqual((await readdir(resolve(root, "assets/scenes/warm-modern-meeting-room-candidate-01"))).sort(), [".gitkeep", "0.1.0"]);
+  assert.deepEqual(manifest.releases.map(({ version }) => version), ["0.1.0", "0.1.1"]);
+  assert.deepEqual(manifest.releases.map(({ status, isCurrent }) => ({ status, isCurrent })), [
+    { status: "superseded", isCurrent: false },
+    { status: "staging-candidate", isCurrent: true }
+  ]);
+  assert.equal(manifest.releases[0].supersededBy, "0.1.1");
+  assert.ok(manifest.releases.every((release) => release.files["scene.glb"].sha256 === "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"));
+  assert.deepEqual((await readdir(resolve(root, "assets/scenes/warm-modern-meeting-room-candidate-01"))).sort(), [".gitkeep", "0.1.0", "0.1.1"]);
 });
 
 test("accepted source, review evidence, rights, and deterministic release are locked", async () => {
@@ -73,6 +81,8 @@ test("accepted source, review evidence, rights, and deterministic release are lo
   assert.equal(lock.reproducibility.scope, "same-host-same-blender-binary-two-run");
   assert.equal(lock.reproducibility.runs, 2);
   assert.equal(lock.reproducibility.sha256, lock.release.glbSha256);
+  assert.equal(lock.release.version, "0.1.1");
+  assert.equal(lock.runtimeCoordinates.transform, "x=x,y=y,z=-z");
   assert.deepEqual(lock.boundaries, {
     visualAccepted: true,
     rightsApproved: true,
@@ -85,11 +95,33 @@ test("accepted source, review evidence, rights, and deterministic release are lo
   assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.exportScriptPath))), lock.acceptedSource.exportScriptSha256);
   assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.renderScriptPath))), lock.acceptedSource.renderScriptSha256);
   assert.equal(sha256(await readFile(resolve(root, lock.release.path, "scene.glb"))), lock.release.glbSha256);
+  assert.equal(sha256(await readFile(resolve(root, lock.release.path, "scene.json"))), lock.release.sceneManifestSha256);
   assert.equal(ledger.approval.decision, "approved");
   assert.equal(ledger.allowedUse.production, true);
   assert.equal(ledger.allowedUse.redistribution, true);
   assert.equal(ledger.records.length, 17);
   assert.equal(new Set(ledger.records.map(({ id }) => id)).size, 17);
+});
+
+test("current release converts semantic z coordinates into Blender Y-up runtime space", async () => {
+  const manifest = await json("manifest.json");
+  const spec = await json("source/scene-spec.json");
+  const correction = await json("provenance/runtime-coordinate-correction-0.1.1.json");
+  const current = manifest.releases.find(({ isCurrent }) => isCurrent);
+  const scene = await json(`${current.releasePath}/scene.json`);
+
+  assert.deepEqual(correction.coordinateTransform, { x: "x", y: "y", z: "-z" });
+  assert.equal(correction.verification.repositoryCoordinatesLocked, true);
+  assert.equal(correction.verification.staging, "pending");
+  assert.deepEqual(scene.spawnPoints[0].position, toRuntimePosition(spec.spawn.position));
+  assert.deepEqual(
+    scene.anchors.seatAnchors.map(({ id, position, yaw, seatHeight, radius }) => ({ id, position, yaw, seatHeight, radius })),
+    spec.seats.map(({ id, position, yaw, seatHeight, radius }) => ({ id, position: toRuntimePosition(position), yaw, seatHeight, radius }))
+  );
+  assert.deepEqual(
+    scene.mediaSurfaces.map(({ surfaceId, transform }) => ({ surfaceId, transform })),
+    spec.mediaSurfaces.map(({ surfaceId, position, yaw }) => ({ surfaceId, transform: { ...toRuntimePosition(position), yaw } }))
+  );
 });
 
 test("approved concept remains private-preview and release bounded", async () => {

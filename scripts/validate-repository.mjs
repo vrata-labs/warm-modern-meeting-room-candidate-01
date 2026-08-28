@@ -34,6 +34,10 @@ function canonicalSha256(value) {
   return createHash("sha256").update(stableJson(value)).digest("hex");
 }
 
+function toRuntimePosition(position) {
+  return { x: position.x, y: position.y, z: -position.z };
+}
+
 async function json(path) {
   return JSON.parse(await readFile(path, "utf8"));
 }
@@ -89,6 +93,7 @@ const lightingConstructionText = await readFile(join(root, "source/lighting-cons
 const assetLedgerText = await readFile(join(root, "provenance/asset-ledger.json"), "utf8");
 const generationLedgerText = await readFile(join(root, "provenance/generation-ledger.json"), "utf8");
 const releaseAssetLedger = await json(join(root, "provenance/release-asset-ledger.json"));
+const runtimeCoordinateCorrection = await json(join(root, "provenance/runtime-coordinate-correction-0.1.1.json"));
 const acceptedSourceLock = await json(join(root, "source/accepted-source-lock.json"));
 const sceneSpec = JSON.parse(sceneText);
 const componentConstruction = JSON.parse(componentConstructionText);
@@ -108,7 +113,10 @@ assert(manifest.sceneId === config.sceneId, "manifest_scene_id_mismatch");
 assert(manifest.platformValidatorCommit === validatorCommit, "manifest_validator_lock_mismatch");
 assert(manifest.blenderVersion === "4.5.12 LTS", "invalid_manifest_blender_version");
 assert(Array.isArray(manifest.releases), "invalid_manifest_releases");
-assert(manifest.releases.length === 1 && manifest.releases[0]?.version === "0.1.0", "invalid_accepted_release_set");
+assert(JSON.stringify(manifest.releases.map(({ version }) => version)) === JSON.stringify(["0.1.0", "0.1.1"]), "invalid_accepted_release_set");
+assert(manifest.releases[0]?.status === "superseded" && manifest.releases[0]?.isCurrent === false
+  && manifest.releases[0]?.supersededBy === "0.1.1", "invalid_superseded_release");
+assert(manifest.releases[1]?.status === "staging-candidate" && manifest.releases[1]?.isCurrent === true, "invalid_current_release");
 assert(concept.schemaVersion === 1 && concept.sceneId === config.sceneId, "invalid_concept_identity");
 assert(concept.status === "approved-low-fidelity-concept", "invalid_concept_status");
 assert(concept.selection?.conceptId === "concept-03-functional", "invalid_selected_concept");
@@ -316,6 +324,14 @@ assert(acceptedSourceLock.reproducibility?.scope === "same-host-same-blender-bin
   && acceptedSourceLock.reproducibility?.runs === 2
   && acceptedSourceLock.reproducibility?.result === "byte-identical-glb"
   && acceptedSourceLock.reproducibility?.sha256 === acceptedSourceLock.release?.glbSha256, "invalid_reproducibility_evidence");
+assert(acceptedSourceLock.runtimeCoordinates?.transform === "x=x,y=y,z=-z"
+  && acceptedSourceLock.runtimeCoordinates?.evidencePath === "provenance/runtime-coordinate-correction-0.1.1.json", "invalid_runtime_coordinate_lock");
+assert(runtimeCoordinateCorrection.sceneId === config.sceneId
+  && runtimeCoordinateCorrection.releaseVersion === acceptedSourceLock.release.version
+  && runtimeCoordinateCorrection.supersedes === "0.1.0"
+  && JSON.stringify(runtimeCoordinateCorrection.coordinateTransform) === JSON.stringify({ x: "x", y: "y", z: "-z" })
+  && runtimeCoordinateCorrection.verification?.repositoryCoordinatesLocked === true
+  && runtimeCoordinateCorrection.verification?.staging === "pending", "invalid_runtime_coordinate_correction");
 
 assert(releaseAssetLedger.schemaVersion === 1
   && releaseAssetLedger.sceneId === config.sceneId
@@ -359,6 +375,7 @@ const releaseGlbPath = join(root, acceptedSourceLock.release.path, "scene.glb");
 const releaseGlb = await readFile(releaseGlbPath);
 const releaseGlbSha256 = createHash("sha256").update(releaseGlb).digest("hex");
 assert(releaseGlbSha256 === acceptedSourceLock.release.glbSha256, "accepted_release_glb_digest_drift");
+assert((await fileRecord(join(root, acceptedSourceLock.release.path, "scene.json"))).sha256 === acceptedSourceLock.release.sceneManifestSha256, "accepted_release_manifest_digest_drift");
 assert((await fileRecord(join(root, acceptedSourceLock.release.path, "preview.webp"))).sha256 === acceptedSourceLock.release.previewSha256, "accepted_release_preview_digest_drift");
 const textureDigests = releaseAssetLedger.records
   .filter(({ kind }) => kind === "project-authored-generated-texture")
@@ -551,6 +568,13 @@ for (const release of manifest.releases) {
     && author === "Vrata project team" && licenseRef === "LICENSES.md"), `invalid_release_source_asset_binding:${releaseKey}`);
   assert(!/(^\/|^[A-Za-z]:[\\/]|^\\\\|\/home\/|\/mnt\/)/.test(scene.source ?? ""), `private_source_path:${releaseKey}`);
   assert(!/(alpha|beta|curated|ai[- ]?generated)/i.test(scene.label ?? ""), `non_neutral_release_label:${releaseKey}`);
+  if (release.isCurrent) {
+    assert(JSON.stringify(scene.spawnPoints[0].position) === JSON.stringify(toRuntimePosition(sceneSpec.spawn.position)), `runtime_spawn_coordinate_drift:${releaseKey}`);
+    assert(JSON.stringify(scene.anchors.seatAnchors.map(({ id, position, yaw, seatHeight, radius }) => ({ id, position, yaw, seatHeight, radius })))
+      === JSON.stringify(sceneSpec.seats.map(({ id, position, yaw, seatHeight, radius }) => ({ id, position: toRuntimePosition(position), yaw, seatHeight, radius }))), `runtime_seat_coordinate_drift:${releaseKey}`);
+    assert(JSON.stringify(scene.mediaSurfaces.map(({ surfaceId, transform }) => ({ surfaceId, transform })))
+      === JSON.stringify(sceneSpec.mediaSurfaces.map(({ surfaceId, position, yaw }) => ({ surfaceId, transform: { ...toRuntimePosition(position), yaw } }))), `runtime_media_surface_coordinate_drift:${releaseKey}`);
+  }
   const bundleBytes = await Promise.all(requiredReleaseFiles.map((name) => stat(join(releaseDir, name))));
   assert(bundleBytes.reduce((total, info) => total + info.size, 0) <= 40 * 1024 * 1024, `art_bundle_budget_exceeded:${releaseKey}`);
   const glbPath = join(releaseDir, "scene.glb");

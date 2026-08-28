@@ -15,7 +15,9 @@ const allowedBinaryPaths = new Set([
   "source/review/presenter.webp",
   "source/review/diagonal-overview.webp",
   `assets/scenes/${config.sceneId}/0.1.0/scene.glb`,
-  `assets/scenes/${config.sceneId}/0.1.0/preview.webp`
+  `assets/scenes/${config.sceneId}/0.1.0/preview.webp`,
+  `assets/scenes/${config.sceneId}/0.1.1/scene.glb`,
+  `assets/scenes/${config.sceneId}/0.1.1/preview.webp`
 ]);
 const privatePreviewSha256 = new Set([
   "f52b3722e71dd231ebe80424f0411e9771670fa37aff01eebbce42ff7d4c0a21",

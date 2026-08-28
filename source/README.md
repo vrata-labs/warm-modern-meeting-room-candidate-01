@@ -21,7 +21,7 @@ or rendering lighting. `scene-contract-lock.json` preserves that historical
 pre-release specification boundary and its negative publication claims.
 
 `accepted-scene.blend` is the visual- and rights-approved source of truth for release
-`0.1.0`. `visual-completion.py` records the scene-specific authoring pass;
+`0.1.1`. `visual-completion.py` records the scene-specific authoring pass;
 `export-release.py` deterministically exports the accepted Blend without embedded
 lights or cameras; `render-review.py` recreates the four semantic review views.
 `accepted-source-lock.json` pins their hashes, Blender toolchain, rights evidence,
