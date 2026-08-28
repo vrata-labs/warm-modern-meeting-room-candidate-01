@@ -67,7 +67,7 @@ No scene binary may be committed before source rights are cleared. A release
 must contain exactly `scene.json`, `scene.glb`, `preview.webp`, and
 `LICENSES.md`, and must satisfy the eight-seat review contract.
 
-Release `0.1.0` preserves the accepted Blender source, scene-specific authoring
+Release `0.1.1` preserves the accepted Blender source, scene-specific authoring
 and export scripts, four review views, complete project-owned release provenance,
 and a deterministic GLB. The original specification ledger and
 `scene-contract-lock.json` remain unchanged historical evidence of the earlier
@@ -75,3 +75,9 @@ pre-release boundary; release approval is recorded separately in
 `source/accepted-source-lock.json` and `provenance/release-asset-ledger.json`.
 The release contains no external or model-generated 3D assets and does not expose
 a production-track or blind-review label.
+
+Release `0.1.0` remains immutable and is superseded because its manifest copied
+semantic authoring-space `z` coordinates directly into Three.js runtime space.
+Release `0.1.1` applies the Blender Y-up export transform `x=x,y=y,z=-z` to spawn,
+seat-anchor, and media-surface positions while preserving the accepted GLB,
+preview, and license bytes.

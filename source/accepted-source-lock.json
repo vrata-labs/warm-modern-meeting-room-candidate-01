@@ -33,10 +33,16 @@
     "releaseLedgerPath": "provenance/release-asset-ledger.json"
   },
   "release": {
-    "version": "0.1.0",
-    "path": "assets/scenes/warm-modern-meeting-room-candidate-01/0.1.0",
+    "version": "0.1.1",
+    "path": "assets/scenes/warm-modern-meeting-room-candidate-01/0.1.1",
+    "sceneManifestSha256": "bdded23cb2b0d7686459d42d24e135920200f7c7f8a66cbcec8c6f57f9f79eb9",
     "glbSha256": "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5",
     "previewSha256": "77e795fcd9844a29b88754290ba90832f10437c9dfe6d3188427f13672c7cad8"
+  },
+  "runtimeCoordinates": {
+    "transform": "x=x,y=y,z=-z",
+    "reason": "Blender Y-up GLB export maps semantic authoring z to runtime negative z",
+    "evidencePath": "provenance/runtime-coordinate-correction-0.1.1.json"
   },
   "reproducibility": {
     "scope": "same-host-same-blender-binary-two-run",
