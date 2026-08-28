@@ -81,3 +81,10 @@ semantic authoring-space `z` coordinates directly into Three.js runtime space.
 Release `0.1.1` applies the Blender Y-up export transform `x=x,y=y,z=-z` to spawn,
 seat-anchor, and media-surface positions while preserving the accepted GLB,
 preview, and license bytes.
+
+The full-SHA release at commit `e9891721220bbcda8099d8bbad52e08b3b59427c`
+passed staging runtime verification with `sceneDebug.state=loaded`, the corrected
+main spawn and media-surface positions, zero missing assets, and zero console
+errors. The exact evidence is recorded in
+`provenance/runtime-coordinate-correction-0.1.1.json`; release `0.1.1` is the
+active publication-ready release.

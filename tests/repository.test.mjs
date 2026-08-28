@@ -66,7 +66,7 @@ test("manifest preserves the superseded release and selects the coordinate-corre
   assert.deepEqual(manifest.releases.map(({ version }) => version), ["0.1.0", "0.1.1"]);
   assert.deepEqual(manifest.releases.map(({ status, isCurrent }) => ({ status, isCurrent })), [
     { status: "superseded", isCurrent: false },
-    { status: "staging-candidate", isCurrent: true }
+    { status: "active", isCurrent: true }
   ]);
   assert.equal(manifest.releases[0].supersededBy, "0.1.1");
   assert.ok(manifest.releases.every((release) => release.files["scene.glb"].sha256 === "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"));
@@ -88,7 +88,7 @@ test("accepted source, review evidence, rights, and deterministic release are lo
     rightsApproved: true,
     acceptedSourceStored: true,
     releaseGlbVerified: true,
-    publicationReady: false
+    publicationReady: true
   });
   assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.blendPath))), lock.acceptedSource.blendSha256);
   assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.visualCompletionScriptPath))), lock.acceptedSource.visualCompletionScriptSha256);
@@ -112,7 +112,17 @@ test("current release converts semantic z coordinates into Blender Y-up runtime 
 
   assert.deepEqual(correction.coordinateTransform, { x: "x", y: "y", z: "-z" });
   assert.equal(correction.verification.repositoryCoordinatesLocked, true);
-  assert.equal(correction.verification.staging, "pending");
+  assert.equal(correction.verification.staging.status, "passed");
+  assert.equal(correction.verification.staging.releaseCommit, "e9891721220bbcda8099d8bbad52e08b3b59427c");
+  assert.equal(correction.verification.staging.sceneState, "loaded");
+  assert.equal(correction.verification.staging.failureReason, null);
+  assert.deepEqual(correction.verification.staging.spawn, {
+    id: "main",
+    applied: true,
+    position: { x: 2.6, y: 0, z: 1.64 }
+  });
+  assert.deepEqual(correction.verification.staging.diagnostics.missingAssets, []);
+  assert.equal(correction.verification.staging.consoleErrorCount, 0);
   assert.deepEqual(scene.spawnPoints[0].position, toRuntimePosition(spec.spawn.position));
   assert.deepEqual(
     scene.anchors.seatAnchors.map(({ id, position, yaw, seatHeight, radius }) => ({ id, position, yaw, seatHeight, radius })),

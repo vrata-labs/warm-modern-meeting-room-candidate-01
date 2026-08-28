@@ -116,7 +116,7 @@ assert(Array.isArray(manifest.releases), "invalid_manifest_releases");
 assert(JSON.stringify(manifest.releases.map(({ version }) => version)) === JSON.stringify(["0.1.0", "0.1.1"]), "invalid_accepted_release_set");
 assert(manifest.releases[0]?.status === "superseded" && manifest.releases[0]?.isCurrent === false
   && manifest.releases[0]?.supersededBy === "0.1.1", "invalid_superseded_release");
-assert(manifest.releases[1]?.status === "staging-candidate" && manifest.releases[1]?.isCurrent === true, "invalid_current_release");
+assert(manifest.releases[1]?.status === "active" && manifest.releases[1]?.isCurrent === true, "invalid_current_release");
 assert(concept.schemaVersion === 1 && concept.sceneId === config.sceneId, "invalid_concept_identity");
 assert(concept.status === "approved-low-fidelity-concept", "invalid_concept_status");
 assert(concept.selection?.conceptId === "concept-03-functional", "invalid_selected_concept");
@@ -318,7 +318,7 @@ assert(JSON.stringify(acceptedSourceLock.boundaries) === JSON.stringify({
   rightsApproved: true,
   acceptedSourceStored: true,
   releaseGlbVerified: true,
-  publicationReady: false
+  publicationReady: true
 }), "invalid_accepted_source_boundaries");
 assert(acceptedSourceLock.reproducibility?.scope === "same-host-same-blender-binary-two-run"
   && acceptedSourceLock.reproducibility?.runs === 2
@@ -331,7 +331,14 @@ assert(runtimeCoordinateCorrection.sceneId === config.sceneId
   && runtimeCoordinateCorrection.supersedes === "0.1.0"
   && JSON.stringify(runtimeCoordinateCorrection.coordinateTransform) === JSON.stringify({ x: "x", y: "y", z: "-z" })
   && runtimeCoordinateCorrection.verification?.repositoryCoordinatesLocked === true
-  && runtimeCoordinateCorrection.verification?.staging === "pending", "invalid_runtime_coordinate_correction");
+  && runtimeCoordinateCorrection.verification?.staging?.status === "passed"
+  && runtimeCoordinateCorrection.verification.staging.releaseCommit === "e9891721220bbcda8099d8bbad52e08b3b59427c"
+  && runtimeCoordinateCorrection.verification.staging.sceneState === "loaded"
+  && runtimeCoordinateCorrection.verification.staging.failureReason === null
+  && runtimeCoordinateCorrection.verification.staging.spawn?.applied === true
+  && JSON.stringify(runtimeCoordinateCorrection.verification.staging.spawn.position) === JSON.stringify({ x: 2.6, y: 0, z: 1.64 })
+  && runtimeCoordinateCorrection.verification.staging.diagnostics?.missingAssets?.length === 0
+  && runtimeCoordinateCorrection.verification.staging.consoleErrorCount === 0, "invalid_runtime_coordinate_correction");
 
 assert(releaseAssetLedger.schemaVersion === 1
   && releaseAssetLedger.sceneId === config.sceneId
