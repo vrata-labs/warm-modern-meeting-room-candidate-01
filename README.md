@@ -33,9 +33,18 @@ source/media-surface-constructions.json
 source/exterior-constructions.json
 source/lighting-constructions.json
 source/scene-contract-lock.json
+source/accepted-source-lock.json
+source/accepted-scene.blend
+source/visual-completion.py
+source/export-release.py
+source/render-review.py
+source/review/*.webp
 provenance/asset-ledger.json
 provenance/generation-ledger.json
 provenance/licenses/project-owned.txt
+provenance/release-asset-ledger.json
+provenance/rights-verdict-2026-08-29.md
+provenance/licenses/project-owned-release.txt
 assets/scenes/warm-modern-meeting-room-candidate-01/<version>/
 manifest.json
 platform-validator.lock
@@ -51,23 +60,18 @@ pnpm install
 pnpm validate
 pnpm inspect
 pnpm test
+BLENDER_BIN=/path/to/pinned/blender pnpm verify:reproducibility
 ```
 
 No scene binary may be committed before source rights are cleared. A release
 must contain exactly `scene.json`, `scene.glb`, `preview.webp`, and
 `LICENSES.md`, and must satisfy the eight-seat review contract.
 
-The current repository state is an exact source-only component, media-surface,
-exterior, and lighting specification. It contains four construction families
-resolving to 38 component parts, two media surfaces bound to platform-owned
-runtime planes, four project-authored exterior volumes with three scalar
-materials, and three resolved lighting constructions. Physical surface
-dimensions, positions, and yaw remain solely in `source/scene-spec.json`. The
-exterior source binds the north window to nearby ground, one planted hedge, and
-one restrained middle-distance context mass. The lighting source specifies the
-daylight, architectural fill, pendant emitter mappings, and deterministic entry
-view acceptance policy; it does not compile lighting, render that view, or claim
-acceptance. The contract is validated by the exact Scene Factory commit recorded
-in `source/scene-contract-lock.json`. No compiler, release bundle, preview binary,
-or production-track mapping exists, and project-authored inputs remain disallowed
-for production.
+Release `0.1.0` preserves the accepted Blender source, scene-specific authoring
+and export scripts, four review views, complete project-owned release provenance,
+and a deterministic GLB. The original specification ledger and
+`scene-contract-lock.json` remain unchanged historical evidence of the earlier
+pre-release boundary; release approval is recorded separately in
+`source/accepted-source-lock.json` and `provenance/release-asset-ledger.json`.
+The release contains no external or model-generated 3D assets and does not expose
+a production-track or blind-review label.

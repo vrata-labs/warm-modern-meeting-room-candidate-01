@@ -13,6 +13,7 @@ const root = resolve(import.meta.dirname, "..");
 const requiredReleaseFiles = ["LICENSES.md", "preview.webp", "scene.glb", "scene.json"];
 const execFileAsync = promisify(execFile);
 const projectOwnedLicenseSha256 = "56be457108896a56b706ffcd10d7e1e45778cb33812d98fea6979eb5539fb490";
+const projectOwnedReleaseLicenseSha256 = "a99a2ae2a44522eac4713085699f0623b1f766f0ee26d565153393243fdd2152";
 
 function assert(condition, code) {
   if (!condition) throw new Error(code);
@@ -65,6 +66,17 @@ async function glbStats(path) {
   };
 }
 
+function embeddedImageSha256(glb) {
+  const jsonLength = glb.readUInt32LE(12);
+  const gltf = JSON.parse(glb.subarray(20, 20 + jsonLength).toString("utf8").replace(/\0+$/, ""));
+  const binaryStart = 20 + jsonLength + 8;
+  return (gltf.images ?? []).map(({ bufferView }) => {
+    const view = gltf.bufferViews[bufferView];
+    const bytes = glb.subarray(binaryStart + (view.byteOffset ?? 0), binaryStart + (view.byteOffset ?? 0) + view.byteLength);
+    return createHash("sha256").update(bytes).digest("hex");
+  });
+}
+
 const config = await json(join(root, "scene-repository.json"));
 const validatorCommit = (await readFile(join(root, "platform-validator.lock"), "utf8")).trim();
 const manifest = await json(join(root, "manifest.json"));
@@ -76,6 +88,8 @@ const exteriorConstructionText = await readFile(join(root, "source/exterior-cons
 const lightingConstructionText = await readFile(join(root, "source/lighting-constructions.json"), "utf8");
 const assetLedgerText = await readFile(join(root, "provenance/asset-ledger.json"), "utf8");
 const generationLedgerText = await readFile(join(root, "provenance/generation-ledger.json"), "utf8");
+const releaseAssetLedger = await json(join(root, "provenance/release-asset-ledger.json"));
+const acceptedSourceLock = await json(join(root, "source/accepted-source-lock.json"));
 const sceneSpec = JSON.parse(sceneText);
 const componentConstruction = JSON.parse(componentConstructionText);
 const mediaSurfaceConstruction = JSON.parse(mediaSurfaceConstructionText);
@@ -94,7 +108,7 @@ assert(manifest.sceneId === config.sceneId, "manifest_scene_id_mismatch");
 assert(manifest.platformValidatorCommit === validatorCommit, "manifest_validator_lock_mismatch");
 assert(manifest.blenderVersion === "4.5.12 LTS", "invalid_manifest_blender_version");
 assert(Array.isArray(manifest.releases), "invalid_manifest_releases");
-assert(manifest.releases.length === 0, "source_specification_release_manifest_must_remain_empty");
+assert(manifest.releases.length === 1 && manifest.releases[0]?.version === "0.1.0", "invalid_accepted_release_set");
 assert(concept.schemaVersion === 1 && concept.sceneId === config.sceneId, "invalid_concept_identity");
 assert(concept.status === "approved-low-fidelity-concept", "invalid_concept_status");
 assert(concept.selection?.conceptId === "concept-03-functional", "invalid_selected_concept");
@@ -262,6 +276,95 @@ for (const record of assetLedger.records) {
 }
 const projectOwnedLicense = await fileRecord(join(root, "provenance/licenses/project-owned.txt"));
 assert(projectOwnedLicense.sha256 === projectOwnedLicenseSha256, "project_owned_license_digest_drift");
+
+assert(acceptedSourceLock.schemaVersion === 1
+  && acceptedSourceLock.status === "accepted-reproducible-source"
+  && acceptedSourceLock.sceneId === config.sceneId
+  && acceptedSourceLock.acceptedOn === "2026-08-29", "invalid_accepted_source_lock");
+assert(acceptedSourceLock.toolchain?.blenderVersion === manifest.blenderVersion
+  && acceptedSourceLock.toolchain?.blenderBuildHash === "84afd5f785f7"
+  && acceptedSourceLock.toolchain?.blenderBinarySha256 === "33ac108ebce3c271f5357e5c664d0488717263bcf2145c80300edd0b12c31880"
+  && acceptedSourceLock.toolchain?.gltfExporter === "Khronos glTF Blender I/O v4.5.51"
+  && acceptedSourceLock.toolchain?.reviewImageConverter === "cwebp 1.6.0"
+  && acceptedSourceLock.toolchain?.reviewImageQuality === 90, "accepted_source_toolchain_drift");
+for (const [pathKey, digestKey] of [
+  ["blendPath", "blendSha256"],
+  ["visualCompletionScriptPath", "visualCompletionScriptSha256"],
+  ["exportScriptPath", "exportScriptSha256"],
+  ["renderScriptPath", "renderScriptSha256"]
+]) {
+  const path = acceptedSourceLock.acceptedSource?.[pathKey];
+  assert(typeof path === "string" && !/(^\/|^[A-Za-z]:[\\/]|^\\\\|\/home\/|\/mnt\/)/.test(path), `invalid_accepted_source_path:${pathKey}`);
+  assert((await fileRecord(join(root, path))).sha256 === acceptedSourceLock.acceptedSource[digestKey], `accepted_source_digest_drift:${pathKey}`);
+}
+assert(acceptedSourceLock.reviewViews?.length === 4
+  && JSON.stringify(acceptedSourceLock.reviewViews.map(({ id }) => id)) === JSON.stringify(["entry", "participant", "presenter", "diagonal-overview"]), "invalid_accepted_review_views");
+for (const reviewView of acceptedSourceLock.reviewViews) {
+  assert((await fileRecord(join(root, reviewView.path))).sha256 === reviewView.sha256, `accepted_review_digest_drift:${reviewView.id}`);
+}
+assert(acceptedSourceLock.rights?.decision === "approved"
+  && acceptedSourceLock.rights?.evidencePath === "provenance/rights-verdict-2026-08-29.md"
+  && acceptedSourceLock.rights?.releaseLedgerPath === "provenance/release-asset-ledger.json", "invalid_accepted_rights_binding");
+assert(JSON.stringify(acceptedSourceLock.boundaries) === JSON.stringify({
+  visualAccepted: true,
+  rightsApproved: true,
+  acceptedSourceStored: true,
+  releaseGlbVerified: true,
+  publicationReady: false
+}), "invalid_accepted_source_boundaries");
+assert(acceptedSourceLock.reproducibility?.scope === "same-host-same-blender-binary-two-run"
+  && acceptedSourceLock.reproducibility?.runs === 2
+  && acceptedSourceLock.reproducibility?.result === "byte-identical-glb"
+  && acceptedSourceLock.reproducibility?.sha256 === acceptedSourceLock.release?.glbSha256, "invalid_reproducibility_evidence");
+
+assert(releaseAssetLedger.schemaVersion === 1
+  && releaseAssetLedger.sceneId === config.sceneId
+  && releaseAssetLedger.releaseVersion === acceptedSourceLock.release.version, "invalid_release_asset_ledger");
+assert(releaseAssetLedger.approval?.decision === "approved"
+  && releaseAssetLedger.approval?.approvedOn === acceptedSourceLock.acceptedOn
+  && releaseAssetLedger.approval?.ownerRole === "human-rights-owner"
+  && releaseAssetLedger.approval?.evidencePath === acceptedSourceLock.rights.evidencePath, "invalid_release_rights_approval");
+assert(releaseAssetLedger.upstreamLedgerPath === "provenance/asset-ledger.json"
+  && JSON.stringify([...releaseAssetLedger.upstreamSourceRecordIds].sort()) === JSON.stringify(assetLedger.records.map(({ id }) => id).sort()), "invalid_release_upstream_provenance");
+assert(JSON.stringify(releaseAssetLedger.license) === JSON.stringify({
+  name: "LicenseRef-Project-Owned-Release",
+  reference: "provenance/licenses/project-owned-release.txt",
+  commercialUse: true,
+  redistribution: true,
+  mlProcessing: true
+}), "invalid_release_license");
+assert(JSON.stringify(releaseAssetLedger.allowedUse) === JSON.stringify({
+  staging: true,
+  production: true,
+  webRuntime: true,
+  screenshots: true,
+  optimization: true,
+  redistribution: true
+}), "invalid_release_allowed_use");
+assert(JSON.stringify(releaseAssetLedger.reviewImageConversion) === JSON.stringify({
+  sourceFormat: "PNG",
+  outputFormat: "WebP",
+  tool: "cwebp",
+  version: "1.6.0",
+  quality: 90
+}), "invalid_review_image_conversion");
+const releaseLicense = await fileRecord(join(root, releaseAssetLedger.license.reference));
+assert(releaseLicense.sha256 === projectOwnedReleaseLicenseSha256, "project_owned_release_license_digest_drift");
+const releaseRecordIds = releaseAssetLedger.records.map(({ id }) => id);
+assert(releaseRecordIds.length === 17 && new Set(releaseRecordIds).size === releaseRecordIds.length, "invalid_release_asset_record_set");
+for (const record of releaseAssetLedger.records.filter(({ repositoryPath }) => repositoryPath)) {
+  assert((await fileRecord(join(root, record.repositoryPath))).sha256 === record.originalSha256, `release_asset_digest_drift:${record.id}`);
+}
+const releaseGlbPath = join(root, acceptedSourceLock.release.path, "scene.glb");
+const releaseGlb = await readFile(releaseGlbPath);
+const releaseGlbSha256 = createHash("sha256").update(releaseGlb).digest("hex");
+assert(releaseGlbSha256 === acceptedSourceLock.release.glbSha256, "accepted_release_glb_digest_drift");
+assert((await fileRecord(join(root, acceptedSourceLock.release.path, "preview.webp"))).sha256 === acceptedSourceLock.release.previewSha256, "accepted_release_preview_digest_drift");
+const textureDigests = releaseAssetLedger.records
+  .filter(({ kind }) => kind === "project-authored-generated-texture")
+  .map(({ originalSha256 }) => originalSha256)
+  .sort();
+assert(JSON.stringify(textureDigests) === JSON.stringify(embeddedImageSha256(releaseGlb).sort()), "embedded_texture_provenance_drift");
 
 const sceneFactoryDir = resolve(root, process.env.SCENE_FACTORY_DIR ?? "../warm-modern-meeting-room-scene-factory");
 const { stdout: sceneFactoryHead } = await execFileAsync("git", ["-C", sceneFactoryDir, "rev-parse", "HEAD"]);
@@ -441,6 +544,11 @@ for (const release of manifest.releases) {
   assert(JSON.stringify(surfaces) === JSON.stringify(["debug-main", "whiteboard-wall"]), `invalid_surface_contract:${releaseKey}`);
   assert(scene.bounds?.width > 0 && scene.bounds?.height > 0 && scene.bounds?.depth > 0, `invalid_bounds:${releaseKey}`);
   assert(scene.rights?.sourceAssets?.length > 0, `missing_rights_provenance:${releaseKey}`);
+  assert(scene.rights?.owner === "vrata"
+    && scene.rights?.license === releaseAssetLedger.license.name
+    && ["staging", "production", "web-runtime", "screenshots", "optimization", "redistribution"].every((use) => scene.rights.clearedFor?.includes(use)), `invalid_release_rights:${releaseKey}`);
+  assert(scene.rights.sourceAssets.every(({ id, author, licenseRef }) => releaseRecordIds.includes(id)
+    && author === "Vrata project team" && licenseRef === "LICENSES.md"), `invalid_release_source_asset_binding:${releaseKey}`);
   assert(!/(^\/|^[A-Za-z]:[\\/]|^\\\\|\/home\/|\/mnt\/)/.test(scene.source ?? ""), `private_source_path:${releaseKey}`);
   assert(!/(alpha|beta|curated|ai[- ]?generated)/i.test(scene.label ?? ""), `non_neutral_release_label:${releaseKey}`);
   const bundleBytes = await Promise.all(requiredReleaseFiles.map((name) => stat(join(releaseDir, name))));

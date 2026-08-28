@@ -8,6 +8,8 @@
     "node": ">=22"
   },
   "scripts": {
+    "build:release": "node scripts/build-release.mjs",
+    "verify:reproducibility": "node scripts/build-release.mjs --twice",
     "manifest:check": "node scripts/validate-repository.mjs --manifest-only",
     "validate": "node scripts/validate-repository.mjs && node scripts/check-repository-boundary.mjs",
     "inspect": "node scripts/inspect-releases.mjs",

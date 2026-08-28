@@ -3,5 +3,38 @@
   "blenderVersion": "4.5.12 LTS",
   "platformValidatorCommit": "4ae8951961fce72a16f87b9d15890aee7d7eef2d",
   "sceneId": "warm-modern-meeting-room-candidate-01",
-  "releases": []
+  "releases": [
+    {
+      "sceneId": "warm-modern-meeting-room-candidate-01",
+      "version": "0.1.0",
+      "releasePath": "assets/scenes/warm-modern-meeting-room-candidate-01/0.1.0",
+      "files": {
+        "scene.json": {
+          "sha256": "f30145261bdd03e2b868cc5d675ea8f65c842c7442c63ec1edfbbc0ddb17f0a6",
+          "sizeBytes": 4180
+        },
+        "scene.glb": {
+          "sha256": "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5",
+          "sizeBytes": 1306088
+        },
+        "preview.webp": {
+          "sha256": "77e795fcd9844a29b88754290ba90832f10437c9dfe6d3188427f13672c7cad8",
+          "sizeBytes": 45300
+        },
+        "LICENSES.md": {
+          "sha256": "f4f7b3d2efcee8a69b66a9b2928bf8f302b3d7c70fbbe5d836d6e6815730068e",
+          "sizeBytes": 942
+        }
+      },
+      "stats": {
+        "triangles": 15840,
+        "nodes": 146,
+        "meshes": 146,
+        "primitives": 146,
+        "materials": 16,
+        "textures": 9,
+        "animations": 0
+      }
+    }
+  ]
 }
