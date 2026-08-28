@@ -43,7 +43,7 @@
       "sceneId": "warm-modern-meeting-room-candidate-01",
       "version": "0.1.1",
       "releasePath": "assets/scenes/warm-modern-meeting-room-candidate-01/0.1.1",
-      "status": "staging-candidate",
+      "status": "active",
       "isCurrent": true,
       "files": {
         "scene.json": {

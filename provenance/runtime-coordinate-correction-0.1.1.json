@@ -21,6 +21,40 @@
   },
   "verification": {
     "repositoryCoordinatesLocked": true,
-    "staging": "pending"
+    "staging": {
+      "status": "passed",
+      "checkedAt": "2026-08-28T23:19:03.296Z",
+      "releaseCommit": "e9891721220bbcda8099d8bbad52e08b3b59427c",
+      "roomUrl": "https://158.160.10.234.sslip.io/rooms/agentic-scene-authoring-review?debug=1&scenefit=0",
+      "manifestUrl": "https://cdn.jsdelivr.net/gh/vrata-labs/warm-modern-meeting-room-candidate-01@e9891721220bbcda8099d8bbad52e08b3b59427c/assets/scenes/warm-modern-meeting-room-candidate-01/0.1.1/scene.json",
+      "assetUrl": "https://cdn.jsdelivr.net/gh/vrata-labs/warm-modern-meeting-room-candidate-01@e9891721220bbcda8099d8bbad52e08b3b59427c/assets/scenes/warm-modern-meeting-room-candidate-01/0.1.1/scene.glb",
+      "reportId": "rpt_ad6e7ec9-5dfe-4f9c-a229-6fc57e08f417",
+      "roomStateConnected": true,
+      "sceneState": "loaded",
+      "failureReason": null,
+      "manifestHttpStatus": 200,
+      "assetHttpStatus": 200,
+      "spawn": {
+        "id": "main",
+        "applied": true,
+        "position": { "x": 2.6, "y": 0, "z": 1.64 }
+      },
+      "mediaSurfaces": [
+        { "surfaceId": "debug-main", "position": { "x": -3.4, "y": 1.55, "z": -0.15 } },
+        { "surfaceId": "whiteboard-wall", "position": { "x": 3.4, "y": 1.5, "z": -0.5 } }
+      ],
+      "diagnostics": {
+        "assetBytesLoaded": 1306088,
+        "objectCount": 148,
+        "meshCount": 146,
+        "materialCount": 16,
+        "texturedMaterialCount": 134,
+        "triangleEstimate": 15840,
+        "textureCount": 9,
+        "missingAssets": []
+      },
+      "browserScreenshotReviewed": true,
+      "consoleErrorCount": 0
+    }
   }
 }
