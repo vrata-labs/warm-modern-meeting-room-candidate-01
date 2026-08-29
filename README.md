@@ -86,5 +86,12 @@ The full-SHA release at commit `e9891721220bbcda8099d8bbad52e08b3b59427c`
 passed staging runtime verification with `sceneDebug.state=loaded`, the corrected
 main spawn and media-surface positions, zero missing assets, and zero console
 errors. The exact evidence is recorded in
-`provenance/runtime-coordinate-correction-0.1.1.json`; release `0.1.1` is the
-active publication-ready release.
+`provenance/runtime-coordinate-correction-0.1.1.json`.
+
+Release `0.1.2` is an immutable metadata-only release. It preserves the exact
+`scene.glb`, `preview.webp`, and `LICENSES.md` bytes from `0.1.1`, selects the
+`neutral-pbr` render profile, and gives the runtime spawn a stable yaw toward
+the conference-table composition center. For runtime spawn `(2.6, 0, 1.64)`
+and table center `(-0.45, 0, -0.05)`, Three.js forward `-Z` gives
+`yaw = atan2(-dx, -dz) = 1.0648120280696147` radians. Release `0.1.1` is
+superseded; `0.1.2` is the active publication-ready release.

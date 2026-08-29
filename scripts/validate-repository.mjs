@@ -113,10 +113,12 @@ assert(manifest.sceneId === config.sceneId, "manifest_scene_id_mismatch");
 assert(manifest.platformValidatorCommit === validatorCommit, "manifest_validator_lock_mismatch");
 assert(manifest.blenderVersion === "4.5.12 LTS", "invalid_manifest_blender_version");
 assert(Array.isArray(manifest.releases), "invalid_manifest_releases");
-assert(JSON.stringify(manifest.releases.map(({ version }) => version)) === JSON.stringify(["0.1.0", "0.1.1"]), "invalid_accepted_release_set");
+assert(JSON.stringify(manifest.releases.map(({ version }) => version)) === JSON.stringify(["0.1.0", "0.1.1", "0.1.2"]), "invalid_accepted_release_set");
 assert(manifest.releases[0]?.status === "superseded" && manifest.releases[0]?.isCurrent === false
   && manifest.releases[0]?.supersededBy === "0.1.1", "invalid_superseded_release");
-assert(manifest.releases[1]?.status === "active" && manifest.releases[1]?.isCurrent === true, "invalid_current_release");
+assert(manifest.releases[1]?.status === "superseded" && manifest.releases[1]?.isCurrent === false
+  && manifest.releases[1]?.supersededBy === "0.1.2", "invalid_metadata_superseded_release");
+assert(manifest.releases[2]?.status === "active" && manifest.releases[2]?.isCurrent === true, "invalid_current_release");
 assert(concept.schemaVersion === 1 && concept.sceneId === config.sceneId, "invalid_concept_identity");
 assert(concept.status === "approved-low-fidelity-concept", "invalid_concept_status");
 assert(concept.selection?.conceptId === "concept-03-functional", "invalid_selected_concept");
@@ -560,6 +562,7 @@ for (const release of manifest.releases) {
   }
   const scene = await json(join(releaseDir, "scene.json"));
   assert(scene.schemaVersion === 1 && scene.sceneId === config.sceneId, `invalid_scene_manifest_identity:${releaseKey}`);
+  if (release.version === "0.1.2") assert(scene.version === release.version, `invalid_scene_manifest_version:${releaseKey}`);
   assert(scene.glbPath === "scene.glb" && scene.preview === "preview.webp", `invalid_scene_relative_paths:${releaseKey}`);
   assert(scene.spawnPoints?.[0]?.id === "main", `invalid_main_spawn:${releaseKey}`);
   assert(scene.anchors?.seatAnchors?.length === 8, `invalid_eight_seat_contract:${releaseKey}`);
@@ -576,7 +579,12 @@ for (const release of manifest.releases) {
   assert(!/(^\/|^[A-Za-z]:[\\/]|^\\\\|\/home\/|\/mnt\/)/.test(scene.source ?? ""), `private_source_path:${releaseKey}`);
   assert(!/(alpha|beta|curated|ai[- ]?generated)/i.test(scene.label ?? ""), `non_neutral_release_label:${releaseKey}`);
   if (release.isCurrent) {
+    assert(scene.renderMode === "clean" && scene.renderProfile === "neutral-pbr", `invalid_current_render_profile:${releaseKey}`);
     assert(JSON.stringify(scene.spawnPoints[0].position) === JSON.stringify(toRuntimePosition(sceneSpec.spawn.position)), `runtime_spawn_coordinate_drift:${releaseKey}`);
+    const tablePosition = toRuntimePosition(sceneSpec.components.find(({ id }) => id === "conference-table").transform.position);
+    const dx = tablePosition.x - scene.spawnPoints[0].position.x;
+    const dz = tablePosition.z - scene.spawnPoints[0].position.z;
+    assert(scene.spawnPoints[0].yaw === Math.atan2(-dx, -dz), `runtime_spawn_yaw_drift:${releaseKey}`);
     assert(JSON.stringify(scene.anchors.seatAnchors.map(({ id, position, yaw, seatHeight, radius }) => ({ id, position, yaw, seatHeight, radius })))
       === JSON.stringify(sceneSpec.seats.map(({ id, position, yaw, seatHeight, radius }) => ({ id, position: toRuntimePosition(position), yaw, seatHeight, radius }))), `runtime_seat_coordinate_drift:${releaseKey}`);
     assert(JSON.stringify(scene.mediaSurfaces.map(({ surfaceId, transform }) => ({ surfaceId, transform })))
