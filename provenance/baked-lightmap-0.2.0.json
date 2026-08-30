@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.2.0",
+  "platformCommit": "c54edb2239d225a71e9b934316f70792b3faafb6",
+  "transport": {
+    "renderProfile": "baked-pbr-v1",
+    "textureSlot": "emissiveTexture",
+    "textureCoordinate": 1,
+    "runtimeSlot": "lightMap"
+  },
+  "bake": {
+    "blenderVersion": "4.5.12 LTS",
+    "blenderBuildHash": "84afd5f785f7",
+    "resolution": 2048,
+    "samples": 128,
+    "scale": 0.25,
+    "device": "CUDA",
+    "lightmapSha256": "87ac73c2f7100e0e7166b33cfba0e37ad9ef92ca461383f234aeaf3628e163f9"
+  },
+  "asset": {
+    "glbSha256": "ad988d685e32c286d0349144935ee1c47305f71b252de33319dfb967b7b7e7d5",
+    "sizeBytes": 12367932,
+    "triangles": 15840,
+    "meshes": 146,
+    "materials": 16,
+    "textures": 10,
+    "lightMappedMaterials": 15
+  },
+  "localRuntime": {
+    "state": "loaded",
+    "missingAssets": [],
+    "loadMs": 1001,
+    "renderProfileApplyMs": 131,
+    "darkPixelRatio": 0.0536
+  },
+  "visualParity": {
+    "tool": "ImageMagick compare 6.9.12-98",
+    "views": [
+      { "id": "entry", "phash": 26.6501, "ncc": 0.507614 },
+      { "id": "participant", "phash": 51.177, "ncc": 0.683444 },
+      { "id": "presenter", "phash": 17.6451, "ncc": 0.676014 },
+      { "id": "diagonal-overview", "phash": 22.515, "ncc": 0.432894 }
+    ],
+    "phashTotal": 117.9872,
+    "nccMean": 0.5749915,
+    "result": "passed"
+  }
+}

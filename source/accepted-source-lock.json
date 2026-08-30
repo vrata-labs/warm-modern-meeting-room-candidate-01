@@ -6,10 +6,12 @@
   "acceptedSource": {
     "blendPath": "source/accepted-scene.blend",
     "blendSha256": "fbddeac0c0fc8e65f3beb736917574f9515116fdb4ef42e4a9cdaa7d10f12b16",
+    "lightmapPath": "source/accepted-lightmap.png",
+    "lightmapSha256": "87ac73c2f7100e0e7166b33cfba0e37ad9ef92ca461383f234aeaf3628e163f9",
     "visualCompletionScriptPath": "source/visual-completion.py",
     "visualCompletionScriptSha256": "ad19cf4a99fce41ba88f53dd0a08ccc2e46252af256340e7ca32dc135d9494ca",
     "exportScriptPath": "source/export-release.py",
-    "exportScriptSha256": "8cb8079da4c82eb1440262a1ca55293852ec4def3f94cf84628f21b373d3037d",
+    "exportScriptSha256": "50808c897e10690a53ff09fd09692af5610cafb452503477807fededecb7320a",
     "renderScriptPath": "source/render-review.py",
     "renderScriptSha256": "ad247836a9709283499a08ec50b56bfa6a39cfd6de078bf6a76d765011fd5575"
   },
@@ -19,7 +21,14 @@
     "blenderBinarySha256": "33ac108ebce3c271f5357e5c664d0488717263bcf2145c80300edd0b12c31880",
     "gltfExporter": "Khronos glTF Blender I/O v4.5.51",
     "reviewImageConverter": "cwebp 1.6.0",
-    "reviewImageQuality": 90
+    "reviewImageQuality": 90,
+    "bakedLightmap": {
+      "resolution": 2048,
+      "samples": 128,
+      "scale": 0.25,
+      "device": "CUDA",
+      "transport": "emissiveTexture TEXCOORD_1 with baked-pbr-v1 metadata"
+    }
   },
   "reviewViews": [
     { "id": "entry", "path": "source/review/entry.webp", "sha256": "77e795fcd9844a29b88754290ba90832f10437c9dfe6d3188427f13672c7cad8" },
@@ -33,10 +42,10 @@
     "releaseLedgerPath": "provenance/release-asset-ledger.json"
   },
   "release": {
-    "version": "0.1.1",
-    "path": "assets/scenes/warm-modern-meeting-room-candidate-01/0.1.1",
-    "sceneManifestSha256": "bdded23cb2b0d7686459d42d24e135920200f7c7f8a66cbcec8c6f57f9f79eb9",
-    "glbSha256": "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5",
+    "version": "0.2.0",
+    "path": "assets/scenes/warm-modern-meeting-room-candidate-01/0.2.0",
+    "sceneManifestSha256": "c78332eabab5dc89df8267f8311e4bd25716ea6278ca4b96232908323ab48f5b",
+    "glbSha256": "ad988d685e32c286d0349144935ee1c47305f71b252de33319dfb967b7b7e7d5",
     "previewSha256": "77e795fcd9844a29b88754290ba90832f10437c9dfe6d3188427f13672c7cad8"
   },
   "runtimeCoordinates": {
@@ -48,7 +57,14 @@
     "scope": "same-host-same-blender-binary-two-run",
     "runs": 2,
     "result": "byte-identical-glb",
-    "sha256": "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"
+    "sha256": "ad988d685e32c286d0349144935ee1c47305f71b252de33319dfb967b7b7e7d5"
+  },
+  "visualQuality": {
+    "evidencePath": "provenance/baked-lightmap-0.2.0.json",
+    "reviewViews": 4,
+    "phashTotal": 117.9872,
+    "nccMean": 0.5749915,
+    "result": "passed"
   },
   "boundaries": {
     "visualAccepted": true,

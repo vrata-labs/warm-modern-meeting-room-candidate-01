@@ -94,6 +94,7 @@ const assetLedgerText = await readFile(join(root, "provenance/asset-ledger.json"
 const generationLedgerText = await readFile(join(root, "provenance/generation-ledger.json"), "utf8");
 const releaseAssetLedger = await json(join(root, "provenance/release-asset-ledger.json"));
 const runtimeCoordinateCorrection = await json(join(root, "provenance/runtime-coordinate-correction-0.1.1.json"));
+const bakedLightmapEvidence = await json(join(root, "provenance/baked-lightmap-0.2.0.json"));
 const acceptedSourceLock = await json(join(root, "source/accepted-source-lock.json"));
 const sceneSpec = JSON.parse(sceneText);
 const componentConstruction = JSON.parse(componentConstructionText);
@@ -113,12 +114,14 @@ assert(manifest.sceneId === config.sceneId, "manifest_scene_id_mismatch");
 assert(manifest.platformValidatorCommit === validatorCommit, "manifest_validator_lock_mismatch");
 assert(manifest.blenderVersion === "4.5.12 LTS", "invalid_manifest_blender_version");
 assert(Array.isArray(manifest.releases), "invalid_manifest_releases");
-assert(JSON.stringify(manifest.releases.map(({ version }) => version)) === JSON.stringify(["0.1.0", "0.1.1", "0.1.2"]), "invalid_accepted_release_set");
+assert(JSON.stringify(manifest.releases.map(({ version }) => version)) === JSON.stringify(["0.1.0", "0.1.1", "0.1.2", "0.2.0"]), "invalid_accepted_release_set");
 assert(manifest.releases[0]?.status === "superseded" && manifest.releases[0]?.isCurrent === false
   && manifest.releases[0]?.supersededBy === "0.1.1", "invalid_superseded_release");
 assert(manifest.releases[1]?.status === "superseded" && manifest.releases[1]?.isCurrent === false
   && manifest.releases[1]?.supersededBy === "0.1.2", "invalid_metadata_superseded_release");
-assert(manifest.releases[2]?.status === "active" && manifest.releases[2]?.isCurrent === true, "invalid_current_release");
+assert(manifest.releases[2]?.status === "superseded" && manifest.releases[2]?.isCurrent === false
+  && manifest.releases[2]?.supersededBy === "0.2.0", "invalid_baked_superseded_release");
+assert(manifest.releases[3]?.status === "active" && manifest.releases[3]?.isCurrent === true, "invalid_current_release");
 assert(concept.schemaVersion === 1 && concept.sceneId === config.sceneId, "invalid_concept_identity");
 assert(concept.status === "approved-low-fidelity-concept", "invalid_concept_status");
 assert(concept.selection?.conceptId === "concept-03-functional", "invalid_selected_concept");
@@ -296,9 +299,17 @@ assert(acceptedSourceLock.toolchain?.blenderVersion === manifest.blenderVersion
   && acceptedSourceLock.toolchain?.blenderBinarySha256 === "33ac108ebce3c271f5357e5c664d0488717263bcf2145c80300edd0b12c31880"
   && acceptedSourceLock.toolchain?.gltfExporter === "Khronos glTF Blender I/O v4.5.51"
   && acceptedSourceLock.toolchain?.reviewImageConverter === "cwebp 1.6.0"
-  && acceptedSourceLock.toolchain?.reviewImageQuality === 90, "accepted_source_toolchain_drift");
+  && acceptedSourceLock.toolchain?.reviewImageQuality === 90
+  && JSON.stringify(acceptedSourceLock.toolchain?.bakedLightmap) === JSON.stringify({
+    resolution: 2048,
+    samples: 128,
+    scale: 0.25,
+    device: "CUDA",
+    transport: "emissiveTexture TEXCOORD_1 with baked-pbr-v1 metadata"
+  }), "accepted_source_toolchain_drift");
 for (const [pathKey, digestKey] of [
   ["blendPath", "blendSha256"],
+  ["lightmapPath", "lightmapSha256"],
   ["visualCompletionScriptPath", "visualCompletionScriptSha256"],
   ["exportScriptPath", "exportScriptSha256"],
   ["renderScriptPath", "renderScriptSha256"]
@@ -329,7 +340,7 @@ assert(acceptedSourceLock.reproducibility?.scope === "same-host-same-blender-bin
 assert(acceptedSourceLock.runtimeCoordinates?.transform === "x=x,y=y,z=-z"
   && acceptedSourceLock.runtimeCoordinates?.evidencePath === "provenance/runtime-coordinate-correction-0.1.1.json", "invalid_runtime_coordinate_lock");
 assert(runtimeCoordinateCorrection.sceneId === config.sceneId
-  && runtimeCoordinateCorrection.releaseVersion === acceptedSourceLock.release.version
+  && runtimeCoordinateCorrection.releaseVersion === "0.1.1"
   && runtimeCoordinateCorrection.supersedes === "0.1.0"
   && JSON.stringify(runtimeCoordinateCorrection.coordinateTransform) === JSON.stringify({ x: "x", y: "y", z: "-z" })
   && runtimeCoordinateCorrection.verification?.repositoryCoordinatesLocked === true
@@ -341,6 +352,14 @@ assert(runtimeCoordinateCorrection.sceneId === config.sceneId
   && JSON.stringify(runtimeCoordinateCorrection.verification.staging.spawn.position) === JSON.stringify({ x: 2.6, y: 0, z: 1.64 })
   && runtimeCoordinateCorrection.verification.staging.diagnostics?.missingAssets?.length === 0
   && runtimeCoordinateCorrection.verification.staging.consoleErrorCount === 0, "invalid_runtime_coordinate_correction");
+assert(bakedLightmapEvidence.sceneId === config.sceneId
+  && bakedLightmapEvidence.releaseVersion === acceptedSourceLock.release.version
+  && bakedLightmapEvidence.platformCommit === validatorCommit
+  && bakedLightmapEvidence.bake?.lightmapSha256 === acceptedSourceLock.acceptedSource.lightmapSha256
+  && bakedLightmapEvidence.asset?.glbSha256 === acceptedSourceLock.release.glbSha256
+  && bakedLightmapEvidence.localRuntime?.state === "loaded"
+  && bakedLightmapEvidence.localRuntime?.missingAssets?.length === 0
+  && bakedLightmapEvidence.visualParity?.result === "passed", "invalid_baked_lightmap_evidence");
 
 assert(releaseAssetLedger.schemaVersion === 1
   && releaseAssetLedger.sceneId === config.sceneId
@@ -376,7 +395,7 @@ assert(JSON.stringify(releaseAssetLedger.reviewImageConversion) === JSON.stringi
 const releaseLicense = await fileRecord(join(root, releaseAssetLedger.license.reference));
 assert(releaseLicense.sha256 === projectOwnedReleaseLicenseSha256, "project_owned_release_license_digest_drift");
 const releaseRecordIds = releaseAssetLedger.records.map(({ id }) => id);
-assert(releaseRecordIds.length === 17 && new Set(releaseRecordIds).size === releaseRecordIds.length, "invalid_release_asset_record_set");
+assert(releaseRecordIds.length === 18 && new Set(releaseRecordIds).size === releaseRecordIds.length, "invalid_release_asset_record_set");
 for (const record of releaseAssetLedger.records.filter(({ repositoryPath }) => repositoryPath)) {
   assert((await fileRecord(join(root, record.repositoryPath))).sha256 === record.originalSha256, `release_asset_digest_drift:${record.id}`);
 }
@@ -562,7 +581,7 @@ for (const release of manifest.releases) {
   }
   const scene = await json(join(releaseDir, "scene.json"));
   assert(scene.schemaVersion === 1 && scene.sceneId === config.sceneId, `invalid_scene_manifest_identity:${releaseKey}`);
-  if (release.version === "0.1.2") assert(scene.version === release.version, `invalid_scene_manifest_version:${releaseKey}`);
+  if (["0.1.2", "0.2.0"].includes(release.version)) assert(scene.version === release.version, `invalid_scene_manifest_version:${releaseKey}`);
   assert(scene.glbPath === "scene.glb" && scene.preview === "preview.webp", `invalid_scene_relative_paths:${releaseKey}`);
   assert(scene.spawnPoints?.[0]?.id === "main", `invalid_main_spawn:${releaseKey}`);
   assert(scene.anchors?.seatAnchors?.length === 8, `invalid_eight_seat_contract:${releaseKey}`);
@@ -579,7 +598,7 @@ for (const release of manifest.releases) {
   assert(!/(^\/|^[A-Za-z]:[\\/]|^\\\\|\/home\/|\/mnt\/)/.test(scene.source ?? ""), `private_source_path:${releaseKey}`);
   assert(!/(alpha|beta|curated|ai[- ]?generated)/i.test(scene.label ?? ""), `non_neutral_release_label:${releaseKey}`);
   if (release.isCurrent) {
-    assert(scene.renderMode === "clean" && scene.renderProfile === "neutral-pbr", `invalid_current_render_profile:${releaseKey}`);
+    assert(scene.renderMode === "clean" && scene.renderProfile === "baked-pbr-v1", `invalid_current_render_profile:${releaseKey}`);
     assert(JSON.stringify(scene.spawnPoints[0].position) === JSON.stringify(toRuntimePosition(sceneSpec.spawn.position)), `runtime_spawn_coordinate_drift:${releaseKey}`);
     const tablePosition = toRuntimePosition(sceneSpec.components.find(({ id }) => id === "conference-table").transform.position);
     const dx = tablePosition.x - scene.spawnPoints[0].position.x;
