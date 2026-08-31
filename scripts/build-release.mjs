@@ -23,7 +23,10 @@ function exportScene(path) {
     "--output",
     path
   ], { stdio: "inherit" });
-  if (result.status !== 0) throw new Error(`blender_export_failed:${result.status}`);
+  if (result.status !== 0) {
+    const reason = result.error?.message ?? result.signal ?? result.status;
+    throw new Error(`blender_export_failed:${reason}`);
+  }
 }
 
 await mkdir(dirname(output), { recursive: true });

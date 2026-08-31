@@ -35,6 +35,7 @@ source/lighting-constructions.json
 source/scene-contract-lock.json
 source/accepted-source-lock.json
 source/accepted-scene.blend
+source/accepted-lightmap.png
 source/visual-completion.py
 source/export-release.py
 source/render-review.py
@@ -61,6 +62,7 @@ pnpm validate
 pnpm inspect
 pnpm test
 BLENDER_BIN=/path/to/pinned/blender pnpm verify:reproducibility
+SCENE_VISUAL_OUTPUT_DIR=/path/to/runtime-captures pnpm validate:visual
 ```
 
 No scene binary may be committed before source rights are cleared. A release
@@ -94,4 +96,12 @@ Release `0.1.2` is an immutable metadata-only release. It preserves the exact
 the conference-table composition center. For runtime spawn `(2.6, 0, 1.64)`
 and table center `(-0.45, 0, -0.05)`, Three.js forward `-Z` gives
 `yaw = atan2(-dx, -dz) = 1.0648120280696147` radians. Release `0.1.1` is
-superseded; `0.1.2` is the active publication-ready release.
+superseded; `0.1.2` was the active publication-ready release until `0.2.0`.
+
+Release `0.2.0` supersedes `0.1.2` with a deterministic 2048px Cycles
+irradiance atlas and the platform `baked-pbr-v1` render profile. The release
+keeps the accepted PBR material parameters, uses `TEXCOORD_1` for baked light,
+and retains RoomEnvironment reflections for dynamic and metallic surfaces.
+The accepted atlas is stored as a reproducible build input; `export-release.py`
+can either rebuild the GLB from that atlas or regenerate it with `--bake`.
+Four fixed runtime views must pass `pnpm validate:visual` before publication.

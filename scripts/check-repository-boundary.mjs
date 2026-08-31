@@ -10,6 +10,7 @@ const forbiddenTopLevel = new Set(["compiler", "experiment", "lab", "schemas"]);
 const binaryExtensions = new Set([".avif", ".blend", ".fbx", ".gif", ".glb", ".gltf", ".jpeg", ".jpg", ".png", ".svg", ".webp"]);
 const allowedBinaryPaths = new Set([
   "source/accepted-scene.blend",
+  "source/accepted-lightmap.png",
   "source/review/entry.webp",
   "source/review/participant.webp",
   "source/review/presenter.webp",
@@ -19,7 +20,9 @@ const allowedBinaryPaths = new Set([
   `assets/scenes/${config.sceneId}/0.1.1/scene.glb`,
   `assets/scenes/${config.sceneId}/0.1.1/preview.webp`,
   `assets/scenes/${config.sceneId}/0.1.2/scene.glb`,
-  `assets/scenes/${config.sceneId}/0.1.2/preview.webp`
+  `assets/scenes/${config.sceneId}/0.1.2/preview.webp`,
+  `assets/scenes/${config.sceneId}/0.2.0/scene.glb`,
+  `assets/scenes/${config.sceneId}/0.2.0/preview.webp`
 ]);
 const privatePreviewSha256 = new Set([
   "f52b3722e71dd231ebe80424f0411e9771670fa37aff01eebbce42ff7d4c0a21",

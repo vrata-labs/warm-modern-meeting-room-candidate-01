@@ -6,7 +6,7 @@ import test from "node:test";
 
 const root = resolve(import.meta.dirname, "..");
 const validatorCommit = "ec0a8fb118ef9c5589ebb0bd4a9b9047616a56c2";
-const platformValidatorCommit = "61736f6289f941e290f4fe156f17efdd64ef876b";
+const platformValidatorCommit = "c54edb2239d225a71e9b934316f70792b3faafb6";
 const constructionRawSha256 = "f32327442d015f4c89942bf752e959d6c0abc24613c72f32a8ba4c2b2b29d5d1";
 const mediaSurfaceRawSha256 = "0bdf11ca588d700c8a721d60cb503215c29ce021b48708302b8b9da45ec1036b";
 const exteriorConstructionRawSha256 = "54a9e7b3b20c94844380c524443005006225eccbe22b4a57f4df50782e859639";
@@ -61,21 +61,24 @@ test("repository is pinned to one neutral scene", async () => {
   assert.equal((await text("platform-validator.lock")).trim(), platformValidatorCommit);
 });
 
-test("manifest preserves historical releases and selects the metadata-only release", async () => {
+test("manifest preserves historical releases and selects the baked-lightmap release", async () => {
   const config = await json("scene-repository.json");
   const manifest = await json("manifest.json");
   assert.equal(manifest.sceneId, config.sceneId);
   assert.equal(manifest.platformValidatorCommit, config.platformValidatorCommit);
-  assert.deepEqual(manifest.releases.map(({ version }) => version), ["0.1.0", "0.1.1", "0.1.2"]);
+  assert.deepEqual(manifest.releases.map(({ version }) => version), ["0.1.0", "0.1.1", "0.1.2", "0.2.0"]);
   assert.deepEqual(manifest.releases.map(({ status, isCurrent }) => ({ status, isCurrent })), [
+    { status: "superseded", isCurrent: false },
     { status: "superseded", isCurrent: false },
     { status: "superseded", isCurrent: false },
     { status: "active", isCurrent: true }
   ]);
   assert.equal(manifest.releases[0].supersededBy, "0.1.1");
   assert.equal(manifest.releases[1].supersededBy, "0.1.2");
-  assert.ok(manifest.releases.every((release) => release.files["scene.glb"].sha256 === "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"));
-  assert.deepEqual((await readdir(resolve(root, "assets/scenes/warm-modern-meeting-room-candidate-01"))).sort(), [".gitkeep", "0.1.0", "0.1.1", "0.1.2"]);
+  assert.equal(manifest.releases[2].supersededBy, "0.2.0");
+  assert.ok(manifest.releases.slice(0, 3).every((release) => release.files["scene.glb"].sha256 === "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"));
+  assert.equal(manifest.releases[3].files["scene.glb"].sha256, "ad988d685e32c286d0349144935ee1c47305f71b252de33319dfb967b7b7e7d5");
+  assert.deepEqual((await readdir(resolve(root, "assets/scenes/warm-modern-meeting-room-candidate-01"))).sort(), [".gitkeep", "0.1.0", "0.1.1", "0.1.2", "0.2.0"]);
 });
 
 test("accepted source, review evidence, rights, and deterministic release are locked", async () => {
@@ -86,7 +89,8 @@ test("accepted source, review evidence, rights, and deterministic release are lo
   assert.equal(lock.reproducibility.scope, "same-host-same-blender-binary-two-run");
   assert.equal(lock.reproducibility.runs, 2);
   assert.equal(lock.reproducibility.sha256, lock.release.glbSha256);
-  assert.equal(lock.release.version, "0.1.1");
+  assert.equal(lock.release.version, "0.2.0");
+  assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.lightmapPath))), lock.acceptedSource.lightmapSha256);
   assert.equal(lock.runtimeCoordinates.transform, "x=x,y=y,z=-z");
   assert.deepEqual(lock.boundaries, {
     visualAccepted: true,
@@ -104,8 +108,8 @@ test("accepted source, review evidence, rights, and deterministic release are lo
   assert.equal(ledger.approval.decision, "approved");
   assert.equal(ledger.allowedUse.production, true);
   assert.equal(ledger.allowedUse.redistribution, true);
-  assert.equal(ledger.records.length, 17);
-  assert.equal(new Set(ledger.records.map(({ id }) => id)).size, 17);
+  assert.equal(ledger.records.length, 18);
+  assert.equal(new Set(ledger.records.map(({ id }) => id)).size, 18);
 });
 
 test("current release preserves runtime coordinates and adds stable render and spawn metadata", async () => {
@@ -128,9 +132,9 @@ test("current release preserves runtime coordinates and adds stable render and s
   });
   assert.deepEqual(correction.verification.staging.diagnostics.missingAssets, []);
   assert.equal(correction.verification.staging.consoleErrorCount, 0);
-  assert.equal(scene.version, "0.1.2");
+  assert.equal(scene.version, "0.2.0");
   assert.equal(scene.renderMode, "clean");
-  assert.equal(scene.renderProfile, "neutral-pbr");
+  assert.equal(scene.renderProfile, "baked-pbr-v1");
   assert.deepEqual(scene.spawnPoints[0].position, toRuntimePosition(spec.spawn.position));
   const tablePosition = toRuntimePosition(spec.components.find(({ id }) => id === "conference-table").transform.position);
   const dx = tablePosition.x - scene.spawnPoints[0].position.x;
