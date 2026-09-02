@@ -1,0 +1,17 @@
+diff --git a/tests/e2e/scene-visual.spec.ts b/tests/e2e/scene-visual.spec.ts
+index 16093e9..3293586 100644
+--- a/tests/e2e/scene-visual.spec.ts
++++ b/tests/e2e/scene-visual.spec.ts
+@@ -150,7 +150,11 @@ test("@private-assets @scene-visual captures fixed runtime review views", asyn
+       sceneBundleUrl: ["127.0.0.1", "localhost"].includes(new URL(uploaded.publicUrl).hostname)
+         ? new URL(new URL(uploaded.publicUrl).pathname, baseUrl).toString()
+         : uploaded.publicUrl,
+-      avatarConfig: { avatarsEnabled: false }
++      avatarConfig: {
++        avatarsEnabled: true,
++        avatarFallbackCapsulesEnabled: false,
++        avatarSeatsEnabled: false
++      }
+     }
+   });
+   expect(roomResponse.ok()).toBeTruthy();

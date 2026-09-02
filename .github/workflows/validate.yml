@@ -60,13 +60,7 @@ jobs:
             exit 0
           fi
           git fetch --no-tags --depth=1 origin "$BASE_SHA"
-          while IFS= read -r path; do
-            release_dir="$(cut -d/ -f1-4 <<< "$path")"
-            if git cat-file -e "$BASE_SHA:$release_dir" 2>/dev/null; then
-              echo "published_scene_version_is_immutable:$path" >&2
-              exit 1
-            fi
-          done < <(git diff --no-renames --name-only "$BASE_SHA" HEAD -- assets/scenes)
+          node scripts/check-repository-boundary.mjs --base "$BASE_SHA"
 
       - name: Validate repository and release records
         env:
@@ -78,6 +72,25 @@ jobs:
 
       - name: Run tests
         run: pnpm test
+
+      - name: Download pinned Blender
+        shell: bash
+        env:
+          BLENDER_ARCHIVE_SHA256: 95e3a2dfedba3bd32ca54fc355eac6b15a11986954ccb02815a07535d0120a25
+        run: |
+          archive="$RUNNER_TEMP/blender-4.5.12-linux-x64.tar.xz"
+          curl --fail --location --retry 3 --output "$archive" https://download.blender.org/release/Blender4.5/blender-4.5.12-linux-x64.tar.xz
+          printf '%s  %s\n' "$BLENDER_ARCHIVE_SHA256" "$archive" | sha256sum --check --strict
+          tar --extract --xz --file "$archive" --directory "$RUNNER_TEMP"
+          echo "BLENDER_BIN=$RUNNER_TEMP/blender-4.5.12-linux-x64/blender" >> "$GITHUB_ENV"
+
+      - name: Verify every accepted release is reproducible
+        shell: bash
+        run: |
+          node -e 'for (const { version } of require("./source/release-acceptance-index.json").releases) console.log(version)' |
+          while IFS= read -r version; do
+            node scripts/build-release.mjs --version "$version" --twice
+          done
 
       - name: Read platform validator lock
         id: platform-ref
@@ -96,6 +109,10 @@ jobs:
           repository: vrata-labs/platform
           ref: ${{ steps.platform-ref.outputs.sha }}
           path: .platform
+
+      - name: Validate versioned visual capture patch
+        shell: bash
+        run: git -C .platform apply --check "$GITHUB_WORKSPACE/source/releases/0.3.0/platform-scene-visual-clean.patch"
 
       - name: Validate Scene Bundle contract when releases exist
         shell: bash

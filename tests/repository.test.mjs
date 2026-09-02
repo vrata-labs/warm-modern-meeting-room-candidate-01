@@ -2,7 +2,10 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { access, readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
+import { spawnSync } from "node:child_process";
 import test from "node:test";
+
+import { loadReleaseAcceptanceIndex, selectReleaseAcceptance } from "../scripts/release-acceptance.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const validatorCommit = "ec0a8fb118ef9c5589ebb0bd4a9b9047616a56c2";
@@ -61,36 +64,79 @@ test("repository is pinned to one neutral scene", async () => {
   assert.equal((await text("platform-validator.lock")).trim(), platformValidatorCommit);
 });
 
-test("manifest preserves historical releases and selects the baked-lightmap release", async () => {
+test("manifest preserves the historical prefix and one current release beside append-only review releases", async () => {
   const config = await json("scene-repository.json");
   const manifest = await json("manifest.json");
   assert.equal(manifest.sceneId, config.sceneId);
   assert.equal(manifest.platformValidatorCommit, config.platformValidatorCommit);
-  assert.deepEqual(manifest.releases.map(({ version }) => version), ["0.1.0", "0.1.1", "0.1.2", "0.2.0"]);
-  assert.deepEqual(manifest.releases.map(({ status, isCurrent }) => ({ status, isCurrent })), [
-    { status: "superseded", isCurrent: false },
-    { status: "superseded", isCurrent: false },
-    { status: "superseded", isCurrent: false },
-    { status: "active", isCurrent: true }
+  const historicalVersions = ["0.1.0", "0.1.1", "0.1.2", "0.2.0"];
+  assert.deepEqual(manifest.releases.slice(0, historicalVersions.length).map(({ version }) => version), historicalVersions);
+  assert.deepEqual(manifest.releases.filter(({ isCurrent }) => isCurrent).map(({ version }) => version), ["0.2.0"]);
+  assert.deepEqual(manifest.releases.slice(0, 3).map(({ status, isCurrent, supersededBy }) => ({ status, isCurrent, supersededBy })), [
+    { status: "superseded", isCurrent: false, supersededBy: "0.1.1" },
+    { status: "superseded", isCurrent: false, supersededBy: "0.1.2" },
+    { status: "superseded", isCurrent: false, supersededBy: "0.2.0" }
   ]);
-  assert.equal(manifest.releases[0].supersededBy, "0.1.1");
-  assert.equal(manifest.releases[1].supersededBy, "0.1.2");
-  assert.equal(manifest.releases[2].supersededBy, "0.2.0");
+  const active = manifest.releases.find(({ version }) => version === "0.2.0");
+  assert.deepEqual({ status: active.status, isCurrent: active.isCurrent, supersededBy: active.supersededBy }, {
+    status: "active",
+    isCurrent: true,
+    supersededBy: undefined
+  });
+  const review = manifest.releases.find(({ version }) => version === "0.3.0");
+  assert.deepEqual({ status: review.status, isCurrent: review.isCurrent, publicationReady: review.publicationReady, supersededBy: review.supersededBy }, {
+    status: "review",
+    isCurrent: false,
+    publicationReady: false,
+    supersededBy: undefined
+  });
   assert.ok(manifest.releases.slice(0, 3).every((release) => release.files["scene.glb"].sha256 === "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"));
-  assert.equal(manifest.releases[3].files["scene.glb"].sha256, "ad988d685e32c286d0349144935ee1c47305f71b252de33319dfb967b7b7e7d5");
-  assert.deepEqual((await readdir(resolve(root, "assets/scenes/warm-modern-meeting-room-candidate-01"))).sort(), [".gitkeep", "0.1.0", "0.1.1", "0.1.2", "0.2.0"]);
+  const baked = manifest.releases.find(({ version }) => version === "0.2.0");
+  assert.equal(baked.files["scene.glb"].sha256, "ad988d685e32c286d0349144935ee1c47305f71b252de33319dfb967b7b7e7d5");
+  assert.equal(review.files["scene.glb"].sha256, "fa95f93af025ca374b53d81ffef60e5dd6e77c848cc362b56763973ce2140880");
+  assert.deepEqual(
+    (await readdir(resolve(root, "assets/scenes/warm-modern-meeting-room-candidate-01"))).filter((entry) => entry !== ".gitkeep").sort(),
+    manifest.releases.map(({ version }) => version).sort()
+  );
 });
 
-test("accepted source, review evidence, rights, and deterministic release are locked", async () => {
-  const lock = await json("source/accepted-source-lock.json");
-  const ledger = await json("provenance/release-asset-ledger.json");
-  assert.equal(lock.status, "accepted-reproducible-source");
+test("acceptance index iterates locked source, visual config, rights, and release records", async () => {
+  const { index, acceptances } = await loadReleaseAcceptanceIndex(root);
+  assert.equal(index.sceneId, "warm-modern-meeting-room-candidate-01");
+  const legacy = acceptances.find(({ record }) => record.version === "0.2.0");
+  assert.equal(legacy.record.lockPath, "source/accepted-source-lock.json");
+  assert.equal(legacy.record.visualParityConfigPath, "source/releases/0.2.0/visual-parity-config.json");
+
+  for (const { record, lock, visualParityConfig } of acceptances) {
+    assert.equal(lock.status, "accepted-reproducible-source");
+    assert.equal(lock.release.version, record.version);
+    assert.equal(lock.reproducibility.runs, 2);
+    assert.equal(lock.reproducibility.sha256, lock.release.glbSha256);
+    for (const [pathKey, repositoryPath] of Object.entries(lock.acceptedSource).filter(([key]) => key.endsWith("Path"))) {
+      const digestKey = `${pathKey.slice(0, -4)}Sha256`;
+      assert.equal(sha256(await readFile(resolve(root, repositoryPath))), lock.acceptedSource[digestKey]);
+    }
+    if (lock.captureHarness) {
+      assert.equal(sha256(await readFile(resolve(root, lock.captureHarness.patchPath))), lock.captureHarness.patchSha256);
+      assert.equal(lock.captureHarness.platformCommit, platformValidatorCommit);
+    }
+    assert.equal(sha256(await readFile(resolve(root, lock.release.path, "scene.glb"))), lock.release.glbSha256);
+    assert.equal(sha256(await readFile(resolve(root, lock.release.path, "scene.json"))), lock.release.sceneManifestSha256);
+    assert.deepEqual(
+      visualParityConfig.views.map(({ id, referencePath, referenceSha256 }) => ({ id, path: referencePath, sha256: referenceSha256 })),
+      lock.reviewViews.map(({ id, path, sha256: digest }) => ({ id, path, sha256: digest }))
+    );
+    const ledger = await json(lock.rights.releaseLedgerPath);
+    assert.equal(ledger.releaseVersion, record.version);
+    assert.equal(ledger.approval.decision, "approved");
+    assert.equal(ledger.allowedUse.production, true);
+    assert.equal(ledger.allowedUse.redistribution, true);
+  }
+
+  const { lock } = legacy;
+  const ledger = await json(lock.rights.releaseLedgerPath);
   assert.equal(lock.acceptedOn, "2026-08-29");
   assert.equal(lock.reproducibility.scope, "same-host-same-blender-binary-two-run");
-  assert.equal(lock.reproducibility.runs, 2);
-  assert.equal(lock.reproducibility.sha256, lock.release.glbSha256);
-  assert.equal(lock.release.version, "0.2.0");
-  assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.lightmapPath))), lock.acceptedSource.lightmapSha256);
   assert.equal(lock.runtimeCoordinates.transform, "x=x,y=y,z=-z");
   assert.deepEqual(lock.boundaries, {
     visualAccepted: true,
@@ -99,25 +145,108 @@ test("accepted source, review evidence, rights, and deterministic release are lo
     releaseGlbVerified: true,
     publicationReady: true
   });
-  assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.blendPath))), lock.acceptedSource.blendSha256);
-  assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.visualCompletionScriptPath))), lock.acceptedSource.visualCompletionScriptSha256);
-  assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.exportScriptPath))), lock.acceptedSource.exportScriptSha256);
-  assert.equal(sha256(await readFile(resolve(root, lock.acceptedSource.renderScriptPath))), lock.acceptedSource.renderScriptSha256);
-  assert.equal(sha256(await readFile(resolve(root, lock.release.path, "scene.glb"))), lock.release.glbSha256);
-  assert.equal(sha256(await readFile(resolve(root, lock.release.path, "scene.json"))), lock.release.sceneManifestSha256);
-  assert.equal(ledger.approval.decision, "approved");
-  assert.equal(ledger.allowedUse.production, true);
-  assert.equal(ledger.allowedUse.redistribution, true);
   assert.equal(ledger.records.length, 18);
   assert.equal(new Set(ledger.records.map(({ id }) => id)).size, 18);
+
+  const review = acceptances.find(({ record }) => record.version === "0.3.0");
+  assert.equal(review.lock.reviewViews.length, 16);
+  assert.equal(review.lock.visualQuality.result, "passed");
+  assert.equal(review.lock.visualQuality.humanAcceptance, "pending");
+  assert.deepEqual(review.lock.boundaries, {
+    visualAccepted: false,
+    rightsApproved: true,
+    acceptedSourceStored: true,
+    releaseGlbVerified: true,
+    publicationReady: false
+  });
 });
 
-test("current release preserves runtime coordinates and adds stable render and spawn metadata", async () => {
+test("legacy visual parity policy is versioned and binds capture diagnostics to the exact GLB", async () => {
+  const { acceptances } = await loadReleaseAcceptanceIndex(root);
+  const { visualParityConfig: visual } = acceptances.find(({ record }) => record.version === "0.2.0");
+  assert.deepEqual(visual.releaseGlb, {
+    path: "assets/scenes/warm-modern-meeting-room-candidate-01/0.2.0/scene.glb",
+    sha256: "ad988d685e32c286d0349144935ee1c47305f71b252de33319dfb967b7b7e7d5",
+    sizeBytes: 12367932
+  });
+  assert.deepEqual(visual.capture, {
+    bindingFile: "capture-binding.json",
+    runtimeDiagnosticsFile: "scene-debug.json",
+    requiredState: "loaded",
+    requiredFailureReason: null,
+    requireNoMissingAssets: true
+  });
+  assert.deepEqual(Object.fromEntries(visual.views.map(({ id, phashMax, nccMin }) => [id, { phashMax, nccMin }])), {
+    entry: { phashMax: 32, nccMin: 0.47 },
+    participant: { phashMax: 58, nccMin: 0.64 },
+    presenter: { phashMax: 23, nccMin: 0.64 },
+    "diagonal-overview": { phashMax: 28, nccMin: 0.4 }
+  });
+  assert.deepEqual(visual.aggregateThresholds, { phashTotalMax: 130, nccMeanMin: 0.55 });
+});
+
+test("0.3.0 visual parity policy binds clean runtime evidence for all reality views", async () => {
+  const { acceptances } = await loadReleaseAcceptanceIndex(root);
+  const { visualParityConfig: visual } = acceptances.find(({ record }) => record.version === "0.3.0");
+  assert.equal(visual.capture.platformCommit, platformValidatorCommit);
+  assert.deepEqual(visual.capture.platformPatch, {
+    path: "source/releases/0.3.0/platform-scene-visual-clean.patch",
+    sha256: "a6903e7236939df0bdc52086af831d93cf480f213e2f0edacb99ed2d061fb5f2"
+  });
+  assert.equal(visual.capture.requiredRenderProfile, "baked-pbr-v1");
+  assert.equal(visual.capture.minimumLightMappedMaterialCount, 20);
+  assert.deepEqual(visual.capture.expectedRuntime, { meshCount: 139, materialCount: 22, triangleEstimate: 45116 });
+  assert.deepEqual(visual.capture.renderSettings, { environmentIntensity: 0.35, exposure: 1.2 });
+  assert.deepEqual(visual.capture.cleanVisualMode, {
+    stripAnchors: true,
+    avatarsEnabled: true,
+    avatarFallbackCapsulesEnabled: false,
+    avatarSeatsEnabled: false,
+    reason: "Interaction anchors and local fallback avatar meshes are validated separately and must not occlude fixed visual-composition evidence."
+  });
+  assert.equal(visual.capture.runner.command, "pnpm test:e2e -- tests/e2e/scene-visual.spec.ts --workers=1");
+  assert.deepEqual(visual.capture.runner.environment, {
+    SCENE_VISUAL_STRIP_ANCHORS: "1",
+    SCENE_VISUAL_FLIP_Z: "1",
+    SCENE_VISUAL_ENVIRONMENT_INTENSITY: "0.35",
+    SCENE_VISUAL_EXPOSURE: "1.2"
+  });
+  assert.deepEqual(visual.capture.runner.batches.flat().sort(), visual.views.map(({ id }) => id).sort());
+  assert.equal(visual.views.length, 16);
+  assert.deepEqual(visual.views.map(({ id }) => id), [
+    "entry", "diagonal-overview",
+    "seat-01-display", "seat-02-display", "seat-03-display", "seat-04-display",
+    "seat-05-display", "seat-06-display", "seat-07-display", "seat-08-display",
+    "whiteboard-standing", "table-underside", "media-wall", "door-detail", "window-detail", "pendant-detail"
+  ]);
+  assert.deepEqual(visual.aggregateThresholds, { phashTotalMax: 1155, nccMeanMin: 0.44 });
+});
+
+test("release commands select 0.3.0 explicitly and preserve legacy lock selection", async () => {
+  const { acceptances } = await loadReleaseAcceptanceIndex(root);
+  assert.equal(selectReleaseAcceptance(acceptances, { version: null, lockPath: "source/accepted-source-lock.json" }).record.version, "0.2.0");
+  const packageJson = await json("package.json");
+  assert.equal(packageJson.version, "0.3.0");
+  assert.match(packageJson.scripts["build:release"], /--version 0\.3\.0$/);
+  assert.match(packageJson.scripts["validate:visual"], /--version 0\.3\.0$/);
+  assert.match(packageJson.scripts["verify:reproducibility"], /--version 0\.3\.0 --twice$/);
+  const buildScript = await text("scripts/build-release.mjs");
+  assert.match(buildScript, /SCENE_BUILD_OUTPUT_ROOT \?\? "build\/releases"/);
+  assert.match(buildScript, /"--lightmap"/);
+  assert.match(buildScript, /"--scale"/);
+  assert.match(buildScript, /"run-1"/);
+  assert.match(buildScript, /"run-2"/);
+  const withoutSelector = spawnSync(process.execPath, ["scripts/build-release.mjs"], { cwd: root, encoding: "utf8" });
+  assert.notEqual(withoutSelector.status, 0);
+  assert.match(withoutSelector.stderr, /release_selector_required/);
+});
+
+test("release 0.2.0 preserves its exact runtime coordinates and render metadata", async () => {
   const manifest = await json("manifest.json");
   const spec = await json("source/scene-spec.json");
   const correction = await json("provenance/runtime-coordinate-correction-0.1.1.json");
-  const current = manifest.releases.find(({ isCurrent }) => isCurrent);
-  const scene = await json(`${current.releasePath}/scene.json`);
+  const baked = manifest.releases.find(({ version }) => version === "0.2.0");
+  const scene = await json(`${baked.releasePath}/scene.json`);
 
   assert.deepEqual(correction.coordinateTransform, { x: "x", y: "y", z: "-z" });
   assert.equal(correction.verification.repositoryCoordinatesLocked, true);
@@ -614,4 +743,11 @@ test("historical specification lock keeps its pre-release boundaries negative", 
   assert.match(workflow, /source\/scene-contract-lock\.json"\)\.validatorCommit/);
   assert.match(workflow, /ref: \$\{\{ steps\.scene-contract-ref\.outputs\.sha \}\}/);
   assert.match(workflow, /SCENE_FACTORY_DIR: \.scene-factory/);
+  assert.match(workflow, /check-repository-boundary\.mjs --base "\$BASE_SHA"/);
+  assert.match(workflow, /release-acceptance-index\.json/);
+  assert.match(workflow, /build-release\.mjs --version "\$version" --twice/);
+  assert.match(workflow, /platform-scene-visual-clean\.patch/);
+  const boundaryScript = await text("scripts/check-repository-boundary.mjs");
+  assert.match(boundaryScript, /baseSha === null \|\| baseSha === value/);
+  assert.match(boundaryScript, /base_sha_argument_mismatch/);
 });

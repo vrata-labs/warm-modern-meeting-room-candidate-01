@@ -1,0 +1,477 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.3.0",
+  "coordinateSystem": {
+    "geometry": "glTF right-handed Y-up meters",
+    "runtime": "Vrata right-handed Y-up meters",
+    "authoringToRuntime": "x=x,y=z,z=-y"
+  },
+  "expectedCounts": {
+    "objects": 27,
+    "parts": 139,
+    "partsByStatus": {
+      "passive": 56,
+      "deferred": 23,
+      "interactive": 60
+    }
+  },
+  "supportRoots": [
+    { "objectId": "room-shell", "partId": "floor" },
+    { "objectId": "exterior-site", "partId": "near-ground" }
+  ],
+  "runtimeBindings": {
+    "seatAnchors": [
+      { "id": "seat-01", "objectId": "chair-01", "partId": "seat", "position": { "x": -1.95, "y": 0, "z": -1.15 }, "yaw": 3.141593, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 01" },
+      { "id": "seat-02", "objectId": "chair-02", "partId": "seat", "position": { "x": -0.95, "y": 0, "z": -1.15 }, "yaw": 3.141593, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 02" },
+      { "id": "seat-03", "objectId": "chair-03", "partId": "seat", "position": { "x": 0.05, "y": 0, "z": -1.15 }, "yaw": 3.141593, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 03" },
+      { "id": "seat-04", "objectId": "chair-04", "partId": "seat", "position": { "x": 1.05, "y": 0, "z": -1.15 }, "yaw": 3.141593, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 04" },
+      { "id": "seat-05", "objectId": "chair-05", "partId": "seat", "position": { "x": -1.95, "y": 0, "z": 1.1 }, "yaw": 0, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 05" },
+      { "id": "seat-06", "objectId": "chair-06", "partId": "seat", "position": { "x": -0.95, "y": 0, "z": 1.1 }, "yaw": 0, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 06" },
+      { "id": "seat-07", "objectId": "chair-07", "partId": "seat", "position": { "x": 0.05, "y": 0, "z": 1.1 }, "yaw": 0, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 07" },
+      { "id": "seat-08", "objectId": "chair-08", "partId": "seat", "position": { "x": 1.05, "y": 0, "z": 1.1 }, "yaw": 0, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 08" }
+    ],
+    "mediaSurfaces": [
+      { "surfaceId": "debug-main", "objectId": "debug-main", "partId": "surface", "label": "Shared display", "kind": "wall", "widthM": 3.2, "heightM": 1.8, "widthPx": 1920, "heightPx": 1080, "transform": { "x": -3.4, "y": 1.55, "z": -0.15, "yaw": 1.5707963267948966 }, "visible": true },
+      { "surfaceId": "whiteboard-wall", "objectId": "whiteboard-wall", "partId": "surface", "label": "Collaboration wall", "kind": "wall", "widthM": 2.4, "heightM": 1.25, "widthPx": 1920, "heightPx": 1000, "transform": { "x": 3.4, "y": 1.5, "z": -0.5, "yaw": -1.5707963267948966 }, "visible": true }
+    ]
+  },
+  "objects": [
+    {
+      "id": "area-rug",
+      "label": "Area rug",
+      "class": "floor-covering",
+      "purpose": "Define the meeting zone and provide a stable furniture surface.",
+      "status": "passive",
+      "expectedAffordances": ["define-meeting-zone", "support-furniture"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "rug", "label": "Rug", "purpose": "Cover the floor below the table and chairs.", "supports": [{ "relation": "supported-by", "objectId": "room-shell", "partId": "floor" }] }
+      ]
+    },
+    {
+      "id": "av-credenza",
+      "label": "AV credenza",
+      "class": "storage-cabinet",
+      "purpose": "Provide enclosed storage below the shared display.",
+      "status": "deferred",
+      "expectedAffordances": ["store-av-equipment", "open-cabinet-doors"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "carcass", "label": "Cabinet carcass", "purpose": "Form the cabinet body.", "supports": [{ "relation": "supported-by", "objectId": "av-credenza", "partId": "floor-plinth" }] },
+        { "id": "floor-plinth", "label": "Floor plinth", "purpose": "Transfer cabinet load to the floor.", "supports": [{ "relation": "supported-by", "objectId": "room-shell", "partId": "floor" }] },
+        { "id": "door-01", "label": "Cabinet door 01", "purpose": "Close the first storage bay.", "supports": [{ "relation": "attached-to", "objectId": "av-credenza", "partId": "carcass" }] },
+        { "id": "door-02", "label": "Cabinet door 02", "purpose": "Close the second storage bay.", "supports": [{ "relation": "attached-to", "objectId": "av-credenza", "partId": "carcass" }] },
+        { "id": "door-03", "label": "Cabinet door 03", "purpose": "Close the third storage bay.", "supports": [{ "relation": "attached-to", "objectId": "av-credenza", "partId": "carcass" }] },
+        { "id": "door-04", "label": "Cabinet door 04", "purpose": "Close the fourth storage bay.", "supports": [{ "relation": "attached-to", "objectId": "av-credenza", "partId": "carcass" }] },
+        { "id": "pulls", "label": "Cabinet pulls", "purpose": "Indicate where cabinet doors would be operated.", "supports": [{ "relation": "attached-to", "objectId": "av-credenza", "partId": "carcass" }] }
+      ]
+    },
+    {
+      "id": "baseboards",
+      "label": "Baseboards",
+      "class": "architectural-trim",
+      "purpose": "Finish and protect the wall-to-floor perimeter.",
+      "status": "passive",
+      "expectedAffordances": ["protect-wall-base", "finish-room-perimeter"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "east-baseboard-segment-01", "label": "East baseboard", "purpose": "Finish the east wall base.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "north-baseboard-segment-01", "label": "North baseboard", "purpose": "Finish the north wall base.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "south-baseboard-segment-01", "label": "South baseboard segment 01", "purpose": "Finish the first south wall section.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "south-baseboard-segment-02", "label": "South baseboard segment 02", "purpose": "Finish the second south wall section.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "west-baseboard-segment-01", "label": "West baseboard", "purpose": "Finish the west wall base.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] }
+      ]
+    },
+    {
+      "id": "chair-01",
+      "label": "Meeting chair 01",
+      "class": "task-chair",
+      "purpose": "Provide an interactive participant seat.",
+      "status": "interactive",
+      "expectedAffordances": ["approach", "sit", "stand"],
+      "implementedInteractions": [{ "type": "seat-anchor", "bindingId": "seat-01" }],
+      "parts": [
+        { "id": "seat", "label": "Seat", "purpose": "Support a seated participant.", "supports": [{ "relation": "supported-by", "objectId": "chair-01", "partId": "mechanism" }] },
+        { "id": "back", "label": "Backrest", "purpose": "Support the participant back.", "supports": [{ "relation": "attached-to", "objectId": "chair-01", "partId": "back-supports" }] },
+        { "id": "mechanism", "label": "Seat mechanism", "purpose": "Connect the seat to the lift column.", "supports": [{ "relation": "supported-by", "objectId": "chair-01", "partId": "gas-column" }] },
+        { "id": "gas-column", "label": "Gas column", "purpose": "Transfer seat load to the base.", "supports": [{ "relation": "supported-by", "objectId": "chair-01", "partId": "five-star-base" }] },
+        { "id": "five-star-base", "label": "Five-star base", "purpose": "Provide a stable rolling footprint.", "supports": [{ "relation": "supported-by", "objectId": "area-rug", "partId": "rug" }] },
+        { "id": "back-supports", "label": "Back supports", "purpose": "Connect the backrest to the seat mechanism.", "supports": [{ "relation": "attached-to", "objectId": "chair-01", "partId": "mechanism" }] },
+        { "id": "arm-assembly", "label": "Arm assembly", "purpose": "Support participant forearms below the table edge.", "supports": [{ "relation": "attached-to", "objectId": "chair-01", "partId": "seat" }] }
+      ]
+    },
+    {
+      "id": "chair-02",
+      "label": "Meeting chair 02",
+      "class": "task-chair",
+      "purpose": "Provide an interactive participant seat.",
+      "status": "interactive",
+      "expectedAffordances": ["approach", "sit", "stand"],
+      "implementedInteractions": [{ "type": "seat-anchor", "bindingId": "seat-02" }],
+      "parts": [
+        { "id": "seat", "label": "Seat", "purpose": "Support a seated participant.", "supports": [{ "relation": "supported-by", "objectId": "chair-02", "partId": "mechanism" }] },
+        { "id": "back", "label": "Backrest", "purpose": "Support the participant back.", "supports": [{ "relation": "attached-to", "objectId": "chair-02", "partId": "back-supports" }] },
+        { "id": "mechanism", "label": "Seat mechanism", "purpose": "Connect the seat to the lift column.", "supports": [{ "relation": "supported-by", "objectId": "chair-02", "partId": "gas-column" }] },
+        { "id": "gas-column", "label": "Gas column", "purpose": "Transfer seat load to the base.", "supports": [{ "relation": "supported-by", "objectId": "chair-02", "partId": "five-star-base" }] },
+        { "id": "five-star-base", "label": "Five-star base", "purpose": "Provide a stable rolling footprint.", "supports": [{ "relation": "supported-by", "objectId": "area-rug", "partId": "rug" }] },
+        { "id": "back-supports", "label": "Back supports", "purpose": "Connect the backrest to the seat mechanism.", "supports": [{ "relation": "attached-to", "objectId": "chair-02", "partId": "mechanism" }] },
+        { "id": "arm-assembly", "label": "Arm assembly", "purpose": "Support participant forearms below the table edge.", "supports": [{ "relation": "attached-to", "objectId": "chair-02", "partId": "seat" }] }
+      ]
+    },
+    {
+      "id": "chair-03",
+      "label": "Meeting chair 03",
+      "class": "task-chair",
+      "purpose": "Provide an interactive participant seat.",
+      "status": "interactive",
+      "expectedAffordances": ["approach", "sit", "stand"],
+      "implementedInteractions": [{ "type": "seat-anchor", "bindingId": "seat-03" }],
+      "parts": [
+        { "id": "seat", "label": "Seat", "purpose": "Support a seated participant.", "supports": [{ "relation": "supported-by", "objectId": "chair-03", "partId": "mechanism" }] },
+        { "id": "back", "label": "Backrest", "purpose": "Support the participant back.", "supports": [{ "relation": "attached-to", "objectId": "chair-03", "partId": "back-supports" }] },
+        { "id": "mechanism", "label": "Seat mechanism", "purpose": "Connect the seat to the lift column.", "supports": [{ "relation": "supported-by", "objectId": "chair-03", "partId": "gas-column" }] },
+        { "id": "gas-column", "label": "Gas column", "purpose": "Transfer seat load to the base.", "supports": [{ "relation": "supported-by", "objectId": "chair-03", "partId": "five-star-base" }] },
+        { "id": "five-star-base", "label": "Five-star base", "purpose": "Provide a stable rolling footprint.", "supports": [{ "relation": "supported-by", "objectId": "area-rug", "partId": "rug" }] },
+        { "id": "back-supports", "label": "Back supports", "purpose": "Connect the backrest to the seat mechanism.", "supports": [{ "relation": "attached-to", "objectId": "chair-03", "partId": "mechanism" }] },
+        { "id": "arm-assembly", "label": "Arm assembly", "purpose": "Support participant forearms below the table edge.", "supports": [{ "relation": "attached-to", "objectId": "chair-03", "partId": "seat" }] }
+      ]
+    },
+    {
+      "id": "chair-04",
+      "label": "Meeting chair 04",
+      "class": "task-chair",
+      "purpose": "Provide an interactive participant seat.",
+      "status": "interactive",
+      "expectedAffordances": ["approach", "sit", "stand"],
+      "implementedInteractions": [{ "type": "seat-anchor", "bindingId": "seat-04" }],
+      "parts": [
+        { "id": "seat", "label": "Seat", "purpose": "Support a seated participant.", "supports": [{ "relation": "supported-by", "objectId": "chair-04", "partId": "mechanism" }] },
+        { "id": "back", "label": "Backrest", "purpose": "Support the participant back.", "supports": [{ "relation": "attached-to", "objectId": "chair-04", "partId": "back-supports" }] },
+        { "id": "mechanism", "label": "Seat mechanism", "purpose": "Connect the seat to the lift column.", "supports": [{ "relation": "supported-by", "objectId": "chair-04", "partId": "gas-column" }] },
+        { "id": "gas-column", "label": "Gas column", "purpose": "Transfer seat load to the base.", "supports": [{ "relation": "supported-by", "objectId": "chair-04", "partId": "five-star-base" }] },
+        { "id": "five-star-base", "label": "Five-star base", "purpose": "Provide a stable rolling footprint.", "supports": [{ "relation": "supported-by", "objectId": "area-rug", "partId": "rug" }] },
+        { "id": "back-supports", "label": "Back supports", "purpose": "Connect the backrest to the seat mechanism.", "supports": [{ "relation": "attached-to", "objectId": "chair-04", "partId": "mechanism" }] },
+        { "id": "arm-assembly", "label": "Arm assembly", "purpose": "Support participant forearms below the table edge.", "supports": [{ "relation": "attached-to", "objectId": "chair-04", "partId": "seat" }] }
+      ]
+    },
+    {
+      "id": "chair-05",
+      "label": "Meeting chair 05",
+      "class": "task-chair",
+      "purpose": "Provide an interactive participant seat.",
+      "status": "interactive",
+      "expectedAffordances": ["approach", "sit", "stand"],
+      "implementedInteractions": [{ "type": "seat-anchor", "bindingId": "seat-05" }],
+      "parts": [
+        { "id": "seat", "label": "Seat", "purpose": "Support a seated participant.", "supports": [{ "relation": "supported-by", "objectId": "chair-05", "partId": "mechanism" }] },
+        { "id": "back", "label": "Backrest", "purpose": "Support the participant back.", "supports": [{ "relation": "attached-to", "objectId": "chair-05", "partId": "back-supports" }] },
+        { "id": "mechanism", "label": "Seat mechanism", "purpose": "Connect the seat to the lift column.", "supports": [{ "relation": "supported-by", "objectId": "chair-05", "partId": "gas-column" }] },
+        { "id": "gas-column", "label": "Gas column", "purpose": "Transfer seat load to the base.", "supports": [{ "relation": "supported-by", "objectId": "chair-05", "partId": "five-star-base" }] },
+        { "id": "five-star-base", "label": "Five-star base", "purpose": "Provide a stable rolling footprint.", "supports": [{ "relation": "supported-by", "objectId": "area-rug", "partId": "rug" }] },
+        { "id": "back-supports", "label": "Back supports", "purpose": "Connect the backrest to the seat mechanism.", "supports": [{ "relation": "attached-to", "objectId": "chair-05", "partId": "mechanism" }] },
+        { "id": "arm-assembly", "label": "Arm assembly", "purpose": "Support participant forearms below the table edge.", "supports": [{ "relation": "attached-to", "objectId": "chair-05", "partId": "seat" }] }
+      ]
+    },
+    {
+      "id": "chair-06",
+      "label": "Meeting chair 06",
+      "class": "task-chair",
+      "purpose": "Provide an interactive participant seat.",
+      "status": "interactive",
+      "expectedAffordances": ["approach", "sit", "stand"],
+      "implementedInteractions": [{ "type": "seat-anchor", "bindingId": "seat-06" }],
+      "parts": [
+        { "id": "seat", "label": "Seat", "purpose": "Support a seated participant.", "supports": [{ "relation": "supported-by", "objectId": "chair-06", "partId": "mechanism" }] },
+        { "id": "back", "label": "Backrest", "purpose": "Support the participant back.", "supports": [{ "relation": "attached-to", "objectId": "chair-06", "partId": "back-supports" }] },
+        { "id": "mechanism", "label": "Seat mechanism", "purpose": "Connect the seat to the lift column.", "supports": [{ "relation": "supported-by", "objectId": "chair-06", "partId": "gas-column" }] },
+        { "id": "gas-column", "label": "Gas column", "purpose": "Transfer seat load to the base.", "supports": [{ "relation": "supported-by", "objectId": "chair-06", "partId": "five-star-base" }] },
+        { "id": "five-star-base", "label": "Five-star base", "purpose": "Provide a stable rolling footprint.", "supports": [{ "relation": "supported-by", "objectId": "area-rug", "partId": "rug" }] },
+        { "id": "back-supports", "label": "Back supports", "purpose": "Connect the backrest to the seat mechanism.", "supports": [{ "relation": "attached-to", "objectId": "chair-06", "partId": "mechanism" }] },
+        { "id": "arm-assembly", "label": "Arm assembly", "purpose": "Support participant forearms below the table edge.", "supports": [{ "relation": "attached-to", "objectId": "chair-06", "partId": "seat" }] }
+      ]
+    },
+    {
+      "id": "chair-07",
+      "label": "Meeting chair 07",
+      "class": "task-chair",
+      "purpose": "Provide an interactive participant seat.",
+      "status": "interactive",
+      "expectedAffordances": ["approach", "sit", "stand"],
+      "implementedInteractions": [{ "type": "seat-anchor", "bindingId": "seat-07" }],
+      "parts": [
+        { "id": "seat", "label": "Seat", "purpose": "Support a seated participant.", "supports": [{ "relation": "supported-by", "objectId": "chair-07", "partId": "mechanism" }] },
+        { "id": "back", "label": "Backrest", "purpose": "Support the participant back.", "supports": [{ "relation": "attached-to", "objectId": "chair-07", "partId": "back-supports" }] },
+        { "id": "mechanism", "label": "Seat mechanism", "purpose": "Connect the seat to the lift column.", "supports": [{ "relation": "supported-by", "objectId": "chair-07", "partId": "gas-column" }] },
+        { "id": "gas-column", "label": "Gas column", "purpose": "Transfer seat load to the base.", "supports": [{ "relation": "supported-by", "objectId": "chair-07", "partId": "five-star-base" }] },
+        { "id": "five-star-base", "label": "Five-star base", "purpose": "Provide a stable rolling footprint.", "supports": [{ "relation": "supported-by", "objectId": "area-rug", "partId": "rug" }] },
+        { "id": "back-supports", "label": "Back supports", "purpose": "Connect the backrest to the seat mechanism.", "supports": [{ "relation": "attached-to", "objectId": "chair-07", "partId": "mechanism" }] },
+        { "id": "arm-assembly", "label": "Arm assembly", "purpose": "Support participant forearms below the table edge.", "supports": [{ "relation": "attached-to", "objectId": "chair-07", "partId": "seat" }] }
+      ]
+    },
+    {
+      "id": "chair-08",
+      "label": "Meeting chair 08",
+      "class": "task-chair",
+      "purpose": "Provide an interactive participant seat.",
+      "status": "interactive",
+      "expectedAffordances": ["approach", "sit", "stand"],
+      "implementedInteractions": [{ "type": "seat-anchor", "bindingId": "seat-08" }],
+      "parts": [
+        { "id": "seat", "label": "Seat", "purpose": "Support a seated participant.", "supports": [{ "relation": "supported-by", "objectId": "chair-08", "partId": "mechanism" }] },
+        { "id": "back", "label": "Backrest", "purpose": "Support the participant back.", "supports": [{ "relation": "attached-to", "objectId": "chair-08", "partId": "back-supports" }] },
+        { "id": "mechanism", "label": "Seat mechanism", "purpose": "Connect the seat to the lift column.", "supports": [{ "relation": "supported-by", "objectId": "chair-08", "partId": "gas-column" }] },
+        { "id": "gas-column", "label": "Gas column", "purpose": "Transfer seat load to the base.", "supports": [{ "relation": "supported-by", "objectId": "chair-08", "partId": "five-star-base" }] },
+        { "id": "five-star-base", "label": "Five-star base", "purpose": "Provide a stable rolling footprint.", "supports": [{ "relation": "supported-by", "objectId": "area-rug", "partId": "rug" }] },
+        { "id": "back-supports", "label": "Back supports", "purpose": "Connect the backrest to the seat mechanism.", "supports": [{ "relation": "attached-to", "objectId": "chair-08", "partId": "mechanism" }] },
+        { "id": "arm-assembly", "label": "Arm assembly", "purpose": "Support participant forearms below the table edge.", "supports": [{ "relation": "attached-to", "objectId": "chair-08", "partId": "seat" }] }
+      ]
+    },
+    {
+      "id": "conference-speakerphone",
+      "label": "Conference speakerphone",
+      "class": "conference-audio-device",
+      "purpose": "Represent the central conference audio control device.",
+      "status": "deferred",
+      "expectedAffordances": ["capture-conference-audio", "play-conference-audio", "mute-call", "show-call-status"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "body", "label": "Device body", "purpose": "Contain the speakerphone assembly.", "supports": [{ "relation": "supported-by", "objectId": "conference-table", "partId": "top" }] },
+        { "id": "grille", "label": "Speaker grille", "purpose": "Identify the acoustic output area.", "supports": [{ "relation": "attached-to", "objectId": "conference-speakerphone", "partId": "body" }] },
+        { "id": "grille-perforations", "label": "Grille perforations", "purpose": "Provide visible acoustic detail.", "supports": [{ "relation": "attached-to", "objectId": "conference-speakerphone", "partId": "grille" }] },
+        { "id": "mute-button", "label": "Mute button", "purpose": "Indicate the deferred mute control.", "supports": [{ "relation": "attached-to", "objectId": "conference-speakerphone", "partId": "body" }] },
+        { "id": "status-ring", "label": "Status ring", "purpose": "Indicate the deferred call-state display.", "supports": [{ "relation": "attached-to", "objectId": "conference-speakerphone", "partId": "body" }] }
+      ]
+    },
+    {
+      "id": "conference-table",
+      "label": "Conference table",
+      "class": "conference-table",
+      "purpose": "Provide the shared work surface and participant clearance zone.",
+      "status": "passive",
+      "expectedAffordances": ["support-meeting-materials", "provide-knee-clearance", "provide-arm-clearance"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "top", "label": "Tabletop", "purpose": "Provide the shared work surface.", "supports": [{ "relation": "supported-by", "objectId": "conference-table", "partId": "pedestal-west-column" }, { "relation": "supported-by", "objectId": "conference-table", "partId": "pedestal-east-column" }] },
+        { "id": "pedestal-west-base", "label": "West pedestal base", "purpose": "Transfer west pedestal load to the rug.", "supports": [{ "relation": "supported-by", "objectId": "area-rug", "partId": "rug" }] },
+        { "id": "pedestal-west-column", "label": "West pedestal column", "purpose": "Support the west side of the tabletop.", "supports": [{ "relation": "supported-by", "objectId": "conference-table", "partId": "pedestal-west-base" }] },
+        { "id": "pedestal-east-base", "label": "East pedestal base", "purpose": "Transfer east pedestal load to the rug.", "supports": [{ "relation": "supported-by", "objectId": "area-rug", "partId": "rug" }] },
+        { "id": "pedestal-east-column", "label": "East pedestal column", "purpose": "Support the east side of the tabletop.", "supports": [{ "relation": "supported-by", "objectId": "conference-table", "partId": "pedestal-east-base" }] }
+      ]
+    },
+    {
+      "id": "conference-table-cable-management",
+      "label": "Table cable management",
+      "class": "table-cable-management",
+      "purpose": "Represent the recessed cable access in the tabletop.",
+      "status": "deferred",
+      "expectedAffordances": ["open-cable-cover", "route-table-cables"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "cable-cover", "label": "Cable cover", "purpose": "Close the recessed cable opening.", "supports": [{ "relation": "supported-by", "objectId": "conference-table-cable-management", "partId": "cable-cover-support" }] },
+        { "id": "cable-cover-support", "label": "Cable cover support", "purpose": "Retain the cable cover in the tabletop opening.", "supports": [{ "relation": "attached-to", "objectId": "conference-table", "partId": "top" }] }
+      ]
+    },
+    {
+      "id": "debug-main",
+      "label": "Shared display",
+      "class": "presentation-display",
+      "purpose": "Present shared visual content to meeting participants.",
+      "status": "interactive",
+      "expectedAffordances": ["display-shared-content", "receive-pointer-input"],
+      "implementedInteractions": [{ "type": "media-surface", "bindingId": "debug-main" }],
+      "parts": [
+        { "id": "frame", "label": "Display frame", "purpose": "Define and retain the display surface.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "surface", "label": "Display surface", "purpose": "Bind the runtime presentation plane.", "supports": [{ "relation": "attached-to", "objectId": "debug-main", "partId": "frame" }] }
+      ]
+    },
+    {
+      "id": "exterior-landscape",
+      "label": "Exterior landscape",
+      "class": "exterior-landscape",
+      "purpose": "Provide bounded vegetation context through the main window.",
+      "status": "passive",
+      "expectedAffordances": ["provide-window-context", "screen-distant-view"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "planter", "label": "Exterior planter", "purpose": "Contain the exterior hedge.", "supports": [{ "relation": "supported-by", "objectId": "exterior-site", "partId": "near-ground" }] },
+        { "id": "hedge", "label": "Exterior hedge", "purpose": "Provide vegetated window context.", "supports": [{ "relation": "supported-by", "objectId": "exterior-landscape", "partId": "planter" }] }
+      ]
+    },
+    {
+      "id": "exterior-neighbor-building",
+      "label": "Neighbor building",
+      "class": "context-building",
+      "purpose": "Provide middle-distance architectural context through the window.",
+      "status": "passive",
+      "expectedAffordances": ["provide-exterior-depth-cue"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "concrete-mass", "label": "Building mass", "purpose": "Define the neighboring building volume.", "supports": [{ "relation": "supported-by", "objectId": "exterior-site", "partId": "near-ground" }] },
+        { "id": "window-glass", "label": "Neighbor window glass", "purpose": "Represent glazing on the neighboring building.", "supports": [{ "relation": "attached-to", "objectId": "exterior-neighbor-building", "partId": "window-frame" }] },
+        { "id": "window-frame", "label": "Neighbor window frame", "purpose": "Retain the neighboring window glass.", "supports": [{ "relation": "attached-to", "objectId": "exterior-neighbor-building", "partId": "concrete-mass" }] }
+      ]
+    },
+    {
+      "id": "exterior-site",
+      "label": "Exterior site",
+      "class": "site-surface",
+      "purpose": "Provide the root support plane for bounded exterior context.",
+      "status": "passive",
+      "expectedAffordances": ["support-exterior-context"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "near-ground", "label": "Near ground", "purpose": "Support exterior landscape and building context.", "supports": [] }
+      ]
+    },
+    {
+      "id": "main-door",
+      "label": "Main door",
+      "class": "door-assembly",
+      "purpose": "Represent the room entry and its future operable hardware.",
+      "status": "deferred",
+      "expectedAffordances": ["operate-lever", "open-door", "close-door"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "panel", "label": "Door panel", "purpose": "Close the room entry opening.", "supports": [{ "relation": "supported-by", "objectId": "room-shell", "partId": "floor" }] },
+        { "id": "handle-rosette", "label": "Handle rosette", "purpose": "Mount the handle spindle to the panel.", "supports": [{ "relation": "attached-to", "objectId": "main-door", "partId": "panel" }] },
+        { "id": "handle-spindle", "label": "Handle spindle", "purpose": "Connect the lever to the door hardware.", "supports": [{ "relation": "attached-to", "objectId": "main-door", "partId": "handle-rosette" }] },
+        { "id": "handle-lever", "label": "Handle lever", "purpose": "Indicate the deferred hand-operated control.", "supports": [{ "relation": "attached-to", "objectId": "main-door", "partId": "handle-spindle" }] },
+        { "id": "frame-head", "label": "Door frame head", "purpose": "Close the top of the door frame.", "supports": [{ "relation": "supported-by", "objectId": "main-door", "partId": "frame-left" }, { "relation": "supported-by", "objectId": "main-door", "partId": "frame-right" }] },
+        { "id": "frame-left", "label": "Door frame left", "purpose": "Form the left side of the door opening.", "supports": [{ "relation": "supported-by", "objectId": "room-shell", "partId": "floor" }, { "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "frame-right", "label": "Door frame right", "purpose": "Form the right side of the door opening.", "supports": [{ "relation": "supported-by", "objectId": "room-shell", "partId": "floor" }, { "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] }
+      ]
+    },
+    {
+      "id": "main-window",
+      "label": "Main window",
+      "class": "window-assembly",
+      "purpose": "Admit the exterior view while closing the room envelope.",
+      "status": "passive",
+      "expectedAffordances": ["admit-daylight", "provide-exterior-view"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "glass", "label": "Window glass", "purpose": "Provide the transparent window closure.", "supports": [{ "relation": "attached-to", "objectId": "main-window", "partId": "glazing-bead-bottom" }, { "relation": "attached-to", "objectId": "main-window", "partId": "glazing-bead-top" }, { "relation": "attached-to", "objectId": "main-window", "partId": "glazing-bead-left" }, { "relation": "attached-to", "objectId": "main-window", "partId": "glazing-bead-right" }] },
+        { "id": "glazing-bead-bottom", "label": "Bottom glazing bead", "purpose": "Retain the bottom edge of the glass.", "supports": [{ "relation": "attached-to", "objectId": "main-window", "partId": "frame-bottom" }] },
+        { "id": "glazing-bead-top", "label": "Top glazing bead", "purpose": "Retain the top edge of the glass.", "supports": [{ "relation": "attached-to", "objectId": "main-window", "partId": "frame-head" }] },
+        { "id": "glazing-bead-left", "label": "Left glazing bead", "purpose": "Retain the left edge of the glass.", "supports": [{ "relation": "attached-to", "objectId": "main-window", "partId": "frame-left" }] },
+        { "id": "glazing-bead-right", "label": "Right glazing bead", "purpose": "Retain the right edge of the glass.", "supports": [{ "relation": "attached-to", "objectId": "main-window", "partId": "frame-right" }] },
+        { "id": "frame-bottom", "label": "Window frame bottom", "purpose": "Form the bottom of the window frame.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "frame-head", "label": "Window frame head", "purpose": "Form the top of the window frame.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "frame-left", "label": "Window frame left", "purpose": "Form the left side of the window frame.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "frame-right", "label": "Window frame right", "purpose": "Form the right side of the window frame.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "reveal-head", "label": "Window head reveal", "purpose": "Finish the upper window opening.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "reveal-left", "label": "Window left reveal", "purpose": "Finish the left window opening.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "reveal-right", "label": "Window right reveal", "purpose": "Finish the right window opening.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "sill", "label": "Window sill", "purpose": "Finish the lower interior window edge.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] }
+      ]
+    },
+    {
+      "id": "media-wall-acoustics",
+      "label": "Media wall acoustics",
+      "class": "acoustic-treatment",
+      "purpose": "Provide visible acoustic treatment beside the shared display.",
+      "status": "passive",
+      "expectedAffordances": ["reduce-room-reflections", "frame-media-wall"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "panel-01", "label": "Acoustic panel 01", "purpose": "Provide the first absorptive panel.", "supports": [{ "relation": "supported-by", "objectId": "media-wall-acoustics", "partId": "panel-01-mount-lower" }, { "relation": "supported-by", "objectId": "media-wall-acoustics", "partId": "panel-01-mount-upper" }] },
+        { "id": "panel-01-mount-lower", "label": "Panel 01 lower mount", "purpose": "Attach the lower panel area to the wall.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "panel-01-mount-upper", "label": "Panel 01 upper mount", "purpose": "Attach the upper panel area to the wall.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "panel-02", "label": "Acoustic panel 02", "purpose": "Provide the second absorptive panel.", "supports": [{ "relation": "supported-by", "objectId": "media-wall-acoustics", "partId": "panel-02-mount-lower" }, { "relation": "supported-by", "objectId": "media-wall-acoustics", "partId": "panel-02-mount-upper" }] },
+        { "id": "panel-02-mount-lower", "label": "Panel 02 lower mount", "purpose": "Attach the lower panel area to the wall.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "panel-02-mount-upper", "label": "Panel 02 upper mount", "purpose": "Attach the upper panel area to the wall.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "panel-03", "label": "Acoustic panel 03", "purpose": "Provide the third absorptive panel.", "supports": [{ "relation": "supported-by", "objectId": "media-wall-acoustics", "partId": "panel-03-mount-lower" }, { "relation": "supported-by", "objectId": "media-wall-acoustics", "partId": "panel-03-mount-upper" }] },
+        { "id": "panel-03-mount-lower", "label": "Panel 03 lower mount", "purpose": "Attach the lower panel area to the wall.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "panel-03-mount-upper", "label": "Panel 03 upper mount", "purpose": "Attach the upper panel area to the wall.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] }
+      ]
+    },
+    {
+      "id": "pendant-fixture",
+      "label": "Pendant fixture",
+      "class": "pendant-luminaire",
+      "purpose": "Provide the visible suspended task-light assembly above the table.",
+      "status": "passive",
+      "expectedAffordances": ["illuminate-table", "define-table-zone"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "canopy-west", "label": "West ceiling canopy", "purpose": "Attach the west fixture to the ceiling.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "ceiling" }] },
+        { "id": "diffuser-west", "label": "West diffuser", "purpose": "Diffuse light below the west housing.", "supports": [{ "relation": "attached-to", "objectId": "pendant-fixture", "partId": "housing-west" }] },
+        { "id": "cable-west-left", "label": "West left suspension cable", "purpose": "Suspend the left side of the west housing.", "supports": [{ "relation": "attached-to", "objectId": "pendant-fixture", "partId": "canopy-west" }] },
+        { "id": "cable-west-right", "label": "West right suspension cable", "purpose": "Suspend the right side of the west housing.", "supports": [{ "relation": "attached-to", "objectId": "pendant-fixture", "partId": "canopy-west" }] },
+        { "id": "housing-west", "label": "West light housing", "purpose": "Contain the west linear light source.", "supports": [{ "relation": "supported-by", "objectId": "pendant-fixture", "partId": "cable-west-left" }, { "relation": "supported-by", "objectId": "pendant-fixture", "partId": "cable-west-right" }] },
+        { "id": "canopy-east", "label": "East ceiling canopy", "purpose": "Attach the east fixture to the ceiling.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "ceiling" }] },
+        { "id": "diffuser-east", "label": "East diffuser", "purpose": "Diffuse light below the east housing.", "supports": [{ "relation": "attached-to", "objectId": "pendant-fixture", "partId": "housing-east" }] },
+        { "id": "cable-east-left", "label": "East left suspension cable", "purpose": "Suspend the left side of the east housing.", "supports": [{ "relation": "attached-to", "objectId": "pendant-fixture", "partId": "canopy-east" }] },
+        { "id": "cable-east-right", "label": "East right suspension cable", "purpose": "Suspend the right side of the east housing.", "supports": [{ "relation": "attached-to", "objectId": "pendant-fixture", "partId": "canopy-east" }] },
+        { "id": "housing-east", "label": "East light housing", "purpose": "Contain the east linear light source.", "supports": [{ "relation": "supported-by", "objectId": "pendant-fixture", "partId": "cable-east-left" }, { "relation": "supported-by", "objectId": "pendant-fixture", "partId": "cable-east-right" }] }
+      ]
+    },
+    {
+      "id": "room-shell",
+      "label": "Room shell",
+      "class": "room-envelope",
+      "purpose": "Define the primary interior floor, walls and ceiling.",
+      "status": "passive",
+      "expectedAffordances": ["support-occupancy", "bound-interior-space"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "floor", "label": "Floor", "purpose": "Provide the primary interior support plane.", "supports": [] },
+        { "id": "ceiling", "label": "Ceiling", "purpose": "Close the upper room envelope.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "walls", "label": "Walls", "purpose": "Bound the room and support wall-mounted assemblies.", "supports": [{ "relation": "supported-by", "objectId": "room-shell", "partId": "floor" }] }
+      ]
+    },
+    {
+      "id": "route-safe-plant",
+      "label": "Route-safe plant",
+      "class": "interior-plant",
+      "purpose": "Add vegetation without reducing the protected presenter route.",
+      "status": "passive",
+      "expectedAffordances": ["provide-biophilic-context", "preserve-presenter-route"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "pot", "label": "Plant pot", "purpose": "Contain and support the plant.", "supports": [{ "relation": "supported-by", "objectId": "room-shell", "partId": "floor" }] },
+        { "id": "stems", "label": "Plant stems", "purpose": "Support the foliage above the pot.", "supports": [{ "relation": "supported-by", "objectId": "route-safe-plant", "partId": "pot" }] },
+        { "id": "foliage", "label": "Plant foliage", "purpose": "Provide the visible vegetation volume.", "supports": [{ "relation": "attached-to", "objectId": "route-safe-plant", "partId": "stems" }] }
+      ]
+    },
+    {
+      "id": "whiteboard-accessories",
+      "label": "Whiteboard accessories",
+      "class": "whiteboard-accessory",
+      "purpose": "Provide a storage tray below the collaboration surface.",
+      "status": "passive",
+      "expectedAffordances": ["support-whiteboard-marker"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "tray", "label": "Whiteboard tray", "purpose": "Support the marker below the collaboration surface.", "supports": [{ "relation": "attached-to", "objectId": "whiteboard-wall", "partId": "frame" }] }
+      ]
+    },
+    {
+      "id": "whiteboard-marker",
+      "label": "Whiteboard marker",
+      "class": "writing-tool",
+      "purpose": "Represent a future hand-operated whiteboard writing tool.",
+      "status": "deferred",
+      "expectedAffordances": ["pick-up-marker", "write-on-whiteboard", "replace-marker"],
+      "implementedInteractions": [],
+      "parts": [
+        { "id": "body", "label": "Marker body", "purpose": "Provide the marker grip and writing body.", "supports": [{ "relation": "supported-by", "objectId": "whiteboard-accessories", "partId": "tray" }] },
+        { "id": "cap", "label": "Marker cap", "purpose": "Close the marker tip end.", "supports": [{ "relation": "attached-to", "objectId": "whiteboard-marker", "partId": "body" }] }
+      ]
+    },
+    {
+      "id": "whiteboard-wall",
+      "label": "Collaboration wall",
+      "class": "collaboration-surface",
+      "purpose": "Provide a standing-reach collaboration and runtime input surface.",
+      "status": "interactive",
+      "expectedAffordances": ["display-collaboration-content", "receive-pointer-input"],
+      "implementedInteractions": [{ "type": "media-surface", "bindingId": "whiteboard-wall" }],
+      "parts": [
+        { "id": "frame", "label": "Collaboration wall frame", "purpose": "Define and retain the collaboration surface.", "supports": [{ "relation": "attached-to", "objectId": "room-shell", "partId": "walls" }] },
+        { "id": "surface", "label": "Collaboration surface", "purpose": "Bind the runtime collaboration plane.", "supports": [{ "relation": "attached-to", "objectId": "whiteboard-wall", "partId": "frame" }] }
+      ]
+    }
+  ]
+}

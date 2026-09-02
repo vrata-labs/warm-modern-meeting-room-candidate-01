@@ -33,6 +33,7 @@ source/media-surface-constructions.json
 source/exterior-constructions.json
 source/lighting-constructions.json
 source/scene-contract-lock.json
+source/release-acceptance-index.json
 source/accepted-source-lock.json
 source/accepted-scene.blend
 source/accepted-lightmap.png
@@ -40,19 +41,26 @@ source/visual-completion.py
 source/export-release.py
 source/render-review.py
 source/review/*.webp
+source/releases/<version>/accepted-source-lock.json
+source/releases/<version>/visual-parity-config.json
 provenance/asset-ledger.json
 provenance/generation-ledger.json
 provenance/licenses/project-owned.txt
 provenance/release-asset-ledger.json
 provenance/rights-verdict-2026-08-29.md
 provenance/licenses/project-owned-release.txt
+provenance/releases/<version>/
 assets/scenes/warm-modern-meeting-room-candidate-01/<version>/
 manifest.json
 platform-validator.lock
 ```
 
-Published version directories are immutable. Runtime URLs must use a full
-40-character commit SHA.
+`source/release-acceptance-index.json` is append-only. It maps legacy release
+`0.2.0` to the historical singleton `source/accepted-source-lock.json`; later
+accepted releases use `source/releases/<version>/accepted-source-lock.json`, a
+same-version visual parity config, and versioned provenance. Accepted source,
+provenance, and published version directories become immutable after merge.
+Runtime URLs must use a full 40-character commit SHA.
 
 ## Validation
 
@@ -105,3 +113,10 @@ and retains RoomEnvironment reflections for dynamic and metallic surfaces.
 The accepted atlas is stored as a reproducible build input; `export-release.py`
 can either rebuild the GLB from that atlas or regenerate it with `--bake`.
 Four fixed runtime views must pass `pnpm validate:visual` before publication.
+
+Release `0.3.0` is an append-only review release and does not supersede current
+release `0.2.0`. It adds explicit passive/deferred/interactive object semantics,
+physical support-contact validation, seventeen role-based user scenarios, and
+sixteen fixed source/runtime review views. Automated reality, deterministic GLB,
+rights, and visual parity gates pass; human visual acceptance remains pending,
+so `isCurrent` and `publicationReady` remain false.

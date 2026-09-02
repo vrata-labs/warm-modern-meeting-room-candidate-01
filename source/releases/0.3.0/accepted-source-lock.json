@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "status": "accepted-reproducible-source",
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "acceptedOn": "2026-09-02",
+  "acceptedSource": {
+    "blendPath": "source/releases/0.3.0/accepted-scene.blend",
+    "blendSha256": "3d63c9cfb8c8293c74b949e8944091c76b1eb5763d76e748874184e359560660",
+    "lightmapPath": "source/releases/0.3.0/accepted-lightmap.png",
+    "lightmapSha256": "0a2e0bbc104015091b8a8259f9d412b6382751f0a59fe391fef973469fdacd1f",
+    "realityPassScriptPath": "source/releases/0.3.0/reality-pass.py",
+    "realityPassScriptSha256": "edc64a6b47f7d8dc3a6236f58ba68be04445c4b4d6dbe1180af44b61d37ce617",
+    "exportScriptPath": "source/releases/0.3.0/export-release.py",
+    "exportScriptSha256": "0b15189706a8e5d0aabb6f14db72eeb464891a9bbf45a3b31b4c861b3c02b7f2",
+    "sceneRealityContractPath": "source/releases/0.3.0/scene-reality.json",
+    "sceneRealityContractSha256": "8be2e40df16f1959e3d086d9455bd91c0ea18225179d91b0769d91a742948de7",
+    "userScenariosContractPath": "source/releases/0.3.0/user-scenarios.json",
+    "userScenariosContractSha256": "40ef9811f09fab9e224c376136b2612f95f16d62e9deaa38213c08f66d38443b"
+  },
+  "toolchain": {
+    "blenderVersion": "4.5.12 LTS",
+    "blenderBuildHash": "84afd5f785f7",
+    "blenderBinarySha256": "33ac108ebce3c271f5357e5c664d0488717263bcf2145c80300edd0b12c31880",
+    "gltfExporter": "Khronos glTF Blender I/O v4.5.51",
+    "reviewImageConverter": "cwebp 1.6.0",
+    "reviewImageQuality": 90,
+    "bakedLightmap": {
+      "resolution": 2048,
+      "samples": 128,
+      "scale": 0.25,
+      "device": "CUDA",
+      "transport": "emissiveTexture TEXCOORD_1 with baked-pbr-v1 metadata"
+    }
+  },
+  "captureHarness": {
+    "platformCommit": "c54edb2239d225a71e9b934316f70792b3faafb6",
+    "patchPath": "source/releases/0.3.0/platform-scene-visual-clean.patch",
+    "patchSha256": "a6903e7236939df0bdc52086af831d93cf480f213e2f0edacb99ed2d061fb5f2"
+  },
+  "reviewViews": [
+    { "id": "entry", "path": "source/releases/0.3.0/review/entry.webp", "sha256": "100979e08478c79fe53e2d047320f5c76e47f3fb06598e0c475d5d3a9757e433" },
+    { "id": "diagonal-overview", "path": "source/releases/0.3.0/review/diagonal-overview.webp", "sha256": "0ced15807ce42b64a6348154e57793ce7981d8f7b1097fefbaaf78f3cc7738ef" },
+    { "id": "seat-01-display", "path": "source/releases/0.3.0/review/seat-01-display.webp", "sha256": "195825622a2b7aaaf4e445fadc586daf916b1e8dc6b29c38a528cf89abdc90ee" },
+    { "id": "seat-02-display", "path": "source/releases/0.3.0/review/seat-02-display.webp", "sha256": "7add9073863cb2dda7468092b7ea3f2262f1353c36be810778e2974cb6038e2b" },
+    { "id": "seat-03-display", "path": "source/releases/0.3.0/review/seat-03-display.webp", "sha256": "0ceb5f7c421e557a2ec315bc134a7668861c77d7a22ec9c783d4ce0ce53e8d75" },
+    { "id": "seat-04-display", "path": "source/releases/0.3.0/review/seat-04-display.webp", "sha256": "0a2733f4d921774048e858fd3c72d697c126fc42163b2ee8a2d1317763fc4a10" },
+    { "id": "seat-05-display", "path": "source/releases/0.3.0/review/seat-05-display.webp", "sha256": "94537a3c4dd06c4dc140099d2027a238aa78bcd6ad51d6a6a126c210afaa1afc" },
+    { "id": "seat-06-display", "path": "source/releases/0.3.0/review/seat-06-display.webp", "sha256": "eec6f86caca2e5b00d19ddb5066636ea0b382e03e58c3dd46317ace5440390d8" },
+    { "id": "seat-07-display", "path": "source/releases/0.3.0/review/seat-07-display.webp", "sha256": "ae6b1a740912a8f4c1f0a31911ffa4636fc39ec5e1afc5378dba75ea99bd58bf" },
+    { "id": "seat-08-display", "path": "source/releases/0.3.0/review/seat-08-display.webp", "sha256": "ef7d308d153024f61565b80771fb499d1b17a4ff78cda1728710d18ebb696117" },
+    { "id": "whiteboard-standing", "path": "source/releases/0.3.0/review/whiteboard-standing.webp", "sha256": "95bab041c6320882090fb1a2102bd2f42c1653d102c110cb7993316c449f8512" },
+    { "id": "table-underside", "path": "source/releases/0.3.0/review/table-underside.webp", "sha256": "bdaea0a95a584994248e909d1689d7cb021eeee054afe4ef4e6ebfc5defd7ddd" },
+    { "id": "media-wall", "path": "source/releases/0.3.0/review/media-wall.webp", "sha256": "6c6f476ec894da1dd1fa31082142034526cd2c638d98eefcb374828cfd70741f" },
+    { "id": "door-detail", "path": "source/releases/0.3.0/review/door-detail.webp", "sha256": "37239093c3084791f76a918f2aa5c32eb89feb996e7fb4920089e5939d4913df" },
+    { "id": "window-detail", "path": "source/releases/0.3.0/review/window-detail.webp", "sha256": "f87e54691a1686217a389eb3ba86dd2950ffe9450368812151ffa3aa79595737" },
+    { "id": "pendant-detail", "path": "source/releases/0.3.0/review/pendant-detail.webp", "sha256": "a22aa57db9f9b22aa8713cd5f2ed3d7c43252ed70c5a9d04caf7aa4fe447843a" }
+  ],
+  "rights": {
+    "decision": "approved",
+    "evidencePath": "provenance/releases/0.3.0/rights-verdict-2026-09-02.md",
+    "releaseLedgerPath": "provenance/releases/0.3.0/release-asset-ledger.json"
+  },
+  "release": {
+    "version": "0.3.0",
+    "path": "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.0",
+    "sceneManifestSha256": "80ffa92d6af302b407f8d490d0fd187e92c1767e30bf294c9a9d91dae73a200e",
+    "glbSha256": "fa95f93af025ca374b53d81ffef60e5dd6e77c848cc362b56763973ce2140880",
+    "previewSha256": "100979e08478c79fe53e2d047320f5c76e47f3fb06598e0c475d5d3a9757e433"
+  },
+  "runtimeCoordinates": {
+    "transform": "x=x,y=z,z=-y",
+    "reason": "Blender Z-up source maps positive Blender Y to runtime negative Z during glTF Y-up export",
+    "evidencePath": "provenance/releases/0.3.0/runtime-coordinates.json"
+  },
+  "reproducibility": {
+    "scope": "same-host-same-blender-binary-two-run",
+    "runs": 2,
+    "result": "byte-identical-glb",
+    "sha256": "fa95f93af025ca374b53d81ffef60e5dd6e77c848cc362b56763973ce2140880"
+  },
+  "visualQuality": {
+    "evidencePath": "provenance/releases/0.3.0/visual-parity.json",
+    "reviewViews": 16,
+    "phashTotal": 1055.1776,
+    "nccMean": 0.4694361,
+    "result": "passed",
+    "humanAcceptance": "pending"
+  },
+  "boundaries": {
+    "visualAccepted": false,
+    "rightsApproved": true,
+    "acceptedSourceStored": true,
+    "releaseGlbVerified": true,
+    "publicationReady": false
+  }
+}

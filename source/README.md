@@ -28,3 +28,17 @@ deterministically exports the accepted Blend and atlas without embedded lights o
 cameras. `render-review.py` recreates the four semantic review views.
 `accepted-source-lock.json` pins their hashes, Blender toolchain, rights evidence,
 review images, release GLB, visual parity result, and same-host two-run byte identity.
+It remains the immutable legacy acceptance lock for release `0.2.0`.
+
+`release-acceptance-index.json` is the append-only map from release versions to
+their accepted-source locks and visual parity configs. New accepted releases do
+not replace the legacy singleton files: they add source under
+`releases/<version>/`, use `releases/<version>/accepted-source-lock.json`, and
+store release-specific evidence under `../provenance/releases/<version>/`.
+
+Release `0.3.0` stores its accepted Blender source, baked atlas, reality pass,
+exact object and user-scenario contracts, sixteen review views, acceptance lock,
+visual parity config, and the exact clean-capture patch for the pinned platform
+fixture under `releases/0.3.0/`. Its automated reality,
+reproducibility, rights, and visual parity gates are complete, while human visual
+acceptance and publication readiness remain explicitly false.

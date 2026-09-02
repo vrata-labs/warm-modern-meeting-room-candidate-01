@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releases": [
+    {
+      "version": "0.2.0",
+      "lockPath": "source/accepted-source-lock.json",
+      "lockSha256": "2d43e75524da1b2f138b2c9451646d0237a00e9a0d58171aac58cf4f12670326",
+      "visualParityConfigPath": "source/releases/0.2.0/visual-parity-config.json",
+      "visualParityConfigSha256": "3a9e5b212d1c75f42311e2ec311377e0ab9a0a783019f90f0b4b08a7de4b2fe5"
+    },
+    {
+      "version": "0.3.0",
+      "lockPath": "source/releases/0.3.0/accepted-source-lock.json",
+      "lockSha256": "4ea5c4fbf2c24b0443495ac886646503a133cfcd3b555e2958f5e91faa118761",
+      "visualParityConfigPath": "source/releases/0.3.0/visual-parity-config.json",
+      "visualParityConfigSha256": "c20c0e53adbd7e1582dfdf1aaea45f8dcfc664e8ffe27a1c6e85f7a782ddc4f6"
+    }
+  ]
+}
