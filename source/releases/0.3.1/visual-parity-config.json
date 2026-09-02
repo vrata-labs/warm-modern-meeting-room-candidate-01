@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.3.1",
+  "releaseGlb": {
+    "path": "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.1/scene.glb",
+    "sha256": "e179ccc1771f2cde544e81837fb918ea8b0d6ce4d5df8d30a48c3a8516114aae",
+    "sizeBytes": 13135452
+  },
+  "capture": {
+    "platformCommit": "c54edb2239d225a71e9b934316f70792b3faafb6",
+    "platformPatch": {
+      "path": "source/releases/0.3.1/platform-scene-visual-clean.patch",
+      "sha256": "389384a0d26f0e8cfdcb82d8c4d345deab46c5fdf3820401ab39520eba5ecb00"
+    },
+    "bindingFile": "capture-binding.json",
+    "runtimeDiagnosticsFile": "scene-debug.json",
+    "renderSettingsFile": "capture-settings.json",
+    "requiredState": "loaded",
+    "requiredFailureReason": null,
+    "requireNoMissingAssets": true,
+    "requiredRenderProfile": "baked-pbr-v1",
+    "minimumLightMappedMaterialCount": 19,
+    "expectedRuntime": {
+      "meshCount": 137,
+      "materialCount": 21,
+      "triangleEstimate": 44740
+    },
+    "renderSettings": {
+      "environmentIntensity": 0.35,
+      "exposure": 1.2
+    },
+    "runner": {
+      "command": "pnpm test:e2e:private-assets tests/e2e/scene-visual.spec.ts --workers=1",
+      "executable": "pnpm",
+      "argv": ["test:e2e:private-assets", "tests/e2e/scene-visual.spec.ts", "--workers=1"],
+      "bindingGenerator": {
+        "executable": "node",
+        "argv": ["scripts/create-capture-binding.mjs", "--version", "0.3.1"],
+        "environment": {
+          "SCENE_VISUAL_OUTPUT_DIR": "<capture-dir>"
+        }
+      },
+      "environment": {
+        "SCENE_VISUAL_ASSET_PATH": "<candidate-root>/assets/scenes/warm-modern-meeting-room-candidate-01/0.3.1/scene.glb",
+        "SCENE_VISUAL_MANIFEST_PATH": "<candidate-root>/assets/scenes/warm-modern-meeting-room-candidate-01/0.3.1/scene.json",
+        "SCENE_VISUAL_CONFIG_PATH": "<candidate-root>/source/releases/0.3.1/visual-parity-config.json",
+        "SCENE_VISUAL_OUTPUT_DIR": "<capture-dir>",
+        "SCENE_VISUAL_VIEW_IDS": "<comma-separated runner batch>",
+        "SCENE_VISUAL_STRIP_ANCHORS": "1",
+        "SCENE_VISUAL_HIDE_MEDIA_SURFACES": "1",
+        "SCENE_VISUAL_FLIP_Z": "1",
+        "SCENE_VISUAL_ENVIRONMENT_INTENSITY": "0.35",
+        "SCENE_VISUAL_EXPOSURE": "1.2"
+      },
+      "batches": [
+        ["entry", "diagonal-overview", "seat-01-display"],
+        ["seat-02-display", "seat-03-display", "seat-04-display"],
+        ["seat-05-display", "seat-06-display", "seat-07-display"],
+        ["whiteboard-standing", "media-wall", "window-detail"],
+        ["table-underside", "door-detail", "pendant-detail"],
+        ["seat-08-display"]
+      ]
+    },
+    "cleanVisualMode": {
+      "stripAnchors": true,
+      "avatarsEnabled": true,
+      "avatarFallbackCapsulesEnabled": false,
+      "avatarSeatsEnabled": false,
+      "mediaSurfacesVisible": false,
+      "reason": "Interaction anchors, dynamic media planes, and local fallback avatar meshes are validated separately and must not occlude fixed source-to-GLB visual-composition evidence."
+    }
+  },
+  "reviewViews": [
+    { "id": "entry", "position": { "x": 2.6, "y": 1.6, "z": -1.64 }, "target": { "x": -0.45, "y": 1.1, "z": 0.05 }, "fovDegrees": 58 },
+    { "id": "diagonal-overview", "position": { "x": -2.8, "y": 1.6, "z": -2 }, "target": { "x": -0.45, "y": 1.2, "z": 0.05 }, "fovDegrees": 62 },
+    { "id": "seat-01-display", "position": { "x": -1.95, "y": 1.2, "z": 1.15 }, "target": { "x": -3.32, "y": 1.52, "z": 0.15 }, "fovDegrees": 55 },
+    { "id": "seat-02-display", "position": { "x": -0.95, "y": 1.2, "z": 1.15 }, "target": { "x": -3.32, "y": 1.52, "z": 0.15 }, "fovDegrees": 55 },
+    { "id": "seat-03-display", "position": { "x": 0.05, "y": 1.2, "z": 1.15 }, "target": { "x": -3.32, "y": 1.52, "z": 0.15 }, "fovDegrees": 55 },
+    { "id": "seat-04-display", "position": { "x": 1.05, "y": 1.2, "z": 1.15 }, "target": { "x": -3.32, "y": 1.52, "z": 0.15 }, "fovDegrees": 55 },
+    { "id": "seat-05-display", "position": { "x": -1.95, "y": 1.2, "z": -1.1 }, "target": { "x": -3.32, "y": 1.52, "z": 0.15 }, "fovDegrees": 55 },
+    { "id": "seat-06-display", "position": { "x": -0.95, "y": 1.2, "z": -1.1 }, "target": { "x": -3.32, "y": 1.52, "z": 0.15 }, "fovDegrees": 55 },
+    { "id": "seat-07-display", "position": { "x": 0.05, "y": 1.2, "z": -1.1 }, "target": { "x": -3.32, "y": 1.52, "z": 0.15 }, "fovDegrees": 55 },
+    { "id": "seat-08-display", "position": { "x": 1.05, "y": 1.2, "z": -1.1 }, "target": { "x": -3.32, "y": 1.52, "z": 0.15 }, "fovDegrees": 55 },
+    { "id": "whiteboard-standing", "position": { "x": 1.62, "y": 1.65, "z": -0.12 }, "target": { "x": 3.32, "y": 1.45, "z": 0 }, "fovDegrees": 52 },
+    { "id": "table-underside", "position": { "x": -0.45, "y": 0.29, "z": -0.91 }, "target": { "x": -0.45, "y": 0.36, "z": 0.05 }, "fovDegrees": 68 },
+    { "id": "media-wall", "position": { "x": 1.52, "y": 1.55, "z": 0.15 }, "target": { "x": -3.32, "y": 1.36, "z": 0.15 }, "fovDegrees": 60 },
+    { "id": "door-detail", "position": { "x": 2.25, "y": 1.22, "z": -1.42 }, "target": { "x": 1.96, "y": 1.05, "z": -2.44 }, "fovDegrees": 44 },
+    { "id": "window-detail", "position": { "x": -0.2, "y": 1.62, "z": 0.1 }, "target": { "x": -0.2, "y": 1.6, "z": 2.46 }, "fovDegrees": 54 },
+    { "id": "pendant-detail", "position": { "x": -0.45, "y": 2.08, "z": -0.82 }, "target": { "x": -0.45, "y": 2.8, "z": 0.05 }, "fovDegrees": 50 }
+  ],
+  "views": [
+    { "id": "entry", "referencePath": "source/releases/0.3.1/review/entry.webp", "referenceSha256": "309fde7db08fce9370e1d6746dc478bf83c505b9b813657338a2d299d63d8ed5", "captureFile": "entry.png", "phashMax": 50, "nccMin": 0.36 },
+    { "id": "diagonal-overview", "referencePath": "source/releases/0.3.1/review/diagonal-overview.webp", "referenceSha256": "0d79daca999339092c36269499959fc045d3bf890da5b2b64706f45e87885782", "captureFile": "diagonal-overview.png", "phashMax": 58, "nccMin": 0.3 },
+    { "id": "seat-01-display", "referencePath": "source/releases/0.3.1/review/seat-01-display.webp", "referenceSha256": "393ad0b32c2bce2948f679b64bd022c43720b5c5ffcf3b93af9b16c9ba1ed20a", "captureFile": "seat-01-display.png", "phashMax": 125, "nccMin": 0.47 },
+    { "id": "seat-02-display", "referencePath": "source/releases/0.3.1/review/seat-02-display.webp", "referenceSha256": "06901eb67b7bc96d3e531456988f14e8899a84ce0dd3d6a5cdf4878f71960537", "captureFile": "seat-02-display.png", "phashMax": 63, "nccMin": 0.41 },
+    { "id": "seat-03-display", "referencePath": "source/releases/0.3.1/review/seat-03-display.webp", "referenceSha256": "9ac7eed414148a54e9abf8260754cfc1b8bc7a5ded96d79681a2a8638ceef872", "captureFile": "seat-03-display.png", "phashMax": 80, "nccMin": 0.54 },
+    { "id": "seat-04-display", "referencePath": "source/releases/0.3.1/review/seat-04-display.webp", "referenceSha256": "8f31f571bdbab107a788652ad6dabeff718edc43004d78a96a15f5585c0ddd19", "captureFile": "seat-04-display.png", "phashMax": 45, "nccMin": 0.52 },
+    { "id": "seat-05-display", "referencePath": "source/releases/0.3.1/review/seat-05-display.webp", "referenceSha256": "a5b270c56bb0162a3dd7d02bf983596cb380168224d19d138647fe11621b5ba8", "captureFile": "seat-05-display.png", "phashMax": 90, "nccMin": 0.32 },
+    { "id": "seat-06-display", "referencePath": "source/releases/0.3.1/review/seat-06-display.webp", "referenceSha256": "72d4bc83fa784a188aee9b8f44513106b3d12e1012efe426f29d8f62d0ed4849", "captureFile": "seat-06-display.png", "phashMax": 69, "nccMin": 0.32 },
+    { "id": "seat-07-display", "referencePath": "source/releases/0.3.1/review/seat-07-display.webp", "referenceSha256": "2e36ee467b38c466ea65a9242c70eeb03cf28fdf42279c64d03e7ba5446647d3", "captureFile": "seat-07-display.png", "phashMax": 111, "nccMin": 0.44 },
+    { "id": "seat-08-display", "referencePath": "source/releases/0.3.1/review/seat-08-display.webp", "referenceSha256": "3ab6dcfeea223d40ee9e90aae8131771b710594a6b3416435ba2d9f51f935ef3", "captureFile": "seat-08-display.png", "phashMax": 112, "nccMin": 0.45 },
+    { "id": "whiteboard-standing", "referencePath": "source/releases/0.3.1/review/whiteboard-standing.webp", "referenceSha256": "b04314a06ecc705e209399b9a50396f0a733e9401e9d675a5970f4f7af327ebf", "captureFile": "whiteboard-standing.png", "phashMax": 30, "nccMin": 0.12 },
+    { "id": "table-underside", "referencePath": "source/releases/0.3.1/review/table-underside.webp", "referenceSha256": "b55aaf077e38a5bd1d55218a2f01a241a320f8cde6e14bfefd200722f3e2877f", "captureFile": "table-underside.png", "phashMax": 54, "nccMin": 0.72 },
+    { "id": "media-wall", "referencePath": "source/releases/0.3.1/review/media-wall.webp", "referenceSha256": "ca3f9651797eea999b9686b7db267d30d674c5c6819b7d28a33e2190f154d644", "captureFile": "media-wall.png", "phashMax": 74, "nccMin": 0.52 },
+    { "id": "door-detail", "referencePath": "source/releases/0.3.1/review/door-detail.webp", "referenceSha256": "37239093c3084791f76a918f2aa5c32eb89feb996e7fb4920089e5939d4913df", "captureFile": "door-detail.png", "phashMax": 74, "nccMin": 0.79 },
+    { "id": "window-detail", "referencePath": "source/releases/0.3.1/review/window-detail.webp", "referenceSha256": "af9628bd154e2ebdbb30780e213d5008fad81adb23fe6a178f9cd2131a1c6385", "captureFile": "window-detail.png", "phashMax": 152, "nccMin": 0.56 },
+    { "id": "pendant-detail", "referencePath": "source/releases/0.3.1/review/pendant-detail.webp", "referenceSha256": "fc357e61edc4f03ac4c61eb876f3bac17ee084e7aec119fd86011b1195d7b66d", "captureFile": "pendant-detail.png", "phashMax": 36, "nccMin": 0 }
+  ],
+  "aggregateThresholds": {
+    "phashTotalMax": 1155,
+    "nccMeanMin": 0.44
+  }
+}

@@ -1,0 +1,363 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.3.1",
+  "acceptanceLockPath": "source/releases/0.3.1/accepted-source-lock.json",
+  "releaseGlb": {
+    "path": "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.1/scene.glb",
+    "sha256": "e179ccc1771f2cde544e81837fb918ea8b0d6ce4d5df8d30a48c3a8516114aae",
+    "sizeBytes": 13135452
+  },
+  "metricTool": "ImageMagick compare",
+  "metricToolVersion": "ImageMagick 6.9.12-98 Q16 x86_64 18038 https://legacy.imagemagick.org",
+  "captureDirectory": "build/review-runtime-0.3.1-avatar-clean",
+  "captureBindingFile": "capture-binding.json",
+  "captureBinding": {
+    "digest": "fca40b54d2bfb0aecd101677a257463dda14c075e3b5c4f3a853f998df6a86a5",
+    "sizeBytes": 5964
+  },
+  "platformCommit": "c54edb2239d225a71e9b934316f70792b3faafb6",
+  "platformPatch": {
+    "path": "source/releases/0.3.1/platform-scene-visual-clean.patch",
+    "sha256": "389384a0d26f0e8cfdcb82d8c4d345deab46c5fdf3820401ab39520eba5ecb00",
+    "sizeBytes": 2769
+  },
+  "captureRunner": {
+    "command": "pnpm test:e2e:private-assets tests/e2e/scene-visual.spec.ts --workers=1",
+    "executable": "pnpm",
+    "argv": [
+      "test:e2e:private-assets",
+      "tests/e2e/scene-visual.spec.ts",
+      "--workers=1"
+    ],
+    "bindingGenerator": {
+      "executable": "node",
+      "argv": [
+        "scripts/create-capture-binding.mjs",
+        "--version",
+        "0.3.1"
+      ],
+      "environment": {
+        "SCENE_VISUAL_OUTPUT_DIR": "<capture-dir>"
+      }
+    },
+    "environment": {
+      "SCENE_VISUAL_ASSET_PATH": "<candidate-root>/assets/scenes/warm-modern-meeting-room-candidate-01/0.3.1/scene.glb",
+      "SCENE_VISUAL_MANIFEST_PATH": "<candidate-root>/assets/scenes/warm-modern-meeting-room-candidate-01/0.3.1/scene.json",
+      "SCENE_VISUAL_CONFIG_PATH": "<candidate-root>/source/releases/0.3.1/visual-parity-config.json",
+      "SCENE_VISUAL_OUTPUT_DIR": "<capture-dir>",
+      "SCENE_VISUAL_VIEW_IDS": "<comma-separated runner batch>",
+      "SCENE_VISUAL_STRIP_ANCHORS": "1",
+      "SCENE_VISUAL_HIDE_MEDIA_SURFACES": "1",
+      "SCENE_VISUAL_FLIP_Z": "1",
+      "SCENE_VISUAL_ENVIRONMENT_INTENSITY": "0.35",
+      "SCENE_VISUAL_EXPOSURE": "1.2"
+    },
+    "batches": [
+      [
+        "entry",
+        "diagonal-overview",
+        "seat-01-display"
+      ],
+      [
+        "seat-02-display",
+        "seat-03-display",
+        "seat-04-display"
+      ],
+      [
+        "seat-05-display",
+        "seat-06-display",
+        "seat-07-display"
+      ],
+      [
+        "whiteboard-standing",
+        "media-wall",
+        "window-detail"
+      ],
+      [
+        "table-underside",
+        "door-detail",
+        "pendant-detail"
+      ],
+      [
+        "seat-08-display"
+      ]
+    ]
+  },
+  "capturePolicy": {
+    "stripAnchors": true,
+    "avatarsEnabled": true,
+    "avatarFallbackCapsulesEnabled": false,
+    "avatarSeatsEnabled": false,
+    "mediaSurfacesVisible": false,
+    "reason": "Interaction anchors, dynamic media planes, and local fallback avatar meshes are validated separately and must not occlude fixed source-to-GLB visual-composition evidence."
+  },
+  "renderSettings": {
+    "environmentIntensity": 0.35,
+    "exposure": 1.2
+  },
+  "runtimeDiagnosticsFile": "scene-debug.json",
+  "runtimeDiagnostics": {
+    "digest": "3c726522020df5ae09b9cde4b313a5a030b4baa30d51dd566ac2947c0c633ef3",
+    "sizeBytes": 9585,
+    "state": "loaded",
+    "failureReason": null,
+    "renderProfile": "baked-pbr-v1",
+    "missingAssets": [],
+    "meshCount": 137,
+    "materialCount": 21,
+    "lightMappedMaterialCount": 19,
+    "triangleEstimate": 44740
+  },
+  "aggregateThresholds": {
+    "phashTotalMax": 1155,
+    "nccMeanMin": 0.44
+  },
+  "aggregate": {
+    "phashTotal": 1092.2109,
+    "nccMean": 0.45766581875
+  },
+  "views": [
+    {
+      "view": "entry",
+      "phash": 44.0149,
+      "ncc": 0.404047,
+      "threshold": {
+        "phashMax": 50,
+        "nccMin": 0.36
+      },
+      "capture": {
+        "file": "entry.png",
+        "digest": "34deb4dbef0987113741a06e2c6ee015a7d9897fb6f9084123590b713fa52f5e",
+        "sizeBytes": 404517
+      },
+      "passed": true
+    },
+    {
+      "view": "diagonal-overview",
+      "phash": 48.3551,
+      "ncc": 0.335393,
+      "threshold": {
+        "phashMax": 58,
+        "nccMin": 0.3
+      },
+      "capture": {
+        "file": "diagonal-overview.png",
+        "digest": "72408a10633b524989bf2976b9ad2fcdee9801343632d7ea392423099c241526",
+        "sizeBytes": 428338
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-01-display",
+      "phash": 119.065,
+      "ncc": 0.508944,
+      "threshold": {
+        "phashMax": 125,
+        "nccMin": 0.47
+      },
+      "capture": {
+        "file": "seat-01-display.png",
+        "digest": "ed9bbe8b7654e8ff2ad8fca8aeea3dc04bc1cade75f896e79d0b4c6203dd465d",
+        "sizeBytes": 306425
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-02-display",
+      "phash": 51.7727,
+      "ncc": 0.425462,
+      "threshold": {
+        "phashMax": 63,
+        "nccMin": 0.41
+      },
+      "capture": {
+        "file": "seat-02-display.png",
+        "digest": "279aaea333ef6f48fec7f55f8045547f29164fec960a1206fa1f58cce7c7f928",
+        "sizeBytes": 347662
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-03-display",
+      "phash": 52.0165,
+      "ncc": 0.544847,
+      "threshold": {
+        "phashMax": 80,
+        "nccMin": 0.54
+      },
+      "capture": {
+        "file": "seat-03-display.png",
+        "digest": "0ba8e968a5925b9302c8a7d352f3af77bbe323e8ca9b36f2d6ac978422d7efb8",
+        "sizeBytes": 383187
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-04-display",
+      "phash": 39.7,
+      "ncc": 0.549085,
+      "threshold": {
+        "phashMax": 45,
+        "nccMin": 0.52
+      },
+      "capture": {
+        "file": "seat-04-display.png",
+        "digest": "5877994774c2625436152d569bbf201840cc69cf35bfce84ec7c61013f9b0482",
+        "sizeBytes": 388699
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-05-display",
+      "phash": 84.6467,
+      "ncc": 0.325594,
+      "threshold": {
+        "phashMax": 90,
+        "nccMin": 0.32
+      },
+      "capture": {
+        "file": "seat-05-display.png",
+        "digest": "0ebcb2974ac17605fe8f1a531528bd156d68e4eceaf9033472237b63cc6cb2ce",
+        "sizeBytes": 299611
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-06-display",
+      "phash": 65.4354,
+      "ncc": 0.344236,
+      "threshold": {
+        "phashMax": 69,
+        "nccMin": 0.32
+      },
+      "capture": {
+        "file": "seat-06-display.png",
+        "digest": "715b7799a316a114b7cf6343704b324185648c5046a1793fecf316a51b095bae",
+        "sizeBytes": 348917
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-07-display",
+      "phash": 102.813,
+      "ncc": 0.470368,
+      "threshold": {
+        "phashMax": 111,
+        "nccMin": 0.44
+      },
+      "capture": {
+        "file": "seat-07-display.png",
+        "digest": "305e0473e6cbe1f854a297a8f4b8669bf821fc51dcd502ed2ea902e12e923b90",
+        "sizeBytes": 385629
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-08-display",
+      "phash": 105.652,
+      "ncc": 0.487457,
+      "threshold": {
+        "phashMax": 112,
+        "nccMin": 0.45
+      },
+      "capture": {
+        "file": "seat-08-display.png",
+        "digest": "91afa669b076a434271e44a9122e4e674b9c58d57ac36c44d4b2b18ee4206518",
+        "sizeBytes": 390074
+      },
+      "passed": true
+    },
+    {
+      "view": "whiteboard-standing",
+      "phash": 25.0576,
+      "ncc": 0.14601,
+      "threshold": {
+        "phashMax": 30,
+        "nccMin": 0.12
+      },
+      "capture": {
+        "file": "whiteboard-standing.png",
+        "digest": "1645bf8634a0e7a91031a7e8aceb58585a82c83557ceccb69a69d0bb07498744",
+        "sizeBytes": 215298
+      },
+      "passed": true
+    },
+    {
+      "view": "table-underside",
+      "phash": 43.9782,
+      "ncc": 0.752035,
+      "threshold": {
+        "phashMax": 54,
+        "nccMin": 0.72
+      },
+      "capture": {
+        "file": "table-underside.png",
+        "digest": "16f3f4093d786d01498566859fae630be58cb20098374c44e5e2b4ec62a1c098",
+        "sizeBytes": 226472
+      },
+      "passed": true
+    },
+    {
+      "view": "media-wall",
+      "phash": 68.9145,
+      "ncc": 0.561561,
+      "threshold": {
+        "phashMax": 74,
+        "nccMin": 0.52
+      },
+      "capture": {
+        "file": "media-wall.png",
+        "digest": "e8b7b17a01d40befa0bbd7413fe0837c04c5624be6c27eeead9a9914f8d7917c",
+        "sizeBytes": 388381
+      },
+      "passed": true
+    },
+    {
+      "view": "door-detail",
+      "phash": 67.3958,
+      "ncc": 0.832376,
+      "threshold": {
+        "phashMax": 74,
+        "nccMin": 0.79
+      },
+      "capture": {
+        "file": "door-detail.png",
+        "digest": "739c5f8f6e421ca164ef357b3026b729bb9ec2743270be7d1ca12d08a63ab3ed",
+        "sizeBytes": 209123
+      },
+      "passed": true
+    },
+    {
+      "view": "window-detail",
+      "phash": 146.475,
+      "ncc": 0.601366,
+      "threshold": {
+        "phashMax": 152,
+        "nccMin": 0.56
+      },
+      "capture": {
+        "file": "window-detail.png",
+        "digest": "3a71fc8077a900f8b8d8c2d528dc23c200866687347362206b169884ceeb4125",
+        "sizeBytes": 203012
+      },
+      "passed": true
+    },
+    {
+      "view": "pendant-detail",
+      "phash": 26.9185,
+      "ncc": 0.0338721,
+      "threshold": {
+        "phashMax": 36,
+        "nccMin": 0
+      },
+      "capture": {
+        "file": "pendant-detail.png",
+        "digest": "aad38d7ac37f7e4c1fec4fe91104250c62572a02975101bd2bc8d1c6fcf2d0f9",
+        "sizeBytes": 338538
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}

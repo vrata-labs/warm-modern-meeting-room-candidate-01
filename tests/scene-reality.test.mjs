@@ -15,8 +15,8 @@ import {
 } from "../scripts/validate-scene-reality.mjs";
 
 const root = resolve(import.meta.dirname, "..");
-const realityPath = resolve(root, "source/releases/0.3.0/scene-reality.json");
-const scenariosPath = resolve(root, "source/releases/0.3.0/user-scenarios.json");
+const realityPath = resolve(root, "source/releases/0.3.1/scene-reality.json");
+const scenariosPath = resolve(root, "source/releases/0.3.1/user-scenarios.json");
 
 async function json(path) {
   return JSON.parse(await readFile(path, "utf8"));
@@ -48,8 +48,7 @@ const envelopeValues = {
   "conference-speakerphone": [[-0.15, 0.73, -0.15], [0.15, 0.78, 0.15]],
   "conference-table": [[-1.8, 0, -0.59], [1.8, 0.73, 0.59]],
   "conference-table-cable-management": [[-0.265, 0.705, -0.09], [0.265, 0.73, 0.09]],
-  "debug-main": [[-0.0375, 0.5, -1.6925], [0.0375, 2.485, 1.6925]],
-  "exterior-landscape": [[-0.725, 0, -0.275], [0.725, 1.3, 0.275]],
+  "debug-main": [[-3.4025, 0.5, -1.8425], [-3.3275, 2.485, 1.5425]],
   "exterior-neighbor-building": [[-1.3, 0, -0.72], [1.3, 3, 0.72]],
   "exterior-site": [[-5, -0.18, -5], [5, 0, 5]],
   "main-door": [[-0.55, 0, -0.125], [0.55, 2.2, 0.125]],
@@ -57,10 +56,24 @@ const envelopeValues = {
   "media-wall-acoustics": [[-0.035, 1, -0.35], [0.035, 2.3, 0.35]],
   "pendant-fixture": [[-1.05, 2.65, -0.06], [1.05, 3.185, 0.06]],
   "room-shell": [[-3.59, -0.18, -2.59], [3.59, 3.28, 2.59]],
-  "route-safe-plant": [[1.88, 0, -0.2], [2.28, 1.5, 0.2]],
-  "whiteboard-accessories": [[-0.04, 0.8, -0.35], [0.04, 0.84, 0.35]],
-  "whiteboard-marker": [[-0.01, 0.84, -0.09], [0.01, 0.86, 0.09]],
-  "whiteboard-wall": [[-0.0375, 0.8, -1.2825], [0.0375, 2.21, 1.2825]]
+  "route-safe-plant": [[-3.2, 0, -2.28], [-2.8, 1.55, -1.9]],
+  "whiteboard-accessories": [[3.245, 0.8, -0.35], [3.325, 0.84, 0.35]],
+  "whiteboard-marker": [[3.255, 0.84, -0.09], [3.275, 0.86, 0.09]],
+  "whiteboard-wall": [[3.3275, 0.8, -1.2825], [3.4025, 2.21, 1.2825]]
+};
+
+const partEnvelopeValues = {
+  "debug-main/surface": [[-3.34, 0.67, -1.73], [-3.32, 2.43, 1.43]],
+  "main-window/frame-bottom": [[-1.82, 0.7, -0.09], [1.42, 0.78, 0.09]],
+  "main-window/frame-head": [[-1.82, 2.42, -0.09], [1.42, 2.5, 0.09]],
+  "main-window/frame-left": [[-1.9, 0.7, -0.09], [-1.82, 2.5, 0.09]],
+  "main-window/frame-right": [[1.42, 0.7, -0.09], [1.5, 2.5, 0.09]],
+  "main-window/glass": [[-1.795, 0.805, -0.006], [1.395, 2.395, 0.006]],
+  "main-window/glazing-bead-bottom": [[-1.795, 0.78, -0.0125], [1.395, 0.805, 0.0125]],
+  "main-window/glazing-bead-top": [[-1.795, 2.395, -0.0125], [1.395, 2.42, 0.0125]],
+  "main-window/glazing-bead-left": [[-1.82, 0.805, -0.0125], [-1.795, 2.395, 0.0125]],
+  "main-window/glazing-bead-right": [[1.395, 0.805, -0.0125], [1.42, 2.395, 0.0125]],
+  "whiteboard-wall/surface": [[3.32, 0.895, -1.18], [3.34, 2.105, 1.18]]
 };
 
 for (let index = 1; index <= 8; index += 1) {
@@ -83,7 +96,7 @@ function fixtureDocument(reality, scenarios) {
     const envelope = envelopeValues[object.id];
     assert.ok(envelope, object.id);
     for (const part of object.parts) {
-      let bounds = envelope;
+      let bounds = partEnvelopeValues[`${object.id}/${part.id}`] ?? envelope;
       if (object.id === "conference-table" && part.id === "top") bounds = [[-1.8, 0.68, -0.59], [1.8, 0.73, 0.59]];
       if (object.id.startsWith("chair-") && part.id === "arm-assembly") bounds = [[-0.31, 0.5, -0.25], [0.31, 0.655, 0.25]];
       const accessor = accessors.length;
@@ -138,17 +151,17 @@ function encodeGlb(document) {
   return bytes;
 }
 
-test("0.3.0 reality and scenario contracts cover the exact final model", async () => {
+test("0.3.1 reality and scenario contracts cover the exact corrected model", async () => {
   const reality = await json(realityPath);
   const scenarios = await json(scenariosPath);
   const realityContext = validateSceneRealityContract(reality);
   const scenarioContext = validateUserScenariosContract(scenarios, realityContext);
 
-  assert.equal(realityContext.objectById.size, 27);
-  assert.equal(realityContext.partByKey.size, 139);
-  assert.deepEqual(realityContext.partsByStatus, { passive: 56, deferred: 23, interactive: 60 });
-  assert.equal(scenarioContext.scenarioCount, 17);
-  assert.equal(scenarioContext.scaleRangeCount, 27);
+  assert.equal(realityContext.objectById.size, 26);
+  assert.equal(realityContext.partByKey.size, 137);
+  assert.deepEqual(realityContext.partsByStatus, { passive: 54, deferred: 23, interactive: 60 });
+  assert.equal(scenarioContext.scenarioCount, 18);
+  assert.equal(scenarioContext.scaleRangeCount, 26);
   assert.equal(scenarioContext.extrasMetricCount, 37);
   assert.ok(scenarios.scenarios.filter(({ id }) => id.endsWith("approach-sit-stand")).length === 8);
   assert.ok(scenarios.scenarios.filter(({ implementationRequired }) => !implementationRequired).every((scenario) => scenario.acceptanceCriteria.some(({ measure, value }) => measure === "runtime-implementation-required" && value === false)));
@@ -191,9 +204,10 @@ test("GLB validation enforces all tagged parts, geometry acceptance and determin
   validateUserScenariosContract(scenarios, realityContext);
   const document = fixtureDocument(reality, scenarios);
   const result = validateGlbDocument(document, reality, scenarios, realityContext);
-  assert.equal(result.meshNodeCount, 139);
-  assert.equal(result.objectCount, 27);
-  assert.equal(result.scaleRangesValidated, 27);
+  assert.equal(result.meshNodeCount, 137);
+  assert.equal(result.objectCount, 26);
+  assert.equal(result.scaleRangesValidated, 26);
+  assert.equal(result.clearancesValidated, 16);
   assert.equal(result.extrasMetricsValidated, 37);
   assert.equal(result.contactsValidated, realityContext.supportEdges);
 
@@ -221,6 +235,24 @@ test("GLB validation enforces all tagged parts, geometry acceptance and determin
   statusDrift.nodes[0].extras.vrataInteractionStatus = "deferred";
   assert.throws(() => validateGlbDocument(statusDrift, reality, scenarios, realityContext), /mesh_status_mismatch/);
 
+  const windowGap = structuredClone(document);
+  const leftBead = windowGap.nodes.find((node) => node.extras.vrataObjectId === "main-window" && node.extras.vrataPartId === "glazing-bead-left");
+  windowGap.accessors[windowGap.meshes[leftBead.mesh].primitives[0].attributes.POSITION].min[0] += 0.01;
+  windowGap.accessors[windowGap.meshes[leftBead.mesh].primitives[0].attributes.POSITION].max[0] += 0.01;
+  assert.throws(() => validateGlbDocument(windowGap, reality, scenarios, realityContext), /clearance_failed:window-left-bead-frame-gap/);
+
+  const offCenterWhiteboard = structuredClone(document);
+  for (const node of offCenterWhiteboard.nodes.filter((value) => value.extras.vrataObjectId === "whiteboard-wall")) {
+    const accessor = offCenterWhiteboard.accessors[offCenterWhiteboard.meshes[node.mesh].primitives[0].attributes.POSITION];
+    accessor.min[2] += 0.5;
+    accessor.max[2] += 0.5;
+  }
+  assert.throws(() => validateGlbDocument(offCenterWhiteboard, reality, scenarios, realityContext), /whiteboard_not_wall_centered/);
+
+  const occludedMediaReality = structuredClone(reality);
+  occludedMediaReality.runtimeBindings.mediaSurfaces[0].transform.x = -3.4;
+  assert.throws(() => validateGlbDocument(document, occludedMediaReality, scenarios, realityContext), /media_surface_not_in_front_of_backing:debug-main/);
+
   const temporary = await mkdtemp(join(tmpdir(), "wmmr-scene-reality-"));
   try {
     const scenePath = join(temporary, "scene.json");
@@ -236,7 +268,7 @@ test("GLB validation enforces all tagged parts, geometry acceptance and determin
     assert.equal(secondBytes, firstBytes);
     assert.equal(first.release.sceneManifestValidated, true);
     assert.equal(first.release.glbValidated, true);
-    assert.equal(first.release.meshNodesValidated, 139);
+    assert.equal(first.release.meshNodesValidated, 137);
     assert.doesNotMatch(firstBytes, /tmp|sha256|generatedAt/i);
 
     const separatorReportPath = join(temporary, "separator-report.json");
@@ -245,7 +277,7 @@ test("GLB validation enforces all tagged parts, geometry acceptance and determin
       encoding: "utf8"
     });
     assert.equal(cli.status, 0, cli.stderr);
-    assert.match(cli.stdout, /Scene reality 0\.3\.0 is valid/);
+    assert.match(cli.stdout, /Scene reality 0\.3\.1 is valid/);
     assert.equal((await json(separatorReportPath)).result, "valid");
   } finally {
     await rm(temporary, { recursive: true, force: true });

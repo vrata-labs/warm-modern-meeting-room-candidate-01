@@ -1,0 +1,19 @@
+Project-Owned Release Asset Grant
+
+Project: Vrata
+Scene: warm-modern-meeting-room-candidate-01
+Release: 0.3.1
+Approved: 2026-09-02
+
+The human rights owner approved the project-authored geometry, materials,
+procedural textures, Blender source, reality and export scripts, review renders,
+GLB, preview, capture harness patch, and release metadata listed by
+provenance/releases/0.3.1/release-asset-ledger.json.
+
+The approved assets may be used, modified, optimized, rendered, published,
+redistributed, and used commercially in staging, production, web runtime,
+screenshots, and downloadable scene bundles. Attribution is not required.
+
+No external meshes, textures, photographs, scans, fonts, HDR images, private
+scene files, marketplace assets, or model-generated 3D outputs are included.
+This rights grant is separate from human visual acceptance of the review release.

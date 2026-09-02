@@ -42,3 +42,11 @@ visual parity config, and the exact clean-capture patch for the pinned platform
 fixture under `releases/0.3.0/`. Its automated reality,
 reproducibility, rights, and visual parity gates are complete, while human visual
 acceptance and publication readiness remain explicitly false.
+
+Release `0.3.1` appends the corrected accepted Blender source, baked atlas,
+reality pass, 26-object and 18-scenario contracts, sixteen review views,
+acceptance lock, visual parity config, and pinned runtime capture patch under
+`releases/0.3.1/`. It removes the exterior planter and hedge, moves the route-safe
+plant, centers the whiteboard, and closes the window contacts without changing
+the legacy singleton or `0.3.0` bytes. Human visual acceptance and publication
+readiness remain explicitly false.
