@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.2.0",
+  "releaseGlb": {
+    "path": "assets/scenes/warm-modern-meeting-room-candidate-01/0.2.0/scene.glb",
+    "sha256": "ad988d685e32c286d0349144935ee1c47305f71b252de33319dfb967b7b7e7d5",
+    "sizeBytes": 12367932
+  },
+  "capture": {
+    "bindingFile": "capture-binding.json",
+    "runtimeDiagnosticsFile": "scene-debug.json",
+    "requiredState": "loaded",
+    "requiredFailureReason": null,
+    "requireNoMissingAssets": true
+  },
+  "views": [
+    {
+      "id": "entry",
+      "referencePath": "source/review/entry.webp",
+      "referenceSha256": "77e795fcd9844a29b88754290ba90832f10437c9dfe6d3188427f13672c7cad8",
+      "captureFile": "entry.png",
+      "phashMax": 32,
+      "nccMin": 0.47
+    },
+    {
+      "id": "participant",
+      "referencePath": "source/review/participant.webp",
+      "referenceSha256": "b2aefbab92b1de1538d3858716f15b45796302a9d7c48edbe0ab026a15d805e3",
+      "captureFile": "participant.png",
+      "phashMax": 58,
+      "nccMin": 0.64
+    },
+    {
+      "id": "presenter",
+      "referencePath": "source/review/presenter.webp",
+      "referenceSha256": "623da5d7e40836a6c92b0625a4f08b677bf9ddccbe944bc99a4419c818d61377",
+      "captureFile": "presenter.png",
+      "phashMax": 23,
+      "nccMin": 0.64
+    },
+    {
+      "id": "diagonal-overview",
+      "referencePath": "source/review/diagonal-overview.webp",
+      "referenceSha256": "981c8828e3363b829c6769fe37a2023bbfdd3062b51eef026758f8003872daae",
+      "captureFile": "diagonal-overview.png",
+      "phashMax": 28,
+      "nccMin": 0.4
+    }
+  ],
+  "aggregateThresholds": {
+    "phashTotalMax": 130,
+    "nccMeanMin": 0.55
+  }
+}

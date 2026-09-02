@@ -1,0 +1,347 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.3.0",
+  "acceptanceLockPath": "source/releases/0.3.0/accepted-source-lock.json",
+  "releaseGlb": {
+    "path": "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.0/scene.glb",
+    "sha256": "fa95f93af025ca374b53d81ffef60e5dd6e77c848cc362b56763973ce2140880",
+    "sizeBytes": 13126572
+  },
+  "metricTool": "ImageMagick compare",
+  "metricToolVersion": "ImageMagick 6.9.12-98 Q16 x86_64 18038 https://legacy.imagemagick.org",
+  "captureDirectory": "build/review-runtime-0.3.0-avatar-clean",
+  "captureBindingFile": "capture-binding.json",
+  "captureBinding": {
+    "digest": "6d730d74672a05a362639e5f2edff2fcd67aef9c84eb5d8fafee28c5f0d1a638",
+    "sizeBytes": 4439
+  },
+  "platformCommit": "c54edb2239d225a71e9b934316f70792b3faafb6",
+  "platformPatch": {
+    "path": "source/releases/0.3.0/platform-scene-visual-clean.patch",
+    "sha256": "a6903e7236939df0bdc52086af831d93cf480f213e2f0edacb99ed2d061fb5f2",
+    "sizeBytes": 735
+  },
+  "captureRunner": {
+    "command": "pnpm test:e2e -- tests/e2e/scene-visual.spec.ts --workers=1",
+    "environment": {
+      "SCENE_VISUAL_STRIP_ANCHORS": "1",
+      "SCENE_VISUAL_FLIP_Z": "1",
+      "SCENE_VISUAL_ENVIRONMENT_INTENSITY": "0.35",
+      "SCENE_VISUAL_EXPOSURE": "1.2"
+    },
+    "batches": [
+      [
+        "entry",
+        "diagonal-overview",
+        "seat-01-display"
+      ],
+      [
+        "seat-02-display",
+        "seat-03-display",
+        "seat-04-display"
+      ],
+      [
+        "seat-05-display",
+        "seat-06-display",
+        "seat-07-display"
+      ],
+      [
+        "whiteboard-standing"
+      ],
+      [
+        "media-wall"
+      ],
+      [
+        "window-detail"
+      ],
+      [
+        "table-underside"
+      ],
+      [
+        "door-detail"
+      ],
+      [
+        "pendant-detail"
+      ],
+      [
+        "seat-08-display"
+      ]
+    ]
+  },
+  "capturePolicy": {
+    "stripAnchors": true,
+    "avatarsEnabled": true,
+    "avatarFallbackCapsulesEnabled": false,
+    "avatarSeatsEnabled": false,
+    "reason": "Interaction anchors and local fallback avatar meshes are validated separately and must not occlude fixed visual-composition evidence."
+  },
+  "renderSettings": {
+    "environmentIntensity": 0.35,
+    "exposure": 1.2
+  },
+  "runtimeDiagnosticsFile": "scene-debug.json",
+  "runtimeDiagnostics": {
+    "digest": "4a6d6c89bccafe29419703a5a5b05fd895643a7209eca87a4cbca75161e1d7c3",
+    "sizeBytes": 9919,
+    "state": "loaded",
+    "failureReason": null,
+    "renderProfile": "baked-pbr-v1",
+    "missingAssets": [],
+    "meshCount": 139,
+    "materialCount": 22,
+    "lightMappedMaterialCount": 20,
+    "triangleEstimate": 45116
+  },
+  "aggregateThresholds": {
+    "phashTotalMax": 1155,
+    "nccMeanMin": 0.44
+  },
+  "aggregate": {
+    "phashTotal": 1055.1776200000002,
+    "nccMean": 0.46943613125
+  },
+  "views": [
+    {
+      "view": "entry",
+      "phash": 43.5998,
+      "ncc": 0.402672,
+      "threshold": {
+        "phashMax": 50,
+        "nccMin": 0.36
+      },
+      "capture": {
+        "file": "entry.png",
+        "digest": "5b4dc7f72daf8f3a77312732ca4217c9cd53901ae0fdd473c55ea7434e7616d8",
+        "sizeBytes": 666724
+      },
+      "passed": true
+    },
+    {
+      "view": "diagonal-overview",
+      "phash": 51.1787,
+      "ncc": 0.339324,
+      "threshold": {
+        "phashMax": 58,
+        "nccMin": 0.3
+      },
+      "capture": {
+        "file": "diagonal-overview.png",
+        "digest": "62ec558dba95fc622167238ad01ebed9d39fcc18834f885c752bfeb053e64c79",
+        "sizeBytes": 713774
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-01-display",
+      "phash": 118.782,
+      "ncc": 0.50962,
+      "threshold": {
+        "phashMax": 125,
+        "nccMin": 0.47
+      },
+      "capture": {
+        "file": "seat-01-display.png",
+        "digest": "aba8c6cc30b1881099b6969c9704828d5105c433ad28f4ebe31a4e075c204303",
+        "sizeBytes": 519274
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-02-display",
+      "phash": 56.9745,
+      "ncc": 0.451994,
+      "threshold": {
+        "phashMax": 63,
+        "nccMin": 0.41
+      },
+      "capture": {
+        "file": "seat-02-display.png",
+        "digest": "7886ab03cb98b3f21ba5c0a7dab31e11e099fc79c6301fb7c9e94f36673723a9",
+        "sizeBytes": 596615
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-03-display",
+      "phash": 73.2477,
+      "ncc": 0.578224,
+      "threshold": {
+        "phashMax": 80,
+        "nccMin": 0.54
+      },
+      "capture": {
+        "file": "seat-03-display.png",
+        "digest": "f12c6184f98fe7af622a9a3f05c1ad071854725cbd5d7df2fa2cbd327a6a9a5e",
+        "sizeBytes": 642764
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-04-display",
+      "phash": 38.9042,
+      "ncc": 0.561887,
+      "threshold": {
+        "phashMax": 45,
+        "nccMin": 0.52
+      },
+      "capture": {
+        "file": "seat-04-display.png",
+        "digest": "c99c8172764864b8b353f39fcc183fd6d83554acef66303e29abd9ad986b63f6",
+        "sizeBytes": 643264
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-05-display",
+      "phash": 59.559,
+      "ncc": 0.375496,
+      "threshold": {
+        "phashMax": 66,
+        "nccMin": 0.33
+      },
+      "capture": {
+        "file": "seat-05-display.png",
+        "digest": "6b0b3e9e220ab45c5501d5089bd203c3b01750f4d0332c13e40d2c0f8c9ea87f",
+        "sizeBytes": 513023
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-06-display",
+      "phash": 62.395,
+      "ncc": 0.363872,
+      "threshold": {
+        "phashMax": 69,
+        "nccMin": 0.32
+      },
+      "capture": {
+        "file": "seat-06-display.png",
+        "digest": "fe74efb962b5b858ede4a22eb900f401c43c3b12833ce6a81bf7917f4fc23b90",
+        "sizeBytes": 588285
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-07-display",
+      "phash": 104.172,
+      "ncc": 0.48231,
+      "threshold": {
+        "phashMax": 111,
+        "nccMin": 0.44
+      },
+      "capture": {
+        "file": "seat-07-display.png",
+        "digest": "4692c30bd8fbde5a84fb698088d533a60adbf778b1c874ef9342f789413a836c",
+        "sizeBytes": 643842
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-08-display",
+      "phash": 89.9173,
+      "ncc": 0.491238,
+      "threshold": {
+        "phashMax": 96,
+        "nccMin": 0.45
+      },
+      "capture": {
+        "file": "seat-08-display.png",
+        "digest": "5c3b98d0c6b98bdbee6bf592d92cd478a30d8260a166760c27534797ff5fb364",
+        "sizeBytes": 645365
+      },
+      "passed": true
+    },
+    {
+      "view": "whiteboard-standing",
+      "phash": 9.97152,
+      "ncc": 0.165478,
+      "threshold": {
+        "phashMax": 16,
+        "nccMin": 0.12
+      },
+      "capture": {
+        "file": "whiteboard-standing.png",
+        "digest": "4c31eb8360a4cc000f3c0cca17c7db8d7ac7a6c8eef032fd63fbfc45b881533f",
+        "sizeBytes": 393130
+      },
+      "passed": true
+    },
+    {
+      "view": "table-underside",
+      "phash": 47.1604,
+      "ncc": 0.757585,
+      "threshold": {
+        "phashMax": 54,
+        "nccMin": 0.72
+      },
+      "capture": {
+        "file": "table-underside.png",
+        "digest": "c5561006f274db301ba29e938d381d3c9206ac476cad0e63d449b0428376ac83",
+        "sizeBytes": 442310
+      },
+      "passed": true
+    },
+    {
+      "view": "media-wall",
+      "phash": 57.4379,
+      "ncc": 0.564755,
+      "threshold": {
+        "phashMax": 64,
+        "nccMin": 0.52
+      },
+      "capture": {
+        "file": "media-wall.png",
+        "digest": "0d99386b1837f7237954c60b0de45d1f7ccac3b4622f33036c79a7419ef5b1e2",
+        "sizeBytes": 631062
+      },
+      "passed": true
+    },
+    {
+      "view": "door-detail",
+      "phash": 67.6905,
+      "ncc": 0.832116,
+      "threshold": {
+        "phashMax": 74,
+        "nccMin": 0.79
+      },
+      "capture": {
+        "file": "door-detail.png",
+        "digest": "bfdeb1542546601e64ff6563bb4ca293c18b82a0051e6669678d185dc58275e1",
+        "sizeBytes": 356456
+      },
+      "passed": true
+    },
+    {
+      "view": "window-detail",
+      "phash": 144.989,
+      "ncc": 0.600769,
+      "threshold": {
+        "phashMax": 152,
+        "nccMin": 0.56
+      },
+      "capture": {
+        "file": "window-detail.png",
+        "digest": "1d543b33370938e342e2f49f03c03a0ca68bda30b1067e3a99c96768daff3718",
+        "sizeBytes": 374585
+      },
+      "passed": true
+    },
+    {
+      "view": "pendant-detail",
+      "phash": 29.1981,
+      "ncc": 0.0336381,
+      "threshold": {
+        "phashMax": 36,
+        "nccMin": 0
+      },
+      "capture": {
+        "file": "pendant-detail.png",
+        "digest": "100ca7c00d27966c2eacd420f3b692aae264a597d7b1a4bfcd55e51e0c489462",
+        "sizeBytes": 624083
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}

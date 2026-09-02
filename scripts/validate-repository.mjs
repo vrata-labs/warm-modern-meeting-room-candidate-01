@@ -9,6 +9,13 @@ import { NodeIO } from "@gltf-transform/core";
 import { ALL_EXTENSIONS } from "@gltf-transform/extensions";
 import validator from "gltf-validator";
 
+import {
+  LEGACY_ACCEPTANCE_VERSION,
+  compareVersions,
+  loadReleaseAcceptanceIndex,
+  repositoryFilePath
+} from "./release-acceptance.mjs";
+
 const root = resolve(import.meta.dirname, "..");
 const requiredReleaseFiles = ["LICENSES.md", "preview.webp", "scene.glb", "scene.json"];
 const execFileAsync = promisify(execFile);
@@ -92,10 +99,13 @@ const exteriorConstructionText = await readFile(join(root, "source/exterior-cons
 const lightingConstructionText = await readFile(join(root, "source/lighting-constructions.json"), "utf8");
 const assetLedgerText = await readFile(join(root, "provenance/asset-ledger.json"), "utf8");
 const generationLedgerText = await readFile(join(root, "provenance/generation-ledger.json"), "utf8");
-const releaseAssetLedger = await json(join(root, "provenance/release-asset-ledger.json"));
-const runtimeCoordinateCorrection = await json(join(root, "provenance/runtime-coordinate-correction-0.1.1.json"));
-const bakedLightmapEvidence = await json(join(root, "provenance/baked-lightmap-0.2.0.json"));
-const acceptedSourceLock = await json(join(root, "source/accepted-source-lock.json"));
+const { index: releaseAcceptanceIndex, acceptances } = await loadReleaseAcceptanceIndex(root);
+const legacyAcceptance = acceptances.find(({ record }) => record.version === LEGACY_ACCEPTANCE_VERSION);
+assert(legacyAcceptance, "legacy_release_acceptance_missing");
+const acceptedSourceLock = legacyAcceptance.lock;
+const releaseAssetLedger = await json(repositoryFilePath(root, acceptedSourceLock.rights.releaseLedgerPath));
+const runtimeCoordinateCorrection = await json(repositoryFilePath(root, acceptedSourceLock.runtimeCoordinates.evidencePath));
+const bakedLightmapEvidence = await json(repositoryFilePath(root, acceptedSourceLock.visualQuality.evidencePath));
 const sceneSpec = JSON.parse(sceneText);
 const componentConstruction = JSON.parse(componentConstructionText);
 const mediaSurfaceConstruction = JSON.parse(mediaSurfaceConstructionText);
@@ -114,14 +124,34 @@ assert(manifest.sceneId === config.sceneId, "manifest_scene_id_mismatch");
 assert(manifest.platformValidatorCommit === validatorCommit, "manifest_validator_lock_mismatch");
 assert(manifest.blenderVersion === "4.5.12 LTS", "invalid_manifest_blender_version");
 assert(Array.isArray(manifest.releases), "invalid_manifest_releases");
-assert(JSON.stringify(manifest.releases.map(({ version }) => version)) === JSON.stringify(["0.1.0", "0.1.1", "0.1.2", "0.2.0"]), "invalid_accepted_release_set");
-assert(manifest.releases[0]?.status === "superseded" && manifest.releases[0]?.isCurrent === false
-  && manifest.releases[0]?.supersededBy === "0.1.1", "invalid_superseded_release");
-assert(manifest.releases[1]?.status === "superseded" && manifest.releases[1]?.isCurrent === false
-  && manifest.releases[1]?.supersededBy === "0.1.2", "invalid_metadata_superseded_release");
-assert(manifest.releases[2]?.status === "superseded" && manifest.releases[2]?.isCurrent === false
-  && manifest.releases[2]?.supersededBy === "0.2.0", "invalid_baked_superseded_release");
-assert(manifest.releases[3]?.status === "active" && manifest.releases[3]?.isCurrent === true, "invalid_current_release");
+const historicalReleaseVersions = ["0.1.0", "0.1.1", "0.1.2", "0.2.0"];
+const manifestVersions = manifest.releases.map(({ version }) => version);
+assert(manifestVersions.length >= historicalReleaseVersions.length
+  && JSON.stringify(manifestVersions.slice(0, historicalReleaseVersions.length)) === JSON.stringify(historicalReleaseVersions), "historical_release_prefix_drift");
+assert(manifestVersions.every((version, index) => index === 0 || compareVersions(manifestVersions[index - 1], version) < 0), "manifest_releases_not_sorted");
+const currentReleases = manifest.releases.filter(({ isCurrent }) => isCurrent === true);
+assert(currentReleases.length === 1 && currentReleases[0].status === "active", "invalid_current_release_set");
+for (const release of manifest.releases) {
+  if (release.status === "superseded") {
+    const successor = manifest.releases.find(({ version }) => version === release.supersededBy);
+    assert(release.isCurrent === false && successor
+      && compareVersions(release.version, successor.version) < 0, `invalid_superseded_release:${release.version}`);
+  } else if (release.status === "active") {
+    assert(release.isCurrent === true && !Object.hasOwn(release, "supersededBy"), `invalid_active_release:${release.version}`);
+  } else if (release.status === "review") {
+    assert(release.isCurrent === false && release.publicationReady === false
+      && !Object.hasOwn(release, "supersededBy"), `invalid_review_release:${release.version}`);
+  } else {
+    throw new Error(`invalid_release_status:${release.version}:${release.status}`);
+  }
+}
+assert(releaseAcceptanceIndex.sceneId === config.sceneId, "release_acceptance_index_scene_mismatch");
+const acceptanceVersions = new Set(acceptances.map(({ record }) => record.version));
+assert(acceptanceVersions.has(LEGACY_ACCEPTANCE_VERSION), "legacy_release_acceptance_missing");
+for (const version of manifestVersions.slice(historicalReleaseVersions.length)) {
+  assert(acceptanceVersions.has(version), `release_acceptance_missing:${version}`);
+}
+for (const version of acceptanceVersions) assert(manifestVersions.includes(version), `accepted_release_manifest_record_missing:${version}`);
 assert(concept.schemaVersion === 1 && concept.sceneId === config.sceneId, "invalid_concept_identity");
 assert(concept.status === "approved-low-fidelity-concept", "invalid_concept_status");
 assert(concept.selection?.conceptId === "concept-03-functional", "invalid_selected_concept");
@@ -289,6 +319,142 @@ for (const record of assetLedger.records) {
 }
 const projectOwnedLicense = await fileRecord(join(root, "provenance/licenses/project-owned.txt"));
 assert(projectOwnedLicense.sha256 === projectOwnedLicenseSha256, "project_owned_license_digest_drift");
+
+const releaseLedgerByVersion = new Map();
+for (const { record, lock, visualParityConfig } of acceptances) {
+  const version = record.version;
+  const expectedReleasePath = `assets/scenes/${config.sceneId}/${version}`;
+  const manifestRelease = manifest.releases.find((release) => release.version === version);
+  assert(lock.schemaVersion === 1
+    && lock.status === "accepted-reproducible-source"
+    && lock.sceneId === config.sceneId
+    && lock.release?.version === version
+    && lock.release?.path === expectedReleasePath, `invalid_release_acceptance_lock:${version}`);
+  assert(manifestRelease?.releasePath === expectedReleasePath, `accepted_release_manifest_binding_drift:${version}`);
+  assert(lock.rights?.decision === "approved"
+    && lock.boundaries?.rightsApproved === true
+    && lock.boundaries?.acceptedSourceStored === true
+    && lock.boundaries?.releaseGlbVerified === true, `invalid_release_acceptance_boundaries:${version}`);
+  if (manifestRelease.status === "review") {
+    assert(lock.boundaries.visualAccepted === false
+      && lock.boundaries.publicationReady === false
+      && lock.visualQuality?.humanAcceptance === "pending", `review_release_claims_acceptance:${version}`);
+  } else if (manifestRelease.status === "active") {
+    assert(lock.boundaries.visualAccepted === true
+      && lock.boundaries.publicationReady === true, `active_release_acceptance_missing:${version}`);
+  }
+
+  if (lock.captureHarness !== undefined) {
+    const harness = lock.captureHarness;
+    assert(/^[0-9a-f]{40}$/.test(harness?.platformCommit ?? "")
+      && typeof harness?.patchPath === "string"
+      && /^[0-9a-f]{64}$/.test(harness?.patchSha256 ?? ""), `invalid_capture_harness_lock:${version}`);
+    if (version !== LEGACY_ACCEPTANCE_VERSION) assert(harness.patchPath.startsWith(`source/releases/${version}/`), `versioned_capture_harness_patch_required:${version}`);
+    const patchRecord = await fileRecord(repositoryFilePath(root, harness.patchPath, `invalid_capture_harness_patch_path:${version}`));
+    assert(patchRecord.sha256 === harness.patchSha256, `capture_harness_patch_digest_drift:${version}`);
+    assert(visualParityConfig.capture?.platformCommit === harness.platformCommit
+      && visualParityConfig.capture?.platformPatch?.path === harness.patchPath
+      && visualParityConfig.capture?.platformPatch?.sha256 === harness.patchSha256, `capture_harness_visual_config_drift:${version}`);
+  }
+
+  if (visualParityConfig.capture?.runner !== undefined) {
+    const runner = visualParityConfig.capture.runner;
+    assert(typeof runner?.command === "string" && runner.command.length > 0
+      && runner.environment && typeof runner.environment === "object" && !Array.isArray(runner.environment)
+      && Array.isArray(runner.batches) && runner.batches.every((batch) => Array.isArray(batch) && batch.length > 0), `invalid_capture_runner:${version}`);
+    const batchViews = runner.batches.flat();
+    assert(new Set(batchViews).size === batchViews.length
+      && JSON.stringify([...batchViews].sort()) === JSON.stringify(visualParityConfig.views.map(({ id }) => id).sort()), `capture_runner_view_coverage_drift:${version}`);
+  }
+
+  const sourcePrefix = `source/releases/${version}/`;
+  const provenancePrefix = `provenance/releases/${version}/`;
+  const acceptedInputEntries = Object.entries(lock.acceptedSource ?? {}).filter(([key]) => key.endsWith("Path"));
+  assert(acceptedInputEntries.length > 0, `accepted_source_inputs_missing:${version}`);
+  for (const [pathKey, repositoryPath] of acceptedInputEntries) {
+    const digestKey = `${pathKey.slice(0, -4)}Sha256`;
+    assert(typeof repositoryPath === "string" && /^[0-9a-f]{64}$/.test(lock.acceptedSource[digestKey] ?? ""), `invalid_accepted_source_record:${version}:${pathKey}`);
+    if (version !== LEGACY_ACCEPTANCE_VERSION) assert(repositoryPath.startsWith(sourcePrefix), `versioned_accepted_source_path_required:${version}:${pathKey}`);
+    assert((await fileRecord(repositoryFilePath(root, repositoryPath))).sha256 === lock.acceptedSource[digestKey], `accepted_source_digest_drift:${version}:${pathKey}`);
+  }
+  assert(Array.isArray(lock.reviewViews) && lock.reviewViews.length > 0, `accepted_review_views_missing:${version}`);
+  for (const reviewView of lock.reviewViews) {
+    if (version !== LEGACY_ACCEPTANCE_VERSION) assert(reviewView.path.startsWith(sourcePrefix), `versioned_review_path_required:${version}:${reviewView.id}`);
+    assert((await fileRecord(repositoryFilePath(root, reviewView.path))).sha256 === reviewView.sha256, `accepted_review_digest_drift:${version}:${reviewView.id}`);
+  }
+
+  const provenancePaths = [
+    ["rightsEvidence", lock.rights?.evidencePath],
+    ["releaseLedger", lock.rights?.releaseLedgerPath],
+    ["runtimeCoordinates", lock.runtimeCoordinates?.evidencePath],
+    ["visualQuality", lock.visualQuality?.evidencePath]
+  ];
+  for (const [pathKey, repositoryPath] of provenancePaths) {
+    assert(typeof repositoryPath === "string", `accepted_provenance_path_missing:${version}:${pathKey}`);
+    if (version !== LEGACY_ACCEPTANCE_VERSION) assert(repositoryPath.startsWith(provenancePrefix), `versioned_provenance_path_required:${version}:${pathKey}`);
+    await readFile(repositoryFilePath(root, repositoryPath));
+  }
+
+  const releaseLedger = await json(repositoryFilePath(root, lock.rights.releaseLedgerPath));
+  assert(releaseLedger.schemaVersion === 1 && releaseLedger.sceneId === config.sceneId
+    && releaseLedger.releaseVersion === version, `invalid_release_asset_ledger:${version}`);
+  assert(releaseLedger.approval?.decision === "approved"
+    && releaseLedger.allowedUse?.staging === true
+    && releaseLedger.allowedUse?.production === true
+    && releaseLedger.allowedUse?.webRuntime === true
+    && releaseLedger.allowedUse?.screenshots === true
+    && releaseLedger.allowedUse?.optimization === true
+    && releaseLedger.allowedUse?.redistribution === true, `invalid_release_rights_scope:${version}`);
+  await readFile(repositoryFilePath(root, releaseLedger.license?.reference, `invalid_release_license_path:${version}`));
+  releaseLedgerByVersion.set(version, releaseLedger);
+  const releaseGlb = await fileRecord(join(root, expectedReleasePath, "scene.glb"));
+  const releaseSceneManifest = await fileRecord(join(root, expectedReleasePath, "scene.json"));
+  const releasePreview = await fileRecord(join(root, expectedReleasePath, "preview.webp"));
+  assert(releaseGlb.sha256 === lock.release.glbSha256
+    && releaseSceneManifest.sha256 === lock.release.sceneManifestSha256
+    && releasePreview.sha256 === lock.release.previewSha256, `accepted_release_file_digest_drift:${version}`);
+  assert(manifestRelease.files?.["scene.glb"]?.sha256 === releaseGlb.sha256
+    && manifestRelease.files?.["scene.glb"]?.sizeBytes === releaseGlb.sizeBytes, `accepted_release_glb_manifest_drift:${version}`);
+  assert(visualParityConfig.releaseGlb?.path === `${expectedReleasePath}/scene.glb`
+    && visualParityConfig.releaseGlb?.sha256 === releaseGlb.sha256
+    && visualParityConfig.releaseGlb?.sizeBytes === releaseGlb.sizeBytes, `visual_parity_release_binding_drift:${version}`);
+  assert(JSON.stringify(visualParityConfig.views?.map(({ id, referencePath, referenceSha256 }) => ({ id, path: referencePath, sha256: referenceSha256 })))
+    === JSON.stringify(lock.reviewViews.map(({ id, path, sha256 }) => ({ id, path, sha256 }))), `visual_parity_review_binding_drift:${version}`);
+
+  const visualEvidence = await json(repositoryFilePath(root, lock.visualQuality.evidencePath));
+  assert(visualEvidence.sceneId === config.sceneId && visualEvidence.releaseVersion === version, `visual_quality_evidence_identity_drift:${version}`);
+  if (manifestRelease.status === "review") {
+    assert(visualEvidence.schemaVersion === 1
+      && visualEvidence.acceptanceLockPath === record.lockPath
+      && visualEvidence.passed === true, `invalid_review_visual_evidence:${version}`);
+    assert(JSON.stringify(visualEvidence.releaseGlb) === JSON.stringify(visualParityConfig.releaseGlb), `review_visual_release_binding_drift:${version}`);
+    assert(visualEvidence.platformCommit === visualParityConfig.capture?.platformCommit
+      && JSON.stringify(visualEvidence.capturePolicy) === JSON.stringify(visualParityConfig.capture?.cleanVisualMode)
+      && JSON.stringify(visualEvidence.captureRunner) === JSON.stringify(visualParityConfig.capture?.runner)
+      && JSON.stringify(visualEvidence.renderSettings) === JSON.stringify(visualParityConfig.capture?.renderSettings), `review_visual_capture_binding_drift:${version}`);
+    if (visualParityConfig.capture?.platformPatch !== undefined) {
+      assert(visualEvidence.platformPatch?.path === visualParityConfig.capture.platformPatch.path
+        && visualEvidence.platformPatch?.sha256 === visualParityConfig.capture.platformPatch.sha256
+        && Number.isInteger(visualEvidence.platformPatch?.sizeBytes)
+        && visualEvidence.platformPatch.sizeBytes > 0, `review_visual_platform_patch_drift:${version}`);
+    }
+    assert(JSON.stringify(visualEvidence.aggregateThresholds) === JSON.stringify(visualParityConfig.aggregateThresholds)
+      && Math.abs(visualEvidence.aggregate?.phashTotal - lock.visualQuality.phashTotal) <= 0.0001
+      && Math.abs(visualEvidence.aggregate?.nccMean - lock.visualQuality.nccMean) <= 0.0001, `review_visual_aggregate_drift:${version}`);
+    assert(JSON.stringify(visualEvidence.views?.map(({ view, threshold, passed }) => ({ view, threshold, passed })))
+      === JSON.stringify(visualParityConfig.views.map(({ id, phashMax, nccMin }) => ({
+        view: id,
+        threshold: { phashMax, nccMin },
+        passed: true
+      }))), `review_visual_view_evidence_drift:${version}`);
+    assert(visualEvidence.runtimeDiagnostics?.state === visualParityConfig.capture.requiredState
+      && visualEvidence.runtimeDiagnostics?.failureReason === visualParityConfig.capture.requiredFailureReason
+      && visualEvidence.runtimeDiagnostics?.renderProfile === visualParityConfig.capture.requiredRenderProfile
+      && visualEvidence.runtimeDiagnostics?.missingAssets?.length === 0
+      && visualEvidence.runtimeDiagnostics?.lightMappedMaterialCount >= visualParityConfig.capture.minimumLightMappedMaterialCount,
+    `review_visual_runtime_diagnostics_drift:${version}`);
+  }
+}
 
 assert(acceptedSourceLock.schemaVersion === 1
   && acceptedSourceLock.status === "accepted-reproducible-source"
@@ -581,7 +747,7 @@ for (const release of manifest.releases) {
   }
   const scene = await json(join(releaseDir, "scene.json"));
   assert(scene.schemaVersion === 1 && scene.sceneId === config.sceneId, `invalid_scene_manifest_identity:${releaseKey}`);
-  if (["0.1.2", "0.2.0"].includes(release.version)) assert(scene.version === release.version, `invalid_scene_manifest_version:${releaseKey}`);
+  if (compareVersions(release.version, "0.1.2") >= 0) assert(scene.version === release.version, `invalid_scene_manifest_version:${releaseKey}`);
   assert(scene.glbPath === "scene.glb" && scene.preview === "preview.webp", `invalid_scene_relative_paths:${releaseKey}`);
   assert(scene.spawnPoints?.[0]?.id === "main", `invalid_main_spawn:${releaseKey}`);
   assert(scene.anchors?.seatAnchors?.length === 8, `invalid_eight_seat_contract:${releaseKey}`);
@@ -590,15 +756,19 @@ for (const release of manifest.releases) {
   assert(JSON.stringify(surfaces) === JSON.stringify(["debug-main", "whiteboard-wall"]), `invalid_surface_contract:${releaseKey}`);
   assert(scene.bounds?.width > 0 && scene.bounds?.height > 0 && scene.bounds?.depth > 0, `invalid_bounds:${releaseKey}`);
   assert(scene.rights?.sourceAssets?.length > 0, `missing_rights_provenance:${releaseKey}`);
+  const rightsLedger = releaseLedgerByVersion.get(release.version) ?? (historicalReleaseVersions.includes(release.version) ? releaseAssetLedger : null);
+  assert(rightsLedger, `release_rights_ledger_missing:${releaseKey}`);
+  const rightsRecordIds = rightsLedger.records.map(({ id }) => id);
   assert(scene.rights?.owner === "vrata"
-    && scene.rights?.license === releaseAssetLedger.license.name
+    && scene.rights?.license === rightsLedger.license.name
     && ["staging", "production", "web-runtime", "screenshots", "optimization", "redistribution"].every((use) => scene.rights.clearedFor?.includes(use)), `invalid_release_rights:${releaseKey}`);
-  assert(scene.rights.sourceAssets.every(({ id, author, licenseRef }) => releaseRecordIds.includes(id)
+  assert(scene.rights.sourceAssets.every(({ id, author, licenseRef }) => rightsRecordIds.includes(id)
     && author === "Vrata project team" && licenseRef === "LICENSES.md"), `invalid_release_source_asset_binding:${releaseKey}`);
   assert(!/(^\/|^[A-Za-z]:[\\/]|^\\\\|\/home\/|\/mnt\/)/.test(scene.source ?? ""), `private_source_path:${releaseKey}`);
   assert(!/(alpha|beta|curated|ai[- ]?generated)/i.test(scene.label ?? ""), `non_neutral_release_label:${releaseKey}`);
-  if (release.isCurrent) {
-    assert(scene.renderMode === "clean" && scene.renderProfile === "baked-pbr-v1", `invalid_current_render_profile:${releaseKey}`);
+  if (release.status === "review") assert(scene.visual?.reviewStage === "human-acceptance-pending", `review_scene_stage_drift:${releaseKey}`);
+  if (release.version === LEGACY_ACCEPTANCE_VERSION) {
+    assert(scene.renderMode === "clean" && scene.renderProfile === "baked-pbr-v1", `invalid_legacy_render_profile:${releaseKey}`);
     assert(JSON.stringify(scene.spawnPoints[0].position) === JSON.stringify(toRuntimePosition(sceneSpec.spawn.position)), `runtime_spawn_coordinate_drift:${releaseKey}`);
     const tablePosition = toRuntimePosition(sceneSpec.components.find(({ id }) => id === "conference-table").transform.position);
     const dx = tablePosition.x - scene.spawnPoints[0].position.x;
