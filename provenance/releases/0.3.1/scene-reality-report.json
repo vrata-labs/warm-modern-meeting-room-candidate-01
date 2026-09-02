@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.3.1",
+  "result": "valid",
+  "contracts": {
+    "objects": 26,
+    "parts": 137,
+    "partsByStatus": {
+      "passive": 54,
+      "deferred": 23,
+      "interactive": 60
+    },
+    "supportRoots": 2,
+    "supportEdges": 147,
+    "scenarios": 18,
+    "scaleRanges": 26,
+    "clearances": 16,
+    "extrasMetrics": 37
+  },
+  "release": {
+    "sceneManifestValidated": true,
+    "glbValidated": true,
+    "seatAnchorsValidated": 8,
+    "mediaSurfacesValidated": 2,
+    "meshNodesValidated": 137,
+    "contactsValidated": 147,
+    "scaleRangesValidated": 26,
+    "clearancesValidated": 16,
+    "extrasMetricsValidated": 37
+  }
+}

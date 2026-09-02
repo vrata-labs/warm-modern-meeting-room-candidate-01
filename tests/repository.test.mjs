@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { access, readFile, readdir } from "node:fs/promises";
-import { resolve } from "node:path";
+import { access, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 
@@ -83,17 +84,16 @@ test("manifest preserves the historical prefix and one current release beside ap
     isCurrent: true,
     supersededBy: undefined
   });
-  const review = manifest.releases.find(({ version }) => version === "0.3.0");
-  assert.deepEqual({ status: review.status, isCurrent: review.isCurrent, publicationReady: review.publicationReady, supersededBy: review.supersededBy }, {
-    status: "review",
-    isCurrent: false,
-    publicationReady: false,
-    supersededBy: undefined
-  });
+  const reviews = manifest.releases.filter(({ version }) => ["0.3.0", "0.3.1"].includes(version));
+  assert.deepEqual(reviews.map(({ version, status, isCurrent, publicationReady, supersededBy }) => ({ version, status, isCurrent, publicationReady, supersededBy })), [
+    { version: "0.3.0", status: "review", isCurrent: false, publicationReady: false, supersededBy: undefined },
+    { version: "0.3.1", status: "review", isCurrent: false, publicationReady: false, supersededBy: undefined }
+  ]);
   assert.ok(manifest.releases.slice(0, 3).every((release) => release.files["scene.glb"].sha256 === "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"));
   const baked = manifest.releases.find(({ version }) => version === "0.2.0");
   assert.equal(baked.files["scene.glb"].sha256, "ad988d685e32c286d0349144935ee1c47305f71b252de33319dfb967b7b7e7d5");
-  assert.equal(review.files["scene.glb"].sha256, "fa95f93af025ca374b53d81ffef60e5dd6e77c848cc362b56763973ce2140880");
+  assert.equal(reviews[0].files["scene.glb"].sha256, "fa95f93af025ca374b53d81ffef60e5dd6e77c848cc362b56763973ce2140880");
+  assert.equal(reviews[1].files["scene.glb"].sha256, "e179ccc1771f2cde544e81837fb918ea8b0d6ce4d5df8d30a48c3a8516114aae");
   assert.deepEqual(
     (await readdir(resolve(root, "assets/scenes/warm-modern-meeting-room-candidate-01"))).filter((entry) => entry !== ".gitkeep").sort(),
     manifest.releases.map(({ version }) => version).sort()
@@ -159,6 +159,11 @@ test("acceptance index iterates locked source, visual config, rights, and releas
     releaseGlbVerified: true,
     publicationReady: false
   });
+  const correction = acceptances.find(({ record }) => record.version === "0.3.1");
+  assert.equal(correction.lock.reviewViews.length, 16);
+  assert.equal(correction.lock.visualQuality.result, "passed");
+  assert.equal(correction.lock.visualQuality.humanAcceptance, "pending");
+  assert.deepEqual(correction.lock.boundaries, review.lock.boundaries);
 });
 
 test("legacy visual parity policy is versioned and binds capture diagnostics to the exact GLB", async () => {
@@ -222,14 +227,52 @@ test("0.3.0 visual parity policy binds clean runtime evidence for all reality vi
   assert.deepEqual(visual.aggregateThresholds, { phashTotalMax: 1155, nccMeanMin: 0.44 });
 });
 
-test("release commands select 0.3.0 explicitly and preserve legacy lock selection", async () => {
+test("0.3.1 visual parity policy binds corrected runtime evidence without promotion", async () => {
+  const { acceptances } = await loadReleaseAcceptanceIndex(root);
+  const { lock, visualParityConfig: visual } = acceptances.find(({ record }) => record.version === "0.3.1");
+  assert.deepEqual(visual.releaseGlb, {
+    path: "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.1/scene.glb",
+    sha256: "e179ccc1771f2cde544e81837fb918ea8b0d6ce4d5df8d30a48c3a8516114aae",
+    sizeBytes: 13135452
+  });
+  assert.equal(visual.capture.platformCommit, platformValidatorCommit);
+  assert.deepEqual(visual.capture.platformPatch, {
+    path: "source/releases/0.3.1/platform-scene-visual-clean.patch",
+    sha256: "389384a0d26f0e8cfdcb82d8c4d345deab46c5fdf3820401ab39520eba5ecb00"
+  });
+  assert.equal(visual.capture.minimumLightMappedMaterialCount, 19);
+  assert.deepEqual(visual.capture.expectedRuntime, { meshCount: 137, materialCount: 21, triangleEstimate: 44740 });
+  assert.equal(visual.capture.runner.command, "pnpm test:e2e:private-assets tests/e2e/scene-visual.spec.ts --workers=1");
+  assert.equal(visual.capture.runner.executable, "pnpm");
+  assert.deepEqual(visual.capture.runner.argv, ["test:e2e:private-assets", "tests/e2e/scene-visual.spec.ts", "--workers=1"]);
+  assert.deepEqual(visual.capture.runner.bindingGenerator, {
+    executable: "node",
+    argv: ["scripts/create-capture-binding.mjs", "--version", "0.3.1"],
+    environment: { SCENE_VISUAL_OUTPUT_DIR: "<capture-dir>" }
+  });
+  assert.equal(visual.capture.runner.environment.SCENE_VISUAL_VIEW_IDS, "<comma-separated runner batch>");
+  assert.equal(visual.capture.runner.environment.SCENE_VISUAL_HIDE_MEDIA_SURFACES, "1");
+  assert.deepEqual(visual.capture.runner.batches.flat().sort(), visual.views.map(({ id }) => id).sort());
+  assert.equal(visual.views.length, 16);
+  assert.equal(visual.capture.cleanVisualMode.mediaSurfacesVisible, false);
+  assert.equal(lock.visualQuality.humanAcceptance, "pending");
+  assert.equal(lock.boundaries.visualAccepted, false);
+  assert.equal(lock.boundaries.publicationReady, false);
+  const acceptedBlend = await readFile(resolve(root, lock.acceptedSource.blendPath));
+  for (const marker of ["/home/", "/mnt/", "/tmp/opencode", "wmmr-candidate-release", "Save As Blender File", "workspaces.blend"]) {
+    assert.equal(acceptedBlend.indexOf(marker), -1, `machine-local marker leaked into accepted blend: ${marker}`);
+  }
+});
+
+test("release commands select 0.3.1 explicitly and preserve legacy lock selection", async () => {
   const { acceptances } = await loadReleaseAcceptanceIndex(root);
   assert.equal(selectReleaseAcceptance(acceptances, { version: null, lockPath: "source/accepted-source-lock.json" }).record.version, "0.2.0");
   const packageJson = await json("package.json");
-  assert.equal(packageJson.version, "0.3.0");
-  assert.match(packageJson.scripts["build:release"], /--version 0\.3\.0$/);
-  assert.match(packageJson.scripts["validate:visual"], /--version 0\.3\.0$/);
-  assert.match(packageJson.scripts["verify:reproducibility"], /--version 0\.3\.0 --twice$/);
+  assert.equal(packageJson.version, "0.3.1");
+  assert.match(packageJson.scripts["build:release"], /--version 0\.3\.1$/);
+  assert.match(packageJson.scripts["validate:visual"], /--version 0\.3\.1$/);
+  assert.match(packageJson.scripts["verify:reproducibility"], /--version 0\.3\.1 --twice$/);
+  assert.match(packageJson.scripts["capture:bind"], /create-capture-binding\.mjs --version 0\.3\.1$/);
   const buildScript = await text("scripts/build-release.mjs");
   assert.match(buildScript, /SCENE_BUILD_OUTPUT_ROOT \?\? "build\/releases"/);
   assert.match(buildScript, /"--lightmap"/);
@@ -239,6 +282,38 @@ test("release commands select 0.3.0 explicitly and preserve legacy lock selectio
   const withoutSelector = spawnSync(process.execPath, ["scripts/build-release.mjs"], { cwd: root, encoding: "utf8" });
   assert.notEqual(withoutSelector.status, 0);
   assert.match(withoutSelector.stderr, /release_selector_required/);
+});
+
+test("capture binding generation is deterministic and records only portable paths", async () => {
+  const visual = await json("source/releases/0.3.1/visual-parity-config.json");
+  const outputDir = await mkdtemp(join(tmpdir(), "wmmr-capture-binding-"));
+  try {
+    const captureFiles = [
+      ...visual.views.map(({ captureFile }) => captureFile),
+      visual.capture.runtimeDiagnosticsFile,
+      visual.capture.renderSettingsFile
+    ];
+    await Promise.all(captureFiles.map((name) => writeFile(join(outputDir, name), `fixture:${name}\n`)));
+    const run = () => spawnSync(process.execPath, ["scripts/create-capture-binding.mjs", "--version", "0.3.1"], {
+      cwd: root,
+      encoding: "utf8",
+      env: { ...process.env, SCENE_VISUAL_OUTPUT_DIR: outputDir }
+    });
+    const firstRun = run();
+    assert.equal(firstRun.status, 0, firstRun.stderr);
+    const first = await readFile(join(outputDir, visual.capture.bindingFile), "utf8");
+    const secondRun = run();
+    assert.equal(secondRun.status, 0, secondRun.stderr);
+    const second = await readFile(join(outputDir, visual.capture.bindingFile), "utf8");
+    assert.equal(second, first);
+    assert.doesNotMatch(first, new RegExp(outputDir.replaceAll("/", "\\/")));
+    const binding = JSON.parse(first);
+    assert.deepEqual(binding.captureRunner, visual.capture.runner);
+    assert.deepEqual(binding.capturePolicy, visual.capture.cleanVisualMode);
+    assert.deepEqual(Object.keys(binding.captureFiles), captureFiles);
+  } finally {
+    await rm(outputDir, { recursive: true, force: true });
+  }
 });
 
 test("release 0.2.0 preserves its exact runtime coordinates and render metadata", async () => {

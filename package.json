@@ -1,17 +1,18 @@
 {
   "name": "@vrata/warm-modern-meeting-room-candidate-01",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "packageManager": "pnpm@10.0.0",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "build:release": "node scripts/build-release.mjs --version 0.3.0",
-    "validate:visual": "node scripts/validate-visual-parity.mjs --version 0.3.0",
+    "build:release": "node scripts/build-release.mjs --version 0.3.1",
+    "capture:bind": "node scripts/create-capture-binding.mjs --version 0.3.1",
+    "validate:visual": "node scripts/validate-visual-parity.mjs --version 0.3.1",
     "validate:reality": "node scripts/validate-scene-reality.mjs",
-    "verify:reproducibility": "node scripts/build-release.mjs --version 0.3.0 --twice",
+    "verify:reproducibility": "node scripts/build-release.mjs --version 0.3.1 --twice",
     "manifest:check": "node scripts/validate-repository.mjs --manifest-only",
     "validate": "node scripts/validate-repository.mjs && node scripts/validate-scene-reality.mjs && node scripts/check-repository-boundary.mjs",
     "inspect": "node scripts/inspect-releases.mjs",

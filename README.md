@@ -70,6 +70,7 @@ pnpm validate
 pnpm inspect
 pnpm test
 BLENDER_BIN=/path/to/pinned/blender pnpm verify:reproducibility
+SCENE_VISUAL_OUTPUT_DIR=/path/to/runtime-captures pnpm capture:bind
 SCENE_VISUAL_OUTPUT_DIR=/path/to/runtime-captures pnpm validate:visual
 ```
 
@@ -120,3 +121,11 @@ physical support-contact validation, seventeen role-based user scenarios, and
 sixteen fixed source/runtime review views. Automated reality, deterministic GLB,
 rights, and visual parity gates pass; human visual acceptance remains pending,
 so `isCurrent` and `publicationReady` remain false.
+
+Release `0.3.1` is an append-only correction review release and also leaves
+`0.2.0` current. It removes the exterior planter and hedge, moves the interior
+plant clear of the primary route, centers the collaboration whiteboard, and
+closes the window glass-to-frame contacts. The accepted source binds 26 objects,
+137 mesh parts, 18 role-based user scenarios, a deterministic 2048px baked atlas,
+and sixteen fixed Blender/runtime review views. Human visual acceptance remains
+pending, so `isCurrent` and `publicationReady` remain false.

@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const repositoryRoot = resolve(import.meta.dirname, "..");
 const SCENE_ID = "warm-modern-meeting-room-candidate-01";
-const RELEASE_VERSION = "0.3.0";
+const RELEASE_VERSION = "0.3.1";
 const REALITY_PATH = `source/releases/${RELEASE_VERSION}/scene-reality.json`;
 const SCENARIOS_PATH = `source/releases/${RELEASE_VERSION}/user-scenarios.json`;
 const DEFAULT_RELEASE_ROOT = `assets/scenes/${SCENE_ID}/${RELEASE_VERSION}`;
@@ -23,7 +23,6 @@ const expectedObjects = [
   ["conference-table", "passive", ["top", "pedestal-west-base", "pedestal-west-column", "pedestal-east-base", "pedestal-east-column"]],
   ["conference-table-cable-management", "deferred", ["cable-cover", "cable-cover-support"]],
   ["debug-main", "interactive", ["frame", "surface"]],
-  ["exterior-landscape", "passive", ["planter", "hedge"]],
   ["exterior-neighbor-building", "passive", ["concrete-mass", "window-glass", "window-frame"]],
   ["exterior-site", "passive", ["near-ground"]],
   ["main-door", "deferred", ["panel", "handle-rosette", "handle-spindle", "handle-lever", "frame-head", "frame-left", "frame-right"]],
@@ -73,7 +72,7 @@ const expectedMediaBindings = [
     heightM: 1.8,
     widthPx: 1920,
     heightPx: 1080,
-    transform: { x: -3.4, y: 1.55, z: -0.15, yaw: Math.PI / 2 },
+    transform: { x: -3.31, y: 1.55, z: -0.15, yaw: Math.PI / 2 },
     visible: true
   },
   {
@@ -86,7 +85,7 @@ const expectedMediaBindings = [
     heightM: 1.25,
     widthPx: 1920,
     heightPx: 1000,
-    transform: { x: 3.4, y: 1.5, z: -0.5, yaw: -Math.PI / 2 },
+    transform: { x: 3.31, y: 1.5, z: 0, yaw: -Math.PI / 2 },
     visible: true
   }
 ];
@@ -96,6 +95,7 @@ const expectedScenarioIds = [
   ...Array.from({ length: 8 }, (_, index) => `seat-${String(index + 1).padStart(2, "0")}-approach-sit-stand`),
   "shared-display-visible-from-all-seats",
   "whiteboard-standing-reach",
+  "whiteboard-visible-from-all-seats",
   "door-counterfactual-operation",
   "table-knee-and-arm-clearance",
   "route-safe-plant-clearance",
@@ -107,17 +107,21 @@ const expectedScenarioIds = [
 const expectedClearanceIds = [
   "table-knee-height",
   ...Array.from({ length: 8 }, (_, index) => `chair-${String(index + 1).padStart(2, "0")}-arm-gap`),
-  "plant-route-east-bound",
-  "plant-west-bound",
-  "plant-height-bound"
+  "plant-seat-route-west-bound",
+  "plant-north-wall-bound",
+  "plant-height-bound",
+  "window-left-bead-frame-gap",
+  "window-right-bead-frame-gap",
+  "window-bottom-bead-frame-gap",
+  "window-top-bead-frame-gap"
 ];
 
 const expectedExtrasMetrics = [
   ["table-top-height", "conference-table", "top", "vrataTopHeightM", 0.74],
   ["table-top-thickness", "conference-table", "top", "vrataThicknessM", 0.055],
   ["speakerphone-device-type", "conference-speakerphone", "body", "vrataDeviceType", "conference-speakerphone"],
-  ["plant-route-center", "route-safe-plant", "pot", "vrataRouteCenterX", 2.8],
-  ["plant-route-half-width", "route-safe-plant", "pot", "vrataRouteHalfWidthM", 0.45],
+  ["plant-corner-id", "route-safe-plant", "pot", "vrataCornerId", "north-west"],
+  ["plant-minimum-route-margin", "route-safe-plant", "pot", "vrataMinimumRouteMarginM", 0.35],
   ...Array.from({ length: 8 }, (_, index) => {
     const chairId = `chair-${String(index + 1).padStart(2, "0")}`;
     return [
@@ -138,7 +142,6 @@ export function expectedMeshNodeName(objectId, partId) {
   if (objectId === "conference-table") return `component.conference-table.${partId}`;
   if (objectId === "conference-table-cable-management") return `component.conference-table.${partId}`;
   if (objectId === "debug-main") return `media.debug-main.${partId === "surface" ? "backing" : partId}`;
-  if (objectId === "exterior-landscape") return `exterior.${partId}`;
   if (objectId === "exterior-neighbor-building") {
     return partId === "concrete-mass" ? "exterior.context-mass" : `exterior.context-window.${partId === "window-glass" ? "glass" : "frame"}`;
   }
@@ -300,7 +303,7 @@ export function validateSceneRealityContract(reality) {
 
   assertExactKeys(reality.expectedCounts, ["objects", "parts", "partsByStatus"], "invalid_expected_counts_keys");
   assertExactKeys(reality.expectedCounts.partsByStatus, ["passive", "deferred", "interactive"], "invalid_status_counts_keys");
-  assert(reality.expectedCounts.objects === 27 && reality.expectedCounts.parts === 139, "invalid_expected_model_counts");
+  assert(reality.expectedCounts.objects === expectedObjects.length && reality.expectedCounts.parts === expectedPartKeys.length, "invalid_expected_model_counts");
   assertCanonicalEqual(reality.expectedCounts.partsByStatus, expectedPartsByStatus, "invalid_expected_status_counts");
   assert(Array.isArray(reality.objects), "invalid_scene_reality_objects");
   assertCanonicalEqual(reality.objects.map(({ id }) => id), expectedObjects.map(({ id }) => id), "scene_reality_object_order_or_set_drift");
@@ -346,7 +349,7 @@ export function validateSceneRealityContract(reality) {
       partByKey.set(key, part);
     }
   }
-  assert(partByKey.size === 139, `scene_reality_part_count_mismatch:${partByKey.size}`);
+  assert(partByKey.size === expectedPartKeys.length, `scene_reality_part_count_mismatch:${partByKey.size}`);
   assertCanonicalEqual(actualPartsByStatus, expectedPartsByStatus, "scene_reality_status_count_mismatch");
 
   assertExactKeys(reality.runtimeBindings, ["seatAnchors", "mediaSurfaces"], "invalid_runtime_bindings_keys");
@@ -479,6 +482,14 @@ function validateScenarios(scenarios, realityContext) {
   const whiteboardScenario = scenarios.find(({ id }) => id === "whiteboard-standing-reach");
   assert(whiteboardScenario.implementationRequired === true && whiteboardScenario.runtimeBindingIds.includes("whiteboard-wall"), "whiteboard_reach_binding_missing");
   assert(whiteboardScenario.objectIds.includes("whiteboard-wall") && whiteboardScenario.objectIds.includes("whiteboard-marker"), "whiteboard_reach_objects_missing");
+  const whiteboardVisibilityScenario = scenarios.find(({ id }) => id === "whiteboard-visible-from-all-seats");
+  assert(whiteboardVisibilityScenario.implementationRequired === true, "whiteboard_visibility_implementation_required");
+  assertCanonicalEqual(whiteboardVisibilityScenario.runtimeBindingIds, ["whiteboard-wall", ...expectedSeatBindings.map(({ id }) => id)], "whiteboard_visibility_bindings_drift");
+  assert(whiteboardVisibilityScenario.objectIds.includes("route-safe-plant"), "whiteboard_visibility_plant_missing");
+  for (const { id } of expectedSeatBindings) {
+    const visibility = whiteboardVisibilityScenario.acceptanceCriteria.find(({ id: criterionId }) => criterionId === `whiteboard-visible-${id}`);
+    assert(visibility?.measure === "whiteboard-visible-from-seat" && visibility.value === id, `whiteboard_visibility_missing:${id}`);
+  }
 
   const entryScenario = scenarios.find(({ id }) => id === "entry-route");
   assert(entryScenario.implementationRequired === true && entryScenario.steps.some(({ target }) => target === "entry-route"), "entry_route_scenario_incomplete");
@@ -486,6 +497,8 @@ function validateScenarios(scenarios, realityContext) {
   assert(tableScenario.objectIds.filter((id) => id.startsWith("chair-")).length === 8, "table_clearance_seat_coverage_incomplete");
   const plantScenario = scenarios.find(({ id }) => id === "route-safe-plant-clearance");
   assert(plantScenario.steps.some(({ target }) => target === "presenter-route"), "plant_route_scenario_incomplete");
+  const plantMargin = plantScenario.acceptanceCriteria.find(({ id }) => id === "plant-route-margin");
+  assert(plantMargin?.value === 0.35 && plantMargin.operator === "greater-than-or-equal", "plant_route_margin_too_small");
 
   for (const [scenarioId, deferredObjectId] of [
     ["door-counterfactual-operation", "main-door"],
@@ -553,7 +566,11 @@ function validateBuilderPhysics(acceptance, realityContext) {
     assert(realityContext.partByKey.has(partKey(metric.objectId, metric.partId)), `extras_metric_unknown_part:${metric.id}`);
   }
 
-  assertCanonicalEqual(acceptance.unknownObjects, { policy: "reject", expectedObjects: 27, expectedParts: 139 }, "unknown_object_policy_drift");
+  assertCanonicalEqual(acceptance.unknownObjects, {
+    policy: "reject",
+    expectedObjects: expectedObjects.length,
+    expectedParts: expectedPartKeys.length
+  }, "unknown_object_policy_drift");
 }
 
 export function validateUserScenariosContract(scenarios, realityContext) {
@@ -820,6 +837,30 @@ function validateGeometryAcceptance(partBounds, objectBounds, nodeByPart, realit
     compareMetric(actual, clearance.operator, clearance.valueM, `clearance_failed:${clearance.id}`);
   }
 
+  const whiteboardBounds = objectBounds.get("whiteboard-wall");
+  const plantBounds = objectBounds.get("route-safe-plant");
+  assert(whiteboardBounds && plantBounds, "layout_visibility_bounds_missing");
+  const whiteboardCenterZ = (whiteboardBounds.min[2] + whiteboardBounds.max[2]) * 0.5;
+  assert(Math.abs(whiteboardCenterZ) <= 0.001 + EPSILON, `whiteboard_not_wall_centered:${whiteboardCenterZ}`);
+  for (const seat of expectedSeatBindings) {
+    const sightlineMinimumX = Math.min(seat.position.x, whiteboardBounds.min[0]);
+    assert(plantBounds.max[0] <= sightlineMinimumX - 0.35 + EPSILON, `plant_obstructs_whiteboard_sightline:${seat.id}`);
+  }
+
+  for (const binding of reality.runtimeBindings.mediaSurfaces) {
+    const backingBounds = partBounds.get(partKey(binding.objectId, binding.partId));
+    assert(backingBounds, `media_surface_backing_bounds_missing:${binding.surfaceId}`);
+    const normal = [Math.sin(binding.transform.yaw), 0, Math.cos(binding.transform.yaw)];
+    const planeDistance = binding.transform.x * normal[0]
+      + binding.transform.y * normal[1]
+      + binding.transform.z * normal[2];
+    const backingFrontDistance = normal.reduce((distance, component, axis) => (
+      distance + component * (component >= 0 ? backingBounds.max[axis] : backingBounds.min[axis])
+    ), 0);
+    const frontGap = planeDistance - backingFrontDistance;
+    assert(frontGap + EPSILON >= 0.005 && frontGap - EPSILON <= 0.02, `media_surface_not_in_front_of_backing:${binding.surfaceId}:${frontGap}`);
+  }
+
   for (const metric of acceptance.extrasMetrics) {
     const node = nodeByPart.get(partKey(metric.objectId, metric.partId));
     assert(node && isRecord(node.extras), `extras_metric_node_missing:${metric.id}`);
@@ -897,7 +938,7 @@ export function validateGlbDocument(document, reality, scenarios, realityContext
     statuses[object.status] += 1;
   }
   assertUnique(names, "duplicate_glb_node_name");
-  assert(meshNodes.length === 139, `glb_mesh_node_count_mismatch:${meshNodes.length}`);
+  assert(meshNodes.length === expectedPartKeys.length, `glb_mesh_node_count_mismatch:${meshNodes.length}`);
   assertCanonicalEqual([...nodeByPart.keys()].sort(), [...expectedPartKeys].sort(), "glb_object_part_set_drift");
   assertCanonicalEqual(statuses, expectedPartsByStatus, "glb_status_counts_drift");
   assertCanonicalEqual([...transparentExclusions].sort(), ["exterior-neighbor-building/window-glass", "main-window/glass"], "glb_transparent_exclusions_drift");

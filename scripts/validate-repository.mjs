@@ -365,6 +365,13 @@ for (const { record, lock, visualParityConfig } of acceptances) {
     const batchViews = runner.batches.flat();
     assert(new Set(batchViews).size === batchViews.length
       && JSON.stringify([...batchViews].sort()) === JSON.stringify(visualParityConfig.views.map(({ id }) => id).sort()), `capture_runner_view_coverage_drift:${version}`);
+    if (compareVersions(version, "0.3.1") >= 0) {
+      assert(runner.executable === "pnpm"
+        && JSON.stringify(runner.argv) === JSON.stringify(["test:e2e:private-assets", "tests/e2e/scene-visual.spec.ts", "--workers=1"])
+        && runner.bindingGenerator?.executable === "node"
+        && JSON.stringify(runner.bindingGenerator.argv) === JSON.stringify(["scripts/create-capture-binding.mjs", "--version", version])
+        && runner.bindingGenerator.environment?.SCENE_VISUAL_OUTPUT_DIR === "<capture-dir>", `capture_runner_invocation_drift:${version}`);
+    }
   }
 
   const sourcePrefix = `source/releases/${version}/`;

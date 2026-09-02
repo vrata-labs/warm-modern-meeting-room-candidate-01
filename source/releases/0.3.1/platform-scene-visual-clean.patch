@@ -1,0 +1,52 @@
+diff --git a/tests/e2e/scene-visual.spec.ts b/tests/e2e/scene-visual.spec.ts
+index aeb24e3..7d0c23a 100644
+--- a/tests/e2e/scene-visual.spec.ts
++++ b/tests/e2e/scene-visual.spec.ts
+@@ -95,3 +95,3 @@ function runtimeView(view: ReviewView, flipZ: boolean) {
+ test("@private-assets @scene-visual captures fixed runtime review views", async ({ page, request }) => {
+-  test.setTimeout(120_000);
++  test.setTimeout(600_000);
+   const assetPath = process.env.SCENE_VISUAL_ASSET_PATH;
+@@ -112,3 +112,8 @@ test("@private-assets @scene-visual captures fixed runtime review views", async
+   const config = JSON.parse(configSource) as { reviewViews?: ReviewView[] };
+-  expect(config.reviewViews?.length).toBeGreaterThan(0);
++  const requestedViewIds = new Set((process.env.SCENE_VISUAL_VIEW_IDS ?? "").split(",").filter(Boolean));
++  const reviewViews = requestedViewIds.size > 0
++    ? (config.reviewViews ?? []).filter((view) => requestedViewIds.has(view.id))
++    : (config.reviewViews ?? []);
++  expect(reviewViews.length).toBeGreaterThan(0);
++  if (requestedViewIds.size > 0) expect(reviewViews.length).toBe(requestedViewIds.size);
+   manifest.glbPath = "scene.glb";
+@@ -120,2 +125,7 @@ test("@private-assets @scene-visual captures fixed runtime review views", async
+-
++  if (process.env.SCENE_VISUAL_HIDE_MEDIA_SURFACES === "1" && Array.isArray(manifest.mediaSurfaces)) {
++    manifest.mediaSurfaces = manifest.mediaSurfaces.map((surface) => (
++      typeof surface === "object" && surface !== null ? { ...surface, visible: false } : surface
++    ));
++  }
++
+   const bundleId = `scene-visual-${Date.now()}`;
+@@ -152,3 +162,7 @@ test("@private-assets @scene-visual captures fixed runtime review views", async
+         : uploaded.publicUrl,
+-      avatarConfig: { avatarsEnabled: false }
++      avatarConfig: {
++        avatarsEnabled: true,
++        avatarFallbackCapsulesEnabled: false,
++        avatarSeatsEnabled: false
++      }
+     }
+@@ -187,3 +201,4 @@ test("@private-assets @scene-visual captures fixed runtime review views", async
+   await mkdir(resolve(outputDir!), { recursive: true });
+-  for (const view of config.reviewViews ?? []) {
++  await page.addStyleTag({ content: ".hud { display: none !important; }" });
++  for (const view of reviewViews) {
+     const pose = runtimeView(view, flipZ);
+@@ -198,4 +213,6 @@ test("@private-assets @scene-visual captures fixed runtime review views", async
+     }));
+-    const dataUrl = await page.locator("#scene > canvas").evaluate((canvas: HTMLCanvasElement) => canvas.toDataURL("image/png"));
+-    await writeFile(resolve(outputDir!, `${view.id}.png`), Buffer.from(dataUrl.split(",")[1] ?? "", "base64"));
++    await page.screenshot({
++      path: resolve(outputDir!, `${view.id}.png`),
++      type: "png"
++    });
+   }

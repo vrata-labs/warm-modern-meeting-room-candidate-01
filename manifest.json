@@ -177,6 +177,41 @@
         "textures": 10,
         "animations": 0
       }
+    },
+    {
+      "sceneId": "warm-modern-meeting-room-candidate-01",
+      "version": "0.3.1",
+      "releasePath": "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.1",
+      "status": "review",
+      "isCurrent": false,
+      "publicationReady": false,
+      "files": {
+        "scene.json": {
+          "sha256": "09ad26d5ded3fad8ba84c1926e74cc8920250d529be22dacfe4671bf1eeffba5",
+          "sizeBytes": 4492
+        },
+        "scene.glb": {
+          "sha256": "e179ccc1771f2cde544e81837fb918ea8b0d6ce4d5df8d30a48c3a8516114aae",
+          "sizeBytes": 13135452
+        },
+        "preview.webp": {
+          "sha256": "309fde7db08fce9370e1d6746dc478bf83c505b9b813657338a2d299d63d8ed5",
+          "sizeBytes": 67726
+        },
+        "LICENSES.md": {
+          "sha256": "09043b7b654964c98aa9783b8234ac6682310afef112a187be15395521c9e784",
+          "sizeBytes": 1148
+        }
+      },
+      "stats": {
+        "triangles": 44740,
+        "nodes": 137,
+        "meshes": 137,
+        "primitives": 137,
+        "materials": 21,
+        "textures": 9,
+        "animations": 0
+      }
     }
   ]
 }

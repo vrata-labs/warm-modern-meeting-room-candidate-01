@@ -139,6 +139,12 @@ if (config.capture.platformPatch !== undefined) {
 if (config.capture.runner !== undefined) {
   const runner = config.capture.runner;
   assert(typeof runner?.command === "string" && runner.command.length > 0, `invalid_capture_runner_command:${version}`);
+  if (version === "0.3.1") {
+    assert(runner.executable === "pnpm" && Array.isArray(runner.argv), `invalid_capture_runner_invocation:${version}`);
+    assert(runner.bindingGenerator?.executable === "node"
+      && Array.isArray(runner.bindingGenerator.argv)
+      && runner.bindingGenerator.environment?.SCENE_VISUAL_OUTPUT_DIR === "<capture-dir>", `invalid_capture_binding_generator:${version}`);
+  }
   assert(runner.environment && typeof runner.environment === "object" && !Array.isArray(runner.environment), `invalid_capture_runner_environment:${version}`);
   assert(Array.isArray(runner.batches) && runner.batches.every((batch) => Array.isArray(batch) && batch.length > 0), `invalid_capture_runner_batches:${version}`);
   const batchViews = runner.batches.flat();

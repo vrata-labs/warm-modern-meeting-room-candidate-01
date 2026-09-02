@@ -112,7 +112,10 @@ jobs:
 
       - name: Validate versioned visual capture patch
         shell: bash
-        run: git -C .platform apply --check "$GITHUB_WORKSPACE/source/releases/0.3.0/platform-scene-visual-clean.patch"
+        run: |
+          for patch in source/releases/*/platform-scene-visual-clean.patch; do
+            git -C .platform apply --check "$GITHUB_WORKSPACE/$patch"
+          done
 
       - name: Validate Scene Bundle contract when releases exist
         shell: bash
