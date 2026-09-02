@@ -747,4 +747,7 @@ test("historical specification lock keeps its pre-release boundaries negative", 
   assert.match(workflow, /release-acceptance-index\.json/);
   assert.match(workflow, /build-release\.mjs --version "\$version" --twice/);
   assert.match(workflow, /platform-scene-visual-clean\.patch/);
+  const boundaryScript = await text("scripts/check-repository-boundary.mjs");
+  assert.match(boundaryScript, /baseSha === null \|\| baseSha === value/);
+  assert.match(boundaryScript, /base_sha_argument_mismatch/);
 });

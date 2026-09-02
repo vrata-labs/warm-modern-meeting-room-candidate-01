@@ -220,16 +220,23 @@ for (const repositoryPath of trackedOutput.toString("utf8").split("\0").filter(B
 }
 
 let baseSha = process.env.BASE_SHA?.trim() || null;
+let baseArgumentSeen = false;
 for (let index = 2; index < process.argv.length; index += 1) {
   const argument = process.argv[index];
   if (argument === "--base") {
-    assert(baseSha === null, "duplicate_argument:--base");
-    baseSha = process.argv[++index];
-    assert(baseSha, "missing_argument_value:--base");
+    assert(!baseArgumentSeen, "duplicate_argument:--base");
+    const value = process.argv[++index];
+    assert(value, "missing_argument_value:--base");
+    assert(baseSha === null || baseSha === value, "base_sha_argument_mismatch");
+    baseSha = value;
+    baseArgumentSeen = true;
   } else if (argument.startsWith("--base=")) {
-    assert(baseSha === null, "duplicate_argument:--base");
-    baseSha = argument.slice("--base=".length);
-    assert(baseSha, "missing_argument_value:--base");
+    assert(!baseArgumentSeen, "duplicate_argument:--base");
+    const value = argument.slice("--base=".length);
+    assert(value, "missing_argument_value:--base");
+    assert(baseSha === null || baseSha === value, "base_sha_argument_mismatch");
+    baseSha = value;
+    baseArgumentSeen = true;
   } else {
     throw new Error(`unknown_argument:${argument}`);
   }
