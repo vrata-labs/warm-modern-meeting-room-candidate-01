@@ -1,0 +1,476 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.3.2",
+  "actorProfiles": [
+    {
+      "id": "meeting-participant",
+      "label": "Meeting participant",
+      "standingEyeHeightM": 1.65,
+      "seatedEyeHeightM": 1.2,
+      "shoulderWidthM": 0.5,
+      "minimumKneeClearanceHeightM": 0.68,
+      "standingReachHeightRangeM": { "minimum": 0.84, "maximum": 2.1 }
+    }
+  ],
+  "routes": [
+    {
+      "id": "entry-route",
+      "label": "Entry to main spawn",
+      "minimumWidthM": 0.9,
+      "points": [
+        { "x": 2.25, "y": 0, "z": 2.35 },
+        { "x": 2.25, "y": 0, "z": 1.94 },
+        { "x": 2.6, "y": 0, "z": 1.64 }
+      ]
+    },
+    {
+      "id": "presenter-route",
+      "label": "Protected presenter route",
+      "minimumWidthM": 0.9,
+      "points": [
+        { "x": 2.25, "y": 0, "z": 2.35 },
+        { "x": 2.25, "y": 0, "z": 1.94 },
+        { "x": 2.8, "y": 0, "z": 1.94 },
+        { "x": 2.8, "y": 0, "z": -1.94 },
+        { "x": 0, "y": 0, "z": -1.94 }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "entry-route",
+      "label": "Enter and reach the room",
+      "purpose": "Confirm that a participant can move from the doorway to the main spawn on the protected route.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["main-door", "room-shell"],
+      "runtimeBindingIds": [],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "start", "target": "main-door", "expectedResult": "The participant starts inside the entry opening." },
+        { "action": "follow-route", "target": "entry-route", "expectedResult": "The participant reaches the main spawn without intersecting scene geometry." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "entry-width", "measure": "route-minimum-width", "operator": "greater-than-or-equal", "value": 0.9, "unit": "meter" },
+        { "id": "entry-unobstructed", "measure": "route-clear", "operator": "equals", "value": true, "unit": "boolean" }
+      ]
+    },
+    {
+      "id": "seat-01-approach-sit-stand",
+      "label": "Use seat 01",
+      "purpose": "Confirm approach, sitting and standing at chair 01.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["chair-01", "conference-table"],
+      "runtimeBindingIds": ["seat-01"],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "approach", "target": "chair-01", "expectedResult": "The seat can be reached from the room circulation zone." },
+        { "action": "sit", "target": "seat-01", "expectedResult": "The participant is placed at seat anchor 01." },
+        { "action": "stand", "target": "seat-01", "expectedResult": "The participant leaves the seated state beside chair 01." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "seat-01-binding", "measure": "seat-anchor-binding", "operator": "equals", "value": "seat-01", "unit": "identifier" },
+        { "id": "seat-01-cycle", "measure": "approach-sit-stand-complete", "operator": "equals", "value": true, "unit": "boolean" }
+      ]
+    },
+    {
+      "id": "seat-02-approach-sit-stand",
+      "label": "Use seat 02",
+      "purpose": "Confirm approach, sitting and standing at chair 02.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["chair-02", "conference-table"],
+      "runtimeBindingIds": ["seat-02"],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "approach", "target": "chair-02", "expectedResult": "The seat can be reached from the room circulation zone." },
+        { "action": "sit", "target": "seat-02", "expectedResult": "The participant is placed at seat anchor 02." },
+        { "action": "stand", "target": "seat-02", "expectedResult": "The participant leaves the seated state beside chair 02." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "seat-02-binding", "measure": "seat-anchor-binding", "operator": "equals", "value": "seat-02", "unit": "identifier" },
+        { "id": "seat-02-cycle", "measure": "approach-sit-stand-complete", "operator": "equals", "value": true, "unit": "boolean" }
+      ]
+    },
+    {
+      "id": "seat-03-approach-sit-stand",
+      "label": "Use seat 03",
+      "purpose": "Confirm approach, sitting and standing at chair 03.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["chair-03", "conference-table"],
+      "runtimeBindingIds": ["seat-03"],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "approach", "target": "chair-03", "expectedResult": "The seat can be reached from the room circulation zone." },
+        { "action": "sit", "target": "seat-03", "expectedResult": "The participant is placed at seat anchor 03." },
+        { "action": "stand", "target": "seat-03", "expectedResult": "The participant leaves the seated state beside chair 03." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "seat-03-binding", "measure": "seat-anchor-binding", "operator": "equals", "value": "seat-03", "unit": "identifier" },
+        { "id": "seat-03-cycle", "measure": "approach-sit-stand-complete", "operator": "equals", "value": true, "unit": "boolean" }
+      ]
+    },
+    {
+      "id": "seat-04-approach-sit-stand",
+      "label": "Use seat 04",
+      "purpose": "Confirm approach, sitting and standing at chair 04.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["chair-04", "conference-table"],
+      "runtimeBindingIds": ["seat-04"],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "approach", "target": "chair-04", "expectedResult": "The seat can be reached from the room circulation zone." },
+        { "action": "sit", "target": "seat-04", "expectedResult": "The participant is placed at seat anchor 04." },
+        { "action": "stand", "target": "seat-04", "expectedResult": "The participant leaves the seated state beside chair 04." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "seat-04-binding", "measure": "seat-anchor-binding", "operator": "equals", "value": "seat-04", "unit": "identifier" },
+        { "id": "seat-04-cycle", "measure": "approach-sit-stand-complete", "operator": "equals", "value": true, "unit": "boolean" }
+      ]
+    },
+    {
+      "id": "seat-05-approach-sit-stand",
+      "label": "Use seat 05",
+      "purpose": "Confirm approach, sitting and standing at chair 05.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["chair-05", "conference-table"],
+      "runtimeBindingIds": ["seat-05"],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "approach", "target": "chair-05", "expectedResult": "The seat can be reached from the room circulation zone." },
+        { "action": "sit", "target": "seat-05", "expectedResult": "The participant is placed at seat anchor 05." },
+        { "action": "stand", "target": "seat-05", "expectedResult": "The participant leaves the seated state beside chair 05." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "seat-05-binding", "measure": "seat-anchor-binding", "operator": "equals", "value": "seat-05", "unit": "identifier" },
+        { "id": "seat-05-cycle", "measure": "approach-sit-stand-complete", "operator": "equals", "value": true, "unit": "boolean" }
+      ]
+    },
+    {
+      "id": "seat-06-approach-sit-stand",
+      "label": "Use seat 06",
+      "purpose": "Confirm approach, sitting and standing at chair 06.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["chair-06", "conference-table"],
+      "runtimeBindingIds": ["seat-06"],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "approach", "target": "chair-06", "expectedResult": "The seat can be reached from the room circulation zone." },
+        { "action": "sit", "target": "seat-06", "expectedResult": "The participant is placed at seat anchor 06." },
+        { "action": "stand", "target": "seat-06", "expectedResult": "The participant leaves the seated state beside chair 06." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "seat-06-binding", "measure": "seat-anchor-binding", "operator": "equals", "value": "seat-06", "unit": "identifier" },
+        { "id": "seat-06-cycle", "measure": "approach-sit-stand-complete", "operator": "equals", "value": true, "unit": "boolean" }
+      ]
+    },
+    {
+      "id": "seat-07-approach-sit-stand",
+      "label": "Use seat 07",
+      "purpose": "Confirm approach, sitting and standing at chair 07.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["chair-07", "conference-table"],
+      "runtimeBindingIds": ["seat-07"],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "approach", "target": "chair-07", "expectedResult": "The seat can be reached from the room circulation zone." },
+        { "action": "sit", "target": "seat-07", "expectedResult": "The participant is placed at seat anchor 07." },
+        { "action": "stand", "target": "seat-07", "expectedResult": "The participant leaves the seated state beside chair 07." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "seat-07-binding", "measure": "seat-anchor-binding", "operator": "equals", "value": "seat-07", "unit": "identifier" },
+        { "id": "seat-07-cycle", "measure": "approach-sit-stand-complete", "operator": "equals", "value": true, "unit": "boolean" }
+      ]
+    },
+    {
+      "id": "seat-08-approach-sit-stand",
+      "label": "Use seat 08",
+      "purpose": "Confirm approach, sitting and standing at chair 08.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["chair-08", "conference-table"],
+      "runtimeBindingIds": ["seat-08"],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "approach", "target": "chair-08", "expectedResult": "The seat can be reached from the room circulation zone." },
+        { "action": "sit", "target": "seat-08", "expectedResult": "The participant is placed at seat anchor 08." },
+        { "action": "stand", "target": "seat-08", "expectedResult": "The participant leaves the seated state beside chair 08." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "seat-08-binding", "measure": "seat-anchor-binding", "operator": "equals", "value": "seat-08", "unit": "identifier" },
+        { "id": "seat-08-cycle", "measure": "approach-sit-stand-complete", "operator": "equals", "value": true, "unit": "boolean" }
+      ]
+    },
+    {
+      "id": "shared-display-visible-from-all-seats",
+      "label": "Shared display visibility",
+      "purpose": "Confirm that the shared display is visible from every seat at a seated eye height of 1.2 meters.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["debug-main", "chair-01", "chair-02", "chair-03", "chair-04", "chair-05", "chair-06", "chair-07", "chair-08"],
+      "runtimeBindingIds": ["debug-main", "seat-01", "seat-02", "seat-03", "seat-04", "seat-05", "seat-06", "seat-07", "seat-08"],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "set-eye-height", "target": "meeting-participant", "expectedResult": "The eye height is 1.2 meters above the runtime floor." },
+        { "action": "inspect-from-each-seat", "target": "debug-main", "expectedResult": "The complete display surface remains visible from all eight seat anchors." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "seated-eye-height", "measure": "eye-height", "operator": "equals", "value": 1.2, "unit": "meter" },
+        { "id": "display-visible-seat-01", "measure": "display-visible-from-seat", "operator": "equals", "value": "seat-01", "unit": "identifier" },
+        { "id": "display-visible-seat-02", "measure": "display-visible-from-seat", "operator": "equals", "value": "seat-02", "unit": "identifier" },
+        { "id": "display-visible-seat-03", "measure": "display-visible-from-seat", "operator": "equals", "value": "seat-03", "unit": "identifier" },
+        { "id": "display-visible-seat-04", "measure": "display-visible-from-seat", "operator": "equals", "value": "seat-04", "unit": "identifier" },
+        { "id": "display-visible-seat-05", "measure": "display-visible-from-seat", "operator": "equals", "value": "seat-05", "unit": "identifier" },
+        { "id": "display-visible-seat-06", "measure": "display-visible-from-seat", "operator": "equals", "value": "seat-06", "unit": "identifier" },
+        { "id": "display-visible-seat-07", "measure": "display-visible-from-seat", "operator": "equals", "value": "seat-07", "unit": "identifier" },
+        { "id": "display-visible-seat-08", "measure": "display-visible-from-seat", "operator": "equals", "value": "seat-08", "unit": "identifier" }
+      ]
+    },
+    {
+      "id": "whiteboard-standing-reach",
+      "label": "Reach the collaboration wall",
+      "purpose": "Confirm that a standing participant can reach the collaboration surface and its tray.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["whiteboard-wall", "whiteboard-accessories", "whiteboard-marker"],
+      "runtimeBindingIds": ["whiteboard-wall"],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "stand-at-surface", "target": "whiteboard-wall", "expectedResult": "The participant can stand directly in front of the collaboration wall." },
+        { "action": "reach", "target": "whiteboard-wall", "expectedResult": "The active surface and tray are within the standing reach range." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "whiteboard-low-reach", "measure": "reachable-height-minimum", "operator": "less-than-or-equal", "value": 0.84, "unit": "meter" },
+        { "id": "whiteboard-high-reach", "measure": "reachable-height-maximum", "operator": "greater-than-or-equal", "value": 2.1, "unit": "meter" },
+        { "id": "whiteboard-runtime-binding", "measure": "media-surface-binding", "operator": "equals", "value": "whiteboard-wall", "unit": "identifier" }
+      ]
+    },
+    {
+      "id": "whiteboard-visible-from-all-seats",
+      "label": "Collaboration wall visibility",
+      "purpose": "Confirm that the centered collaboration wall remains visible from every seat without plant obstruction.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["whiteboard-wall", "route-safe-plant", "chair-01", "chair-02", "chair-03", "chair-04", "chair-05", "chair-06", "chair-07", "chair-08"],
+      "runtimeBindingIds": ["whiteboard-wall", "seat-01", "seat-02", "seat-03", "seat-04", "seat-05", "seat-06", "seat-07", "seat-08"],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "set-eye-height", "target": "meeting-participant", "expectedResult": "The eye height is 1.2 meters above the runtime floor." },
+        { "action": "inspect-from-each-seat", "target": "whiteboard-wall", "expectedResult": "The collaboration surface remains visible from all eight seat anchors without plant obstruction." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "whiteboard-seated-eye-height", "measure": "eye-height", "operator": "equals", "value": 1.2, "unit": "meter" },
+        { "id": "whiteboard-visible-seat-01", "measure": "whiteboard-visible-from-seat", "operator": "equals", "value": "seat-01", "unit": "identifier" },
+        { "id": "whiteboard-visible-seat-02", "measure": "whiteboard-visible-from-seat", "operator": "equals", "value": "seat-02", "unit": "identifier" },
+        { "id": "whiteboard-visible-seat-03", "measure": "whiteboard-visible-from-seat", "operator": "equals", "value": "seat-03", "unit": "identifier" },
+        { "id": "whiteboard-visible-seat-04", "measure": "whiteboard-visible-from-seat", "operator": "equals", "value": "seat-04", "unit": "identifier" },
+        { "id": "whiteboard-visible-seat-05", "measure": "whiteboard-visible-from-seat", "operator": "equals", "value": "seat-05", "unit": "identifier" },
+        { "id": "whiteboard-visible-seat-06", "measure": "whiteboard-visible-from-seat", "operator": "equals", "value": "seat-06", "unit": "identifier" },
+        { "id": "whiteboard-visible-seat-07", "measure": "whiteboard-visible-from-seat", "operator": "equals", "value": "seat-07", "unit": "identifier" },
+        { "id": "whiteboard-visible-seat-08", "measure": "whiteboard-visible-from-seat", "operator": "equals", "value": "seat-08", "unit": "identifier" }
+      ]
+    },
+    {
+      "id": "door-counterfactual-operation",
+      "label": "Door operation counterfactual",
+      "purpose": "Describe safe future door operation without claiming that door interaction is implemented.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["main-door"],
+      "runtimeBindingIds": [],
+      "implementationRequired": false,
+      "steps": [
+        { "action": "hypothetically-operate-lever", "target": "main-door", "expectedResult": "A future interaction would rotate the lever before moving the panel." },
+        { "action": "hypothetically-open", "target": "main-door", "expectedResult": "A future swept-volume check would keep the entry route clear." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "door-status", "measure": "object-status", "operator": "equals", "value": "deferred", "unit": "status" },
+        { "id": "door-runtime-not-required", "measure": "runtime-implementation-required", "operator": "equals", "value": false, "unit": "boolean" }
+      ]
+    },
+    {
+      "id": "table-knee-and-arm-clearance",
+      "label": "Table knee and arm clearance",
+      "purpose": "Confirm clear knee space under the tabletop and arm assemblies below its underside at all seats.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["conference-table", "chair-01", "chair-02", "chair-03", "chair-04", "chair-05", "chair-06", "chair-07", "chair-08"],
+      "runtimeBindingIds": ["seat-01", "seat-02", "seat-03", "seat-04", "seat-05", "seat-06", "seat-07", "seat-08"],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "inspect-under-table", "target": "conference-table", "expectedResult": "The tabletop underside preserves the required knee height." },
+        { "action": "align-each-chair", "target": "conference-table", "expectedResult": "Every chair arm assembly remains below the tabletop underside." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "knee-height", "measure": "tabletop-underside-height", "operator": "greater-than-or-equal", "value": 0.68, "unit": "meter" },
+        { "id": "arm-gap", "measure": "minimum-arm-to-table-gap", "operator": "greater-than-or-equal", "value": 0.025, "unit": "meter" }
+      ]
+    },
+    {
+      "id": "route-safe-plant-clearance",
+      "label": "Corner plant preserves circulation",
+      "purpose": "Confirm that the plant remains in the north-west corner outside protected routes, the rug and collaboration sightlines.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["route-safe-plant", "area-rug", "room-shell"],
+      "runtimeBindingIds": [],
+      "implementationRequired": true,
+      "steps": [
+        { "action": "follow-route", "target": "presenter-route", "expectedResult": "The participant passes the plant without collision." },
+        { "action": "inspect-footprint", "target": "route-safe-plant", "expectedResult": "The plant footprint remains in the north-west corner outside the rug and protected corridors." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "plant-route-margin", "measure": "minimum-route-margin", "operator": "greater-than-or-equal", "value": 0.35, "unit": "meter" },
+        { "id": "plant-height", "measure": "object-height", "operator": "less-than-or-equal", "value": 1.56, "unit": "meter" }
+      ]
+    },
+    {
+      "id": "speakerphone-deferred-use",
+      "label": "Speakerphone deferred use",
+      "purpose": "Describe future speakerphone mute and call-state use without requiring runtime behavior.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["conference-speakerphone"],
+      "runtimeBindingIds": [],
+      "implementationRequired": false,
+      "steps": [
+        { "action": "hypothetically-press", "target": "conference-speakerphone", "expectedResult": "A future interaction would toggle mute and update the status ring." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "speakerphone-status", "measure": "object-status", "operator": "equals", "value": "deferred", "unit": "status" },
+        { "id": "speakerphone-runtime-not-required", "measure": "runtime-implementation-required", "operator": "equals", "value": false, "unit": "boolean" }
+      ]
+    },
+    {
+      "id": "cable-management-deferred-use",
+      "label": "Cable management deferred use",
+      "purpose": "Describe future cable-cover access without requiring an operable cover.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["conference-table-cable-management", "conference-table"],
+      "runtimeBindingIds": [],
+      "implementationRequired": false,
+      "steps": [
+        { "action": "hypothetically-open", "target": "conference-table-cable-management", "expectedResult": "A future interaction would expose the recessed cable route." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "cable-management-status", "measure": "object-status", "operator": "equals", "value": "deferred", "unit": "status" },
+        { "id": "cable-management-runtime-not-required", "measure": "runtime-implementation-required", "operator": "equals", "value": false, "unit": "boolean" }
+      ]
+    },
+    {
+      "id": "whiteboard-marker-deferred-use",
+      "label": "Whiteboard marker deferred use",
+      "purpose": "Describe future marker pickup and writing without requiring a grabbable tool.",
+      "actorProfileId": "meeting-participant",
+      "objectIds": ["whiteboard-marker", "whiteboard-accessories", "whiteboard-wall"],
+      "runtimeBindingIds": ["whiteboard-wall"],
+      "implementationRequired": false,
+      "steps": [
+        { "action": "hypothetically-pick-up", "target": "whiteboard-marker", "expectedResult": "A future interaction would remove the marker from the tray." },
+        { "action": "hypothetically-write", "target": "whiteboard-wall", "expectedResult": "A future tool interaction would add marks to the collaboration surface." }
+      ],
+      "acceptanceCriteria": [
+        { "id": "marker-status", "measure": "object-status", "operator": "equals", "value": "deferred", "unit": "status" },
+        { "id": "marker-runtime-not-required", "measure": "runtime-implementation-required", "operator": "equals", "value": false, "unit": "boolean" }
+      ]
+    }
+  ],
+  "builderPhysicsAcceptance": {
+    "supportChains": {
+      "source": "scene-reality.json#objects.parts.supports",
+      "coverage": "all-non-root-parts",
+      "mustBeAcyclic": true,
+      "mustTerminateAtSupportRoot": true
+    },
+    "contacts": {
+      "coverage": "all-support-edges",
+      "metric": "world-aabb-separation",
+      "maximumGapM": 0.035
+    },
+    "scaleRanges": [
+      { "objectId": "area-rug", "minimumM": { "x": 4.69, "y": 0.015, "z": 3.09 }, "maximumM": { "x": 4.71, "y": 0.017, "z": 3.11 } },
+      { "objectId": "av-credenza", "minimumM": { "x": 0.44, "y": 0.53, "z": 2.25 }, "maximumM": { "x": 0.5, "y": 0.56, "z": 2.34 } },
+      { "objectId": "baseboards", "minimumM": { "x": 6.81, "y": 0.089, "z": 4.81 }, "maximumM": { "x": 6.83, "y": 0.091, "z": 4.83 } },
+      { "objectId": "chair-01", "minimumM": { "x": 0.6, "y": 0.9, "z": 0.58 }, "maximumM": { "x": 0.72, "y": 1.05, "z": 0.72 } },
+      { "objectId": "chair-02", "minimumM": { "x": 0.6, "y": 0.9, "z": 0.58 }, "maximumM": { "x": 0.72, "y": 1.05, "z": 0.72 } },
+      { "objectId": "chair-03", "minimumM": { "x": 0.6, "y": 0.9, "z": 0.58 }, "maximumM": { "x": 0.72, "y": 1.05, "z": 0.72 } },
+      { "objectId": "chair-04", "minimumM": { "x": 0.6, "y": 0.9, "z": 0.58 }, "maximumM": { "x": 0.72, "y": 1.05, "z": 0.72 } },
+      { "objectId": "chair-05", "minimumM": { "x": 0.6, "y": 0.9, "z": 0.58 }, "maximumM": { "x": 0.72, "y": 1.05, "z": 0.72 } },
+      { "objectId": "chair-06", "minimumM": { "x": 0.6, "y": 0.9, "z": 0.58 }, "maximumM": { "x": 0.72, "y": 1.05, "z": 0.72 } },
+      { "objectId": "chair-07", "minimumM": { "x": 0.6, "y": 0.9, "z": 0.58 }, "maximumM": { "x": 0.72, "y": 1.05, "z": 0.72 } },
+      { "objectId": "chair-08", "minimumM": { "x": 0.6, "y": 0.9, "z": 0.58 }, "maximumM": { "x": 0.72, "y": 1.05, "z": 0.72 } },
+      { "objectId": "conference-speakerphone", "minimumM": { "x": 0.29, "y": 0.04, "z": 0.29 }, "maximumM": { "x": 0.31, "y": 0.06, "z": 0.31 } },
+      { "objectId": "conference-table", "minimumM": { "x": 3.59, "y": 0.72, "z": 1.17 }, "maximumM": { "x": 3.61, "y": 0.74, "z": 1.19 } },
+      { "objectId": "conference-table-cable-management", "minimumM": { "x": 0.5, "y": 0.02, "z": 0.17 }, "maximumM": { "x": 0.56, "y": 0.03, "z": 0.19 } },
+      { "objectId": "debug-main", "minimumM": { "x": 0.06, "y": 1.97, "z": 3.37 }, "maximumM": { "x": 0.09, "y": 2, "z": 3.4 } },
+      { "objectId": "exterior-park-furnishing", "minimumM": { "x": 1.59, "y": 1.0, "z": 0.45 }, "maximumM": { "x": 1.61, "y": 1.2, "z": 0.7 } },
+      { "objectId": "exterior-park-grove", "minimumM": { "x": 7.0, "y": 4.0, "z": 7.0 }, "maximumM": { "x": 9.0, "y": 5.5, "z": 8.5 } },
+      { "objectId": "exterior-park-horizon", "minimumM": { "x": 17.0, "y": 2.8, "z": 3.5 }, "maximumM": { "x": 19.0, "y": 2.9, "z": 4.5 } },
+      { "objectId": "exterior-park-landscape", "minimumM": { "x": 2.5, "y": 0.1, "z": 9.0 }, "maximumM": { "x": 4.0, "y": 0.2, "z": 10.0 } },
+      { "objectId": "exterior-site", "minimumM": { "x": 9.99, "y": 0.17, "z": 9.99 }, "maximumM": { "x": 10.01, "y": 0.19, "z": 10.01 } },
+      { "objectId": "exterior-sky", "minimumM": { "x": 18.99, "y": 5.79, "z": 9.49 }, "maximumM": { "x": 19.01, "y": 5.81, "z": 9.51 } },
+      { "objectId": "main-door", "minimumM": { "x": 0.9, "y": 2.1, "z": 0.15 }, "maximumM": { "x": 1.35, "y": 2.3, "z": 0.4 } },
+      { "objectId": "main-window", "minimumM": { "x": 3.1, "y": 1.6, "z": 0.1 }, "maximumM": { "x": 3.7, "y": 2.1, "z": 0.4 } },
+      { "objectId": "media-wall-acoustics", "minimumM": { "x": 0.065, "y": 1.29, "z": 0.69 }, "maximumM": { "x": 0.08, "y": 1.31, "z": 0.72 } },
+      { "objectId": "pendant-fixture", "minimumM": { "x": 2.05, "y": 0.52, "z": 0.1 }, "maximumM": { "x": 2.15, "y": 0.55, "z": 0.13 } },
+      { "objectId": "room-shell", "minimumM": { "x": 7.17, "y": 3.45, "z": 5.17 }, "maximumM": { "x": 7.19, "y": 3.47, "z": 5.19 } },
+      { "objectId": "route-safe-plant", "minimumM": { "x": 0.38, "y": 1.38, "z": 0.36 }, "maximumM": { "x": 0.45, "y": 1.56, "z": 0.43 } },
+      { "objectId": "whiteboard-accessories", "minimumM": { "x": 0.075, "y": 0.035, "z": 0.69 }, "maximumM": { "x": 0.085, "y": 0.045, "z": 0.71 } },
+      { "objectId": "whiteboard-marker", "minimumM": { "x": 0.018, "y": 0.018, "z": 0.17 }, "maximumM": { "x": 0.022, "y": 0.022, "z": 0.2 } },
+      { "objectId": "whiteboard-wall", "minimumM": { "x": 0.06, "y": 1.4, "z": 2.55 }, "maximumM": { "x": 0.09, "y": 1.43, "z": 2.58 } }
+    ],
+    "clearances": [
+      { "id": "table-knee-height", "metric": "world-aabb-min", "subject": { "objectId": "conference-table", "partId": "top" }, "target": null, "axis": "y", "operator": "greater-than-or-equal", "valueM": 0.68 },
+      { "id": "chair-01-arm-gap", "metric": "world-aabb-axis-gap", "subject": { "objectId": "chair-01", "partId": "arm-assembly" }, "target": { "objectId": "conference-table", "partId": "top" }, "axis": "y", "operator": "greater-than-or-equal", "valueM": 0.025 },
+      { "id": "chair-02-arm-gap", "metric": "world-aabb-axis-gap", "subject": { "objectId": "chair-02", "partId": "arm-assembly" }, "target": { "objectId": "conference-table", "partId": "top" }, "axis": "y", "operator": "greater-than-or-equal", "valueM": 0.025 },
+      { "id": "chair-03-arm-gap", "metric": "world-aabb-axis-gap", "subject": { "objectId": "chair-03", "partId": "arm-assembly" }, "target": { "objectId": "conference-table", "partId": "top" }, "axis": "y", "operator": "greater-than-or-equal", "valueM": 0.025 },
+      { "id": "chair-04-arm-gap", "metric": "world-aabb-axis-gap", "subject": { "objectId": "chair-04", "partId": "arm-assembly" }, "target": { "objectId": "conference-table", "partId": "top" }, "axis": "y", "operator": "greater-than-or-equal", "valueM": 0.025 },
+      { "id": "chair-05-arm-gap", "metric": "world-aabb-axis-gap", "subject": { "objectId": "chair-05", "partId": "arm-assembly" }, "target": { "objectId": "conference-table", "partId": "top" }, "axis": "y", "operator": "greater-than-or-equal", "valueM": 0.025 },
+      { "id": "chair-06-arm-gap", "metric": "world-aabb-axis-gap", "subject": { "objectId": "chair-06", "partId": "arm-assembly" }, "target": { "objectId": "conference-table", "partId": "top" }, "axis": "y", "operator": "greater-than-or-equal", "valueM": 0.025 },
+      { "id": "chair-07-arm-gap", "metric": "world-aabb-axis-gap", "subject": { "objectId": "chair-07", "partId": "arm-assembly" }, "target": { "objectId": "conference-table", "partId": "top" }, "axis": "y", "operator": "greater-than-or-equal", "valueM": 0.025 },
+      { "id": "chair-08-arm-gap", "metric": "world-aabb-axis-gap", "subject": { "objectId": "chair-08", "partId": "arm-assembly" }, "target": { "objectId": "conference-table", "partId": "top" }, "axis": "y", "operator": "greater-than-or-equal", "valueM": 0.025 },
+      { "id": "plant-seat-route-west-bound", "metric": "world-aabb-max", "subject": { "objectId": "route-safe-plant", "partId": null }, "target": null, "axis": "x", "operator": "less-than-or-equal", "valueM": -2.75 },
+      { "id": "plant-north-wall-bound", "metric": "world-aabb-min", "subject": { "objectId": "route-safe-plant", "partId": null }, "target": null, "axis": "z", "operator": "greater-than-or-equal", "valueM": -2.3 },
+      { "id": "plant-height-bound", "metric": "world-aabb-max", "subject": { "objectId": "route-safe-plant", "partId": null }, "target": null, "axis": "y", "operator": "less-than-or-equal", "valueM": 1.56 },
+      { "id": "window-left-bead-frame-gap", "metric": "world-aabb-axis-gap", "subject": { "objectId": "main-window", "partId": "frame-left" }, "target": { "objectId": "main-window", "partId": "glazing-bead-left" }, "axis": "x", "operator": "less-than-or-equal", "valueM": 0.001 },
+      { "id": "window-right-bead-frame-gap", "metric": "world-aabb-axis-gap", "subject": { "objectId": "main-window", "partId": "glazing-bead-right" }, "target": { "objectId": "main-window", "partId": "frame-right" }, "axis": "x", "operator": "less-than-or-equal", "valueM": 0.001 },
+      { "id": "window-bottom-bead-frame-gap", "metric": "world-aabb-axis-gap", "subject": { "objectId": "main-window", "partId": "frame-bottom" }, "target": { "objectId": "main-window", "partId": "glazing-bead-bottom" }, "axis": "y", "operator": "less-than-or-equal", "valueM": 0.001 },
+      { "id": "window-top-bead-frame-gap", "metric": "world-aabb-axis-gap", "subject": { "objectId": "main-window", "partId": "glazing-bead-top" }, "target": { "objectId": "main-window", "partId": "frame-head" }, "axis": "y", "operator": "less-than-or-equal", "valueM": 0.001 }
+    ],
+    "extrasMetrics": [
+      { "id": "table-top-height", "objectId": "conference-table", "partId": "top", "key": "vrataTopHeightM", "operator": "equals", "value": 0.74 },
+      { "id": "table-top-thickness", "objectId": "conference-table", "partId": "top", "key": "vrataThicknessM", "operator": "equals", "value": 0.055 },
+      { "id": "speakerphone-device-type", "objectId": "conference-speakerphone", "partId": "body", "key": "vrataDeviceType", "operator": "equals", "value": "conference-speakerphone" },
+      { "id": "plant-corner-id", "objectId": "route-safe-plant", "partId": "pot", "key": "vrataCornerId", "operator": "equals", "value": "north-west" },
+      { "id": "plant-minimum-route-margin", "objectId": "route-safe-plant", "partId": "pot", "key": "vrataMinimumRouteMarginM", "operator": "equals", "value": 0.35 },
+      { "id": "chair-01-seat-top", "objectId": "chair-01", "partId": "seat", "key": "vrataSeatTopM", "operator": "equals", "value": 0.47 },
+      { "id": "chair-01-star-count", "objectId": "chair-01", "partId": "five-star-base", "key": "vrataStarCount", "operator": "equals", "value": 5 },
+      { "id": "chair-01-caster-count", "objectId": "chair-01", "partId": "five-star-base", "key": "vrataCasterCount", "operator": "equals", "value": 5 },
+      { "id": "chair-01-arm-top", "objectId": "chair-01", "partId": "arm-assembly", "key": "vrataArmTopM", "operator": "equals", "value": 0.655 },
+      { "id": "chair-02-seat-top", "objectId": "chair-02", "partId": "seat", "key": "vrataSeatTopM", "operator": "equals", "value": 0.47 },
+      { "id": "chair-02-star-count", "objectId": "chair-02", "partId": "five-star-base", "key": "vrataStarCount", "operator": "equals", "value": 5 },
+      { "id": "chair-02-caster-count", "objectId": "chair-02", "partId": "five-star-base", "key": "vrataCasterCount", "operator": "equals", "value": 5 },
+      { "id": "chair-02-arm-top", "objectId": "chair-02", "partId": "arm-assembly", "key": "vrataArmTopM", "operator": "equals", "value": 0.655 },
+      { "id": "chair-03-seat-top", "objectId": "chair-03", "partId": "seat", "key": "vrataSeatTopM", "operator": "equals", "value": 0.47 },
+      { "id": "chair-03-star-count", "objectId": "chair-03", "partId": "five-star-base", "key": "vrataStarCount", "operator": "equals", "value": 5 },
+      { "id": "chair-03-caster-count", "objectId": "chair-03", "partId": "five-star-base", "key": "vrataCasterCount", "operator": "equals", "value": 5 },
+      { "id": "chair-03-arm-top", "objectId": "chair-03", "partId": "arm-assembly", "key": "vrataArmTopM", "operator": "equals", "value": 0.655 },
+      { "id": "chair-04-seat-top", "objectId": "chair-04", "partId": "seat", "key": "vrataSeatTopM", "operator": "equals", "value": 0.47 },
+      { "id": "chair-04-star-count", "objectId": "chair-04", "partId": "five-star-base", "key": "vrataStarCount", "operator": "equals", "value": 5 },
+      { "id": "chair-04-caster-count", "objectId": "chair-04", "partId": "five-star-base", "key": "vrataCasterCount", "operator": "equals", "value": 5 },
+      { "id": "chair-04-arm-top", "objectId": "chair-04", "partId": "arm-assembly", "key": "vrataArmTopM", "operator": "equals", "value": 0.655 },
+      { "id": "chair-05-seat-top", "objectId": "chair-05", "partId": "seat", "key": "vrataSeatTopM", "operator": "equals", "value": 0.47 },
+      { "id": "chair-05-star-count", "objectId": "chair-05", "partId": "five-star-base", "key": "vrataStarCount", "operator": "equals", "value": 5 },
+      { "id": "chair-05-caster-count", "objectId": "chair-05", "partId": "five-star-base", "key": "vrataCasterCount", "operator": "equals", "value": 5 },
+      { "id": "chair-05-arm-top", "objectId": "chair-05", "partId": "arm-assembly", "key": "vrataArmTopM", "operator": "equals", "value": 0.655 },
+      { "id": "chair-06-seat-top", "objectId": "chair-06", "partId": "seat", "key": "vrataSeatTopM", "operator": "equals", "value": 0.47 },
+      { "id": "chair-06-star-count", "objectId": "chair-06", "partId": "five-star-base", "key": "vrataStarCount", "operator": "equals", "value": 5 },
+      { "id": "chair-06-caster-count", "objectId": "chair-06", "partId": "five-star-base", "key": "vrataCasterCount", "operator": "equals", "value": 5 },
+      { "id": "chair-06-arm-top", "objectId": "chair-06", "partId": "arm-assembly", "key": "vrataArmTopM", "operator": "equals", "value": 0.655 },
+      { "id": "chair-07-seat-top", "objectId": "chair-07", "partId": "seat", "key": "vrataSeatTopM", "operator": "equals", "value": 0.47 },
+      { "id": "chair-07-star-count", "objectId": "chair-07", "partId": "five-star-base", "key": "vrataStarCount", "operator": "equals", "value": 5 },
+      { "id": "chair-07-caster-count", "objectId": "chair-07", "partId": "five-star-base", "key": "vrataCasterCount", "operator": "equals", "value": 5 },
+      { "id": "chair-07-arm-top", "objectId": "chair-07", "partId": "arm-assembly", "key": "vrataArmTopM", "operator": "equals", "value": 0.655 },
+      { "id": "chair-08-seat-top", "objectId": "chair-08", "partId": "seat", "key": "vrataSeatTopM", "operator": "equals", "value": 0.47 },
+      { "id": "chair-08-star-count", "objectId": "chair-08", "partId": "five-star-base", "key": "vrataStarCount", "operator": "equals", "value": 5 },
+      { "id": "chair-08-caster-count", "objectId": "chair-08", "partId": "five-star-base", "key": "vrataCasterCount", "operator": "equals", "value": 5 },
+      { "id": "chair-08-arm-top", "objectId": "chair-08", "partId": "arm-assembly", "key": "vrataArmTopM", "operator": "equals", "value": 0.655 }
+    ],
+    "unknownObjects": {
+      "policy": "reject",
+      "expectedObjects": 30,
+      "expectedParts": 145
+    }
+  }
+}

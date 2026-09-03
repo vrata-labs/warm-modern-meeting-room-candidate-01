@@ -84,16 +84,18 @@ test("manifest preserves the historical prefix and one current release beside ap
     isCurrent: true,
     supersededBy: undefined
   });
-  const reviews = manifest.releases.filter(({ version }) => ["0.3.0", "0.3.1"].includes(version));
+  const reviews = manifest.releases.filter(({ version }) => ["0.3.0", "0.3.1", "0.3.2"].includes(version));
   assert.deepEqual(reviews.map(({ version, status, isCurrent, publicationReady, supersededBy }) => ({ version, status, isCurrent, publicationReady, supersededBy })), [
     { version: "0.3.0", status: "review", isCurrent: false, publicationReady: false, supersededBy: undefined },
-    { version: "0.3.1", status: "review", isCurrent: false, publicationReady: false, supersededBy: undefined }
+    { version: "0.3.1", status: "review", isCurrent: false, publicationReady: false, supersededBy: undefined },
+    { version: "0.3.2", status: "review", isCurrent: false, publicationReady: false, supersededBy: undefined }
   ]);
   assert.ok(manifest.releases.slice(0, 3).every((release) => release.files["scene.glb"].sha256 === "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"));
   const baked = manifest.releases.find(({ version }) => version === "0.2.0");
   assert.equal(baked.files["scene.glb"].sha256, "ad988d685e32c286d0349144935ee1c47305f71b252de33319dfb967b7b7e7d5");
   assert.equal(reviews[0].files["scene.glb"].sha256, "fa95f93af025ca374b53d81ffef60e5dd6e77c848cc362b56763973ce2140880");
   assert.equal(reviews[1].files["scene.glb"].sha256, "e179ccc1771f2cde544e81837fb918ea8b0d6ce4d5df8d30a48c3a8516114aae");
+  assert.equal(reviews[2].files["scene.glb"].sha256, "d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691");
   assert.deepEqual(
     (await readdir(resolve(root, "assets/scenes/warm-modern-meeting-room-candidate-01"))).filter((entry) => entry !== ".gitkeep").sort(),
     manifest.releases.map(({ version }) => version).sort()
@@ -264,15 +266,44 @@ test("0.3.1 visual parity policy binds corrected runtime evidence without promot
   }
 });
 
-test("release commands select 0.3.1 explicitly and preserve legacy lock selection", async () => {
+test("0.3.2 visual parity policy binds park review evidence without promotion", async () => {
+  const { acceptances } = await loadReleaseAcceptanceIndex(root);
+  const { lock, visualParityConfig: visual } = acceptances.find(({ record }) => record.version === "0.3.2");
+  assert.deepEqual(visual.releaseGlb, {
+    path: "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.2/scene.glb",
+    sha256: "d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691",
+    sizeBytes: 11744144
+  });
+  assert.equal(visual.capture.platformCommit, platformValidatorCommit);
+  assert.deepEqual(visual.capture.platformPatch, {
+    path: "source/releases/0.3.2/platform-scene-visual-clean.patch",
+    sha256: "b0306de9d59b6e483de87f447113696f542b6cd076b70f82e37d83d5abb03cd9"
+  });
+  assert.equal(visual.capture.minimumLightMappedMaterialCount, 23);
+  assert.deepEqual(visual.capture.expectedRuntime, { meshCount: 147, materialCount: 27, triangleEstimate: 49264 });
+  assert.equal(visual.capture.runner.command, "pnpm test:e2e:private-assets tests/e2e/scene-visual.spec.ts --workers=1");
+  assert.deepEqual(visual.capture.runner.batches.flat().sort(), visual.views.map(({ id }) => id).sort());
+  assert.equal(visual.views.length, 17);
+  assert.ok(visual.views.some(({ id }) => id === "park-view"));
+  assert.equal(visual.capture.cleanVisualMode.mediaSurfacesVisible, false);
+  assert.deepEqual(visual.aggregateThresholds, { phashTotalMax: 1155, nccMeanMin: 0.44 });
+  assert.equal(lock.visualQuality.phashTotal, 1030.8355);
+  assert.equal(lock.visualQuality.nccMean, 0.4927856647058823);
+  assert.equal(lock.visualQuality.humanAcceptance, "accepted");
+  assert.equal(lock.visualQuality.humanAcceptanceEvidencePath, "provenance/releases/0.3.2/visual-verdict-2026-09-03.md");
+  assert.equal(lock.boundaries.visualAccepted, true);
+  assert.equal(lock.boundaries.publicationReady, false);
+});
+
+test("release commands select 0.3.2 explicitly and preserve legacy lock selection", async () => {
   const { acceptances } = await loadReleaseAcceptanceIndex(root);
   assert.equal(selectReleaseAcceptance(acceptances, { version: null, lockPath: "source/accepted-source-lock.json" }).record.version, "0.2.0");
   const packageJson = await json("package.json");
-  assert.equal(packageJson.version, "0.3.1");
-  assert.match(packageJson.scripts["build:release"], /--version 0\.3\.1$/);
-  assert.match(packageJson.scripts["validate:visual"], /--version 0\.3\.1$/);
-  assert.match(packageJson.scripts["verify:reproducibility"], /--version 0\.3\.1 --twice$/);
-  assert.match(packageJson.scripts["capture:bind"], /create-capture-binding\.mjs --version 0\.3\.1$/);
+  assert.equal(packageJson.version, "0.3.2");
+  assert.match(packageJson.scripts["build:release"], /--version 0\.3\.2$/);
+  assert.match(packageJson.scripts["validate:visual"], /--version 0\.3\.2$/);
+  assert.match(packageJson.scripts["verify:reproducibility"], /--version 0\.3\.2 --twice$/);
+  assert.match(packageJson.scripts["capture:bind"], /create-capture-binding\.mjs --version 0\.3\.2$/);
   const buildScript = await text("scripts/build-release.mjs");
   assert.match(buildScript, /SCENE_BUILD_OUTPUT_ROOT \?\? "build\/releases"/);
   assert.match(buildScript, /"--lightmap"/);

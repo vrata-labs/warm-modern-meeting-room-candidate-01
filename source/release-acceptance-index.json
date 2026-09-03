@@ -22,6 +22,13 @@
       "lockSha256": "fed1a65bfd4a4f1e316bb9b0f0f25dd68d8a6caf72078470ca307c089716d35f",
       "visualParityConfigPath": "source/releases/0.3.1/visual-parity-config.json",
       "visualParityConfigSha256": "e4f219b7a135e9f20c91c893a27d568b3b6be95988a7f245b17103571a24040c"
+    },
+    {
+      "version": "0.3.2",
+      "lockPath": "source/releases/0.3.2/accepted-source-lock.json",
+      "lockSha256": "e6fdc26de230d0bcb52b31f3cfbaa3fd3ae00f7eea7fcc17296fdd45650122a5",
+      "visualParityConfigPath": "source/releases/0.3.2/visual-parity-config.json",
+      "visualParityConfigSha256": "b5bc938cc0672dfe8ed5bb84f4ee1b47247c4a5f3346eeac0281cb9cf9a6faa9"
     }
   ]
 }

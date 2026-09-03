@@ -1,0 +1,387 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.3.2",
+  "approval": {
+    "decision": "approved",
+    "approvedOn": "2026-09-03",
+    "ownerRole": "human-rights-owner",
+    "evidencePath": "provenance/releases/0.3.2/rights-verdict-2026-09-03.md"
+  },
+  "upstreamLedgerPath": "provenance/release-asset-ledger.json",
+  "upstreamSourceRecordIds": [
+    "asset-accepted-scene-source-project",
+    "asset-visual-completion-script-project",
+    "asset-texture-mineral-plaster-project",
+    "asset-texture-floor-oak-project",
+    "asset-texture-warm-oak-project",
+    "asset-texture-graphite-metal-project",
+    "asset-texture-sand-fabric-project",
+    "asset-texture-grey-green-fabric-project",
+    "asset-texture-exterior-vegetation-project",
+    "asset-texture-ground-mineral-project"
+  ],
+  "license": {
+    "name": "LicenseRef-Project-Owned-Release",
+    "reference": "provenance/releases/0.3.2/project-owned-release.txt",
+    "commercialUse": true,
+    "redistribution": true,
+    "mlProcessing": true
+  },
+  "allowedUse": {
+    "staging": true,
+    "production": true,
+    "webRuntime": true,
+    "screenshots": true,
+    "optimization": true,
+    "redistribution": true
+  },
+  "reviewImageConversion": {
+    "sourceFormat": "PNG",
+    "outputFormat": "WebP",
+    "tool": "cwebp",
+    "version": "1.6.0",
+    "quality": 90
+  },
+  "records": [
+    {
+      "id": "asset-accepted-scene-source-project",
+      "kind": "project-authored-scene-source",
+      "repositoryPath": "source/releases/0.3.2/accepted-scene.blend",
+      "originalSha256": "b3aa208d96f720cf619b1ab8ef47353bac794fb3c2f0d0625e26863b24de9226",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-reality-pass-script-project",
+      "kind": "project-authored-authoring-and-review-script",
+      "repositoryPath": "source/releases/0.3.2/reality-pass.py",
+      "originalSha256": "69012a24bea005150cf079e9c7569b50414c4591730526ab778d7f17788f6395",
+      "outputSha256": [
+        "b3aa208d96f720cf619b1ab8ef47353bac794fb3c2f0d0625e26863b24de9226",
+        "80dc7744c80d7b835697febb51eb578c5b7c5baa073f4b915d138b5fee4e16f4",
+        "7514b9cb7f21c4cd98000bd444eb737d1fb2a82f1a7e8c34c361061efe9ed397",
+        "8a301aaa459db702ccc39b8f96cd6a68c29e14f032a20515a2c15636959b7a54",
+        "a0547dd8ad658b78d44384b55e642dc64a222d79d8119d41b83a5dade03e6e29",
+        "fb110a3dcb8a24471a711422e96ac00bb5693df979d8ec623573a6679ae60274",
+        "00b73951d897f30fc2cbb1baab22544d850d35c27e72c3a4816bc390e7703231",
+        "278bc581ee940dd7d10f977c260d7bfd79ddb541c681d8164f8236dc17862b91",
+        "4e20a8cb90e6b5daf97f2463548b7fcf5ee5f8966db73d7425ebb4d3c6bcdd0e",
+        "2b707d70a514c562e925d23bb05aaecea29b4808db45d0c9f51a67d9dbd97108",
+        "1e6f1673f64aebd35f66b495323f8e9ecc0791aa48d0f739880d3054dda0bf18",
+        "b04314a06ecc705e209399b9a50396f0a733e9401e9d675a5970f4f7af327ebf",
+        "f32a07970dee7b020399238018c6d428c8b1d1b803c23d3f1544d73f80444c30",
+        "404eb85c0d85ac064c841c17166f23914b8f83d85f6d2efd66a3c81d72727c15",
+        "37239093c3084791f76a918f2aa5c32eb89feb996e7fb4920089e5939d4913df",
+        "5e308b51f07b01f35392ed96ef33daa4bb3b6b866b461fb2102d65ece17ebf17",
+        "e6827863324ee7889412205d471ebd43f3221bb93ecd217603f1b1bc7f98c067",
+        "705f8f6a75dadc0fa947e795bfcbeca517077bbd05029a3ba3cb5fa7334a67cb"
+      ],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-release-export-script-project",
+      "kind": "project-authored-build-script",
+      "repositoryPath": "source/releases/0.3.2/export-release.py",
+      "originalSha256": "0669595b5a448968e83b1e6e46aa84d0be989ef940cb226bb8917dcd80da6b88",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-platform-capture-patch-project",
+      "kind": "project-authored-capture-harness-patch",
+      "repositoryPath": "source/releases/0.3.2/platform-scene-visual-clean.patch",
+      "originalSha256": "b0306de9d59b6e483de87f447113696f542b6cd076b70f82e37d83d5abb03cd9",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-scene-reality-contract-project",
+      "kind": "project-authored-reality-contract",
+      "repositoryPath": "source/releases/0.3.2/scene-reality.json",
+      "originalSha256": "d968e0a9485c8f989f50e697983cacd3042d5184f45bc2c6b51d3ca18f99da86",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-user-scenarios-contract-project",
+      "kind": "project-authored-user-scenario-contract",
+      "repositoryPath": "source/releases/0.3.2/user-scenarios.json",
+      "originalSha256": "63c5fbd02b04099dbd6c3a7d581b5e461471a7343171018736baf0ceac7a24f8",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-baked-lightmap-project",
+      "kind": "project-authored-generated-texture",
+      "repositoryPath": "source/releases/0.3.2/accepted-lightmap.png",
+      "generatorPath": "source/releases/0.3.2/export-release.py",
+      "materialIds": ["baked-pbr-v1-lightmap"],
+      "originalSha256": "4020ab26edd7e39ff826eaed645ed33b3b5ce620a68ef826d7fb0df89e1be55d",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-mineral-plaster-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.2/accepted-scene.blend",
+      "materialIds": ["material.mineral-plaster"],
+      "originalSha256": "c25ead50e2613b7dfc4a5f7f541d23114155e67fc3753b934a7c04016a85a2e1",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-floor-oak-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.2/accepted-scene.blend",
+      "materialIds": ["material.review-floor-oak"],
+      "originalSha256": "5d69649d20cb53d609ed34d8cf32806f9515db1ba53959e9fe1bf0700e572a4e",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-warm-oak-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.2/accepted-scene.blend",
+      "materialIds": ["material.warm-oak"],
+      "originalSha256": "eb58385c05b06991bd7738f3b723ecf622037b1d640566d347208c6de0d369b8",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-graphite-metal-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.2/accepted-scene.blend",
+      "materialIds": ["material.graphite-metal"],
+      "originalSha256": "7d7f592af4a8eaf9b31db26e93920bea4b9de1a89deb8e33747f41b1454d2bc4",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-sand-fabric-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.2/accepted-scene.blend",
+      "materialIds": ["material.sand-fabric"],
+      "originalSha256": "a932f8ba67e1e8f9fdef48f56879c730336b511fd48e2641435bef2e3dd6081b",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-grey-green-fabric-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.2/accepted-scene.blend",
+      "materialIds": ["material.muted-grey-green-fabric"],
+      "originalSha256": "b65b8a9d17d0935ed6d291fc6856cc77567f14a4cfa51c8b64bbc9242b101092",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-exterior-vegetation-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.2/accepted-scene.blend",
+      "materialIds": ["material.exterior-vegetation"],
+      "originalSha256": "ec6276174fb420445d1d7cbd1a0738e195df069f0ca64b305ead4e9db9fbcae6",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-ground-mineral-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.2/accepted-scene.blend",
+      "materialIds": ["material.ground-mineral"],
+      "originalSha256": "ddf1e2f1157ba655343f4c52a0d7ca108461bb4fddc10400903331ed351545b6",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-exterior-park-procedural-project",
+      "kind": "project-authored-procedural-geometry",
+      "generatorPath": "source/releases/0.3.2/reality-pass.py",
+      "generatorSha256": "69012a24bea005150cf079e9c7569b50414c4591730526ab778d7f17788f6395",
+      "acceptedContainerPath": "source/releases/0.3.2/accepted-scene.blend",
+      "acceptedContainerSha256": "b3aa208d96f720cf619b1ab8ef47353bac794fb3c2f0d0625e26863b24de9226",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-exterior-sky-procedural-project",
+      "kind": "project-authored-procedural-geometry",
+      "generatorPath": "source/releases/0.3.2/reality-pass.py",
+      "generatorSha256": "69012a24bea005150cf079e9c7569b50414c4591730526ab778d7f17788f6395",
+      "acceptedContainerPath": "source/releases/0.3.2/accepted-scene.blend",
+      "acceptedContainerSha256": "b3aa208d96f720cf619b1ab8ef47353bac794fb3c2f0d0625e26863b24de9226",
+      "outputSha256": ["d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-entry-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/entry.webp",
+      "originalSha256": "80dc7744c80d7b835697febb51eb578c5b7c5baa073f4b915d138b5fee4e16f4",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-diagonal-overview-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/diagonal-overview.webp",
+      "originalSha256": "7514b9cb7f21c4cd98000bd444eb737d1fb2a82f1a7e8c34c361061efe9ed397",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-01-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/seat-01-display.webp",
+      "originalSha256": "8a301aaa459db702ccc39b8f96cd6a68c29e14f032a20515a2c15636959b7a54",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-02-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/seat-02-display.webp",
+      "originalSha256": "a0547dd8ad658b78d44384b55e642dc64a222d79d8119d41b83a5dade03e6e29",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-03-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/seat-03-display.webp",
+      "originalSha256": "fb110a3dcb8a24471a711422e96ac00bb5693df979d8ec623573a6679ae60274",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-04-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/seat-04-display.webp",
+      "originalSha256": "00b73951d897f30fc2cbb1baab22544d850d35c27e72c3a4816bc390e7703231",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-05-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/seat-05-display.webp",
+      "originalSha256": "278bc581ee940dd7d10f977c260d7bfd79ddb541c681d8164f8236dc17862b91",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-06-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/seat-06-display.webp",
+      "originalSha256": "4e20a8cb90e6b5daf97f2463548b7fcf5ee5f8966db73d7425ebb4d3c6bcdd0e",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-07-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/seat-07-display.webp",
+      "originalSha256": "2b707d70a514c562e925d23bb05aaecea29b4808db45d0c9f51a67d9dbd97108",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-08-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/seat-08-display.webp",
+      "originalSha256": "1e6f1673f64aebd35f66b495323f8e9ecc0791aa48d0f739880d3054dda0bf18",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-whiteboard-standing-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/whiteboard-standing.webp",
+      "originalSha256": "b04314a06ecc705e209399b9a50396f0a733e9401e9d675a5970f4f7af327ebf",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-table-underside-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/table-underside.webp",
+      "originalSha256": "f32a07970dee7b020399238018c6d428c8b1d1b803c23d3f1544d73f80444c30",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-media-wall-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/media-wall.webp",
+      "originalSha256": "404eb85c0d85ac064c841c17166f23914b8f83d85f6d2efd66a3c81d72727c15",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-door-detail-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/door-detail.webp",
+      "originalSha256": "37239093c3084791f76a918f2aa5c32eb89feb996e7fb4920089e5939d4913df",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-window-detail-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/window-detail.webp",
+      "originalSha256": "5e308b51f07b01f35392ed96ef33daa4bb3b6b866b461fb2102d65ece17ebf17",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-park-view-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/park-view.webp",
+      "originalSha256": "e6827863324ee7889412205d471ebd43f3221bb93ecd217603f1b1bc7f98c067",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-pendant-detail-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.2/review/pendant-detail.webp",
+      "originalSha256": "705f8f6a75dadc0fa947e795bfcbeca517077bbd05029a3ba3cb5fa7334a67cb",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    }
+  ]
+}

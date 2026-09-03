@@ -336,9 +336,13 @@ for (const { record, lock, visualParityConfig } of acceptances) {
     && lock.boundaries?.acceptedSourceStored === true
     && lock.boundaries?.releaseGlbVerified === true, `invalid_release_acceptance_boundaries:${version}`);
   if (manifestRelease.status === "review") {
-    assert(lock.boundaries.visualAccepted === false
-      && lock.boundaries.publicationReady === false
-      && lock.visualQuality?.humanAcceptance === "pending", `review_release_claims_acceptance:${version}`);
+    const visualPending = lock.boundaries.visualAccepted === false
+      && lock.visualQuality?.humanAcceptance === "pending";
+    const visualAccepted = lock.boundaries.visualAccepted === true
+      && lock.visualQuality?.humanAcceptance === "accepted"
+      && typeof lock.visualQuality?.humanAcceptanceEvidencePath === "string";
+    assert(lock.boundaries.publicationReady === false
+      && (visualPending || visualAccepted), `invalid_review_release_acceptance_state:${version}`);
   } else if (manifestRelease.status === "active") {
     assert(lock.boundaries.visualAccepted === true
       && lock.boundaries.publicationReady === true, `active_release_acceptance_missing:${version}`);
@@ -396,6 +400,9 @@ for (const { record, lock, visualParityConfig } of acceptances) {
     ["runtimeCoordinates", lock.runtimeCoordinates?.evidencePath],
     ["visualQuality", lock.visualQuality?.evidencePath]
   ];
+  if (lock.visualQuality?.humanAcceptanceEvidencePath !== undefined) {
+    provenancePaths.push(["humanVisualAcceptance", lock.visualQuality.humanAcceptanceEvidencePath]);
+  }
   for (const [pathKey, repositoryPath] of provenancePaths) {
     assert(typeof repositoryPath === "string", `accepted_provenance_path_missing:${version}:${pathKey}`);
     if (version !== LEGACY_ACCEPTANCE_VERSION) assert(repositoryPath.startsWith(provenancePrefix), `versioned_provenance_path_required:${version}:${pathKey}`);
@@ -773,7 +780,11 @@ for (const release of manifest.releases) {
     && author === "Vrata project team" && licenseRef === "LICENSES.md"), `invalid_release_source_asset_binding:${releaseKey}`);
   assert(!/(^\/|^[A-Za-z]:[\\/]|^\\\\|\/home\/|\/mnt\/)/.test(scene.source ?? ""), `private_source_path:${releaseKey}`);
   assert(!/(alpha|beta|curated|ai[- ]?generated)/i.test(scene.label ?? ""), `non_neutral_release_label:${releaseKey}`);
-  if (release.status === "review") assert(scene.visual?.reviewStage === "human-acceptance-pending", `review_scene_stage_drift:${releaseKey}`);
+  if (release.status === "review") {
+    const acceptance = acceptances.find(({ record }) => record.version === release.version);
+    const expectedReviewStage = acceptance?.lock.boundaries?.visualAccepted === true ? "accepted" : "human-acceptance-pending";
+    assert(scene.visual?.reviewStage === expectedReviewStage, `review_scene_stage_drift:${releaseKey}`);
+  }
   if (release.version === LEGACY_ACCEPTANCE_VERSION) {
     assert(scene.renderMode === "clean" && scene.renderProfile === "baked-pbr-v1", `invalid_legacy_render_profile:${releaseKey}`);
     assert(JSON.stringify(scene.spawnPoints[0].position) === JSON.stringify(toRuntimePosition(sceneSpec.spawn.position)), `runtime_spawn_coordinate_drift:${releaseKey}`);
