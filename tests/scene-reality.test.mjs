@@ -15,8 +15,8 @@ import {
 } from "../scripts/validate-scene-reality.mjs";
 
 const root = resolve(import.meta.dirname, "..");
-const realityPath = resolve(root, "source/releases/0.3.2/scene-reality.json");
-const scenariosPath = resolve(root, "source/releases/0.3.2/user-scenarios.json");
+const realityPath = resolve(root, "source/releases/0.3.3/scene-reality.json");
+const scenariosPath = resolve(root, "source/releases/0.3.3/user-scenarios.json");
 
 async function json(path) {
   return JSON.parse(await readFile(path, "utf8"));
@@ -49,12 +49,7 @@ const envelopeValues = {
   "conference-table": [[-1.8, 0, -0.59], [1.8, 0.73, 0.59]],
   "conference-table-cable-management": [[-0.265, 0.705, -0.09], [0.265, 0.73, 0.09]],
   "debug-main": [[-3.4025, 0.5, -1.8425], [-3.3275, 2.485, 1.5425]],
-  "exterior-park-furnishing": [[-0.8, 0, -0.3], [0.8, 1.1, 0.3]],
-  "exterior-park-grove": [[-3.8, 0, -3.8], [3.8, 4.8, 3.8]],
-  "exterior-park-horizon": [[-9, 0, -2], [9, 2.85, 2]],
-  "exterior-park-landscape": [[-1.5, 0, -4.75], [1.5, 0.15, 4.75]],
-  "exterior-site": [[-5, -0.18, -5], [5, 0, 5]],
-  "exterior-sky": [[-9.5, 0, -9.5], [9.5, 5.8, 0]],
+  "exterior-panorama": [[-40, -43, -40], [40, 37, 40]],
   "main-door": [[-0.55, 0, -0.125], [0.55, 2.2, 0.125]],
   "main-window": [[-1.7, 0.6, -0.1], [1.7, 2.4, 0.1]],
   "media-wall-acoustics": [[-0.035, 1, -0.35], [0.035, 2.3, 0.35]],
@@ -72,7 +67,6 @@ const partEnvelopeValues = {
   "main-window/frame-head": [[-1.82, 2.42, -0.09], [1.42, 2.5, 0.09]],
   "main-window/frame-left": [[-1.9, 0.7, -0.09], [-1.82, 2.5, 0.09]],
   "main-window/frame-right": [[1.42, 0.7, -0.09], [1.5, 2.5, 0.09]],
-  "main-window/glass": [[-1.795, 0.805, -0.006], [1.395, 2.395, 0.006]],
   "main-window/glazing-bead-bottom": [[-1.795, 0.78, -0.0125], [1.395, 0.805, 0.0125]],
   "main-window/glazing-bead-top": [[-1.795, 2.395, -0.0125], [1.395, 2.42, 0.0125]],
   "main-window/glazing-bead-left": [[-1.82, 0.805, -0.0125], [-1.795, 2.395, 0.0125]],
@@ -108,8 +102,8 @@ function fixtureDocument(reality, scenarios) {
       const mesh = meshes.length;
       meshes.push({ primitives: [{ attributes: { POSITION: accessor } }] });
       const key = `${object.id}/${part.id}`;
-      const transparent = key === "main-window/glass";
-      const unlit = key === "exterior-sky/dome";
+      const transparent = false;
+      const unlit = key === "exterior-panorama/sphere";
       const policy = transparent ? "exclude-transparent" : unlit ? "exclude-unlit-background" : "include";
       nodes.push({
         name: expectedMeshNodeName(object.id, part.id),
@@ -120,7 +114,7 @@ function fixtureDocument(reality, scenarios) {
           vrataInteractionStatus: object.status,
           vrataBakePolicy: policy,
           ...(transparent ? { vrataBakeExclusionReason: "transparent-glass" } : {}),
-          ...(unlit ? { vrataBakeExclusionReason: "unlit-sky" } : {}),
+          ...(unlit ? { vrataBakeExclusionReason: "unlit-panorama" } : {}),
           ...(extrasByPart.get(key) ?? {})
         }
       });
@@ -158,18 +152,18 @@ function encodeGlb(document) {
   return bytes;
 }
 
-test("0.3.2 reality and scenario contracts cover the park exterior model", async () => {
+test("0.3.3 reality and scenario contracts cover the coastal panorama model", async () => {
   const reality = await json(realityPath);
   const scenarios = await json(scenariosPath);
   const realityContext = validateSceneRealityContract(reality);
   const scenarioContext = validateUserScenariosContract(scenarios, realityContext);
 
-  assert.equal(realityContext.objectById.size, 30);
-  assert.equal(realityContext.partByKey.size, 145);
-  assert.deepEqual(realityContext.partsByStatus, { passive: 62, deferred: 23, interactive: 60 });
+  assert.equal(realityContext.objectById.size, 25);
+  assert.equal(realityContext.partByKey.size, 133);
+  assert.deepEqual(realityContext.partsByStatus, { passive: 50, deferred: 23, interactive: 60 });
   assert.equal(scenarioContext.scenarioCount, 18);
-  assert.equal(scenarioContext.scaleRangeCount, 30);
-  assert.equal(scenarioContext.extrasMetricCount, 37);
+  assert.equal(scenarioContext.scaleRangeCount, 25);
+  assert.equal(scenarioContext.extrasMetricCount, 41);
   assert.ok(scenarios.scenarios.filter(({ id }) => id.endsWith("approach-sit-stand")).length === 8);
   assert.ok(scenarios.scenarios.filter(({ implementationRequired }) => !implementationRequired).every((scenario) => scenario.acceptanceCriteria.some(({ measure, value }) => measure === "runtime-implementation-required" && value === false)));
 });
@@ -211,11 +205,11 @@ test("GLB validation enforces all tagged parts, geometry acceptance and determin
   validateUserScenariosContract(scenarios, realityContext);
   const document = fixtureDocument(reality, scenarios);
   const result = validateGlbDocument(document, reality, scenarios, realityContext);
-  assert.equal(result.meshNodeCount, 145);
-  assert.equal(result.objectCount, 30);
-  assert.equal(result.scaleRangesValidated, 30);
+  assert.equal(result.meshNodeCount, 133);
+  assert.equal(result.objectCount, 25);
+  assert.equal(result.scaleRangesValidated, 25);
   assert.equal(result.clearancesValidated, 16);
-  assert.equal(result.extrasMetricsValidated, 37);
+  assert.equal(result.extrasMetricsValidated, 41);
   assert.equal(result.contactsValidated, realityContext.supportEdges);
 
   const unknownPart = structuredClone(document);
@@ -275,7 +269,7 @@ test("GLB validation enforces all tagged parts, geometry acceptance and determin
     assert.equal(secondBytes, firstBytes);
     assert.equal(first.release.sceneManifestValidated, true);
     assert.equal(first.release.glbValidated, true);
-    assert.equal(first.release.meshNodesValidated, 145);
+    assert.equal(first.release.meshNodesValidated, 133);
     assert.doesNotMatch(firstBytes, /tmp|sha256|generatedAt/i);
 
     const separatorReportPath = join(temporary, "separator-report.json");
@@ -284,7 +278,7 @@ test("GLB validation enforces all tagged parts, geometry acceptance and determin
       encoding: "utf8"
     });
     assert.equal(cli.status, 0, cli.stderr);
-    assert.match(cli.stdout, /Scene reality 0\.3\.2 is valid/);
+    assert.match(cli.stdout, /Scene reality 0\.3\.3 is valid/);
     assert.equal((await json(separatorReportPath)).result, "valid");
   } finally {
     await rm(temporary, { recursive: true, force: true });

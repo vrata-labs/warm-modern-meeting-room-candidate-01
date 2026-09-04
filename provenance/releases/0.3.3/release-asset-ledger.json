@@ -1,0 +1,393 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.3.3",
+  "approval": {
+    "decision": "approved",
+    "approvedOn": "2026-09-04",
+    "ownerRole": "human-rights-owner",
+    "evidencePath": "provenance/releases/0.3.3/rights-verdict-2026-09-04.md"
+  },
+  "upstreamLedgerPath": "provenance/release-asset-ledger.json",
+  "upstreamSourceRecordIds": [
+    "asset-accepted-scene-source-project",
+    "asset-visual-completion-script-project",
+    "asset-texture-mineral-plaster-project",
+    "asset-texture-floor-oak-project",
+    "asset-texture-warm-oak-project",
+    "asset-texture-graphite-metal-project",
+    "asset-texture-sand-fabric-project",
+    "asset-texture-grey-green-fabric-project",
+    "asset-texture-exterior-vegetation-project"
+  ],
+  "license": {
+    "name": "LicenseRef-Mixed-Project-Owned-CC0-1.0",
+    "reference": "provenance/releases/0.3.3/mixed-project-owned-cc0-release.txt",
+    "commercialUse": true,
+    "redistribution": true,
+    "mlProcessing": true
+  },
+  "allowedUse": {
+    "staging": true,
+    "production": true,
+    "webRuntime": true,
+    "screenshots": true,
+    "optimization": true,
+    "redistribution": true
+  },
+  "reviewImageConversion": {
+    "sourceFormat": "PNG",
+    "outputFormat": "WebP",
+    "tool": "cwebp",
+    "version": "1.6.0",
+    "quality": 90
+  },
+  "records": [
+    {
+      "id": "asset-accepted-scene-source-project",
+      "kind": "project-authored-scene-source",
+      "repositoryPath": "source/releases/0.3.3/accepted-scene.blend",
+      "originalSha256": "12a75782181b8cbddd8c9873517678ed018238d10649ceca4fb1d8464ff60677",
+      "outputSha256": ["705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-reality-pass-script-project",
+      "kind": "project-authored-authoring-and-review-script",
+      "repositoryPath": "source/releases/0.3.3/reality-pass.py",
+      "originalSha256": "6a928b97a212ee9ee3639c244fdb7fcccdb7c31191f091bd85475bf13aed2bc8",
+      "outputSha256": [
+        "12a75782181b8cbddd8c9873517678ed018238d10649ceca4fb1d8464ff60677",
+        "4370735c0b1aac0dc61c6c00f4f5d85413062857264a3ecbac69fad2320be218",
+        "eb7628d6d07744c9ddd60b34619d3dd7589dac53c3138ad670a73d6516a07d6f",
+        "7db83bc71b0f1686405f994f3c98b93c5bc99d3bdbf73ec057642f714b69b979",
+        "79d356816187e684669f27b8d61d8fc40b26d83972cf2b10b7f2c6868ea64332",
+        "7a72186fdbaed63db656b7528f5c49544ad08150f88c8a265a103de6c277ffab",
+        "89567007468a987a6808f06559eabb3b0d28016b043bca2272dc6012b503cbf3",
+        "a7a30ac98021ea107e376996d4df25de559a44b9cc75e8e4dd96b243cce3bea7",
+        "ebf2c48650718557d1e97ca2166094bfe9be316463b7500369a1f4475e872fa7",
+        "69d24c7ad0fceedde52ba748ad98850519700aa3300115e50713d328f7bd2028",
+        "34c241d616f7e70319ce9e2ed67cbcd6f117516ca835669b5ce5256680d5bd97",
+        "b04314a06ecc705e209399b9a50396f0a733e9401e9d675a5970f4f7af327ebf",
+        "8fae4985b878123c16fe0813d2f08d32e6fc5c9f61ffed73e4714e033cbc6747",
+        "0f6140eebcbc25ef690bf87878344708660130a2948b88ca7b67eee3e1f230e6",
+        "37239093c3084791f76a918f2aa5c32eb89feb996e7fb4920089e5939d4913df",
+        "fa985782ada589657a1a764b406a2cba7c75b80e3d519a942dc50dcba8661124",
+        "7f8ced4ba47ea759a83f59d5bcf7fffb4bb09f3919f132a318c9b63b8ecb09f3",
+        "d2953aaa7f9f28b2b792b8899bed29b945b1694768e449485217f3e495b4464e"
+      ],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-release-export-script-project",
+      "kind": "project-authored-build-script",
+      "repositoryPath": "source/releases/0.3.3/export-release.py",
+      "originalSha256": "7eee4deb133f23038b09a03c902f3c302dbccf4af0b969e0c3367db44253da32",
+      "outputSha256": ["705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-platform-capture-patch-project",
+      "kind": "project-authored-capture-harness-patch",
+      "repositoryPath": "source/releases/0.3.3/platform-scene-visual-clean.patch",
+      "originalSha256": "897201febe0590988cc9f199367b3099deb79c4397ed70c0eb00202dae3f9755",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-scene-reality-contract-project",
+      "kind": "project-authored-reality-contract",
+      "repositoryPath": "source/releases/0.3.3/scene-reality.json",
+      "originalSha256": "ada5f9d6c3d50fb167113ef12f9bb2aecd43dd4d9c29b6ed87f3f37cb174a375",
+      "outputSha256": ["705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-user-scenarios-contract-project",
+      "kind": "project-authored-user-scenario-contract",
+      "repositoryPath": "source/releases/0.3.3/user-scenarios.json",
+      "originalSha256": "2cd5e1cc00eaa8ee6ad9d4d140275e85cd291737723a27a1c418f1ef2f5cec6e",
+      "outputSha256": ["705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-baked-lightmap-project",
+      "kind": "project-authored-generated-texture",
+      "repositoryPath": "source/releases/0.3.3/accepted-lightmap.png",
+      "generatorPath": "source/releases/0.3.3/export-release.py",
+      "materialIds": ["baked-pbr-v1-lightmap"],
+      "originalSha256": "a2ca679e41cd071652f3328bcc6454963f14162bf66c9d346841224a102080b2",
+      "outputSha256": ["705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-mineral-plaster-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.3/accepted-scene.blend",
+      "materialIds": ["material.mineral-plaster"],
+      "originalSha256": "c25ead50e2613b7dfc4a5f7f541d23114155e67fc3753b934a7c04016a85a2e1",
+      "outputSha256": ["705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-floor-oak-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.3/accepted-scene.blend",
+      "materialIds": ["material.review-floor-oak"],
+      "originalSha256": "5d69649d20cb53d609ed34d8cf32806f9515db1ba53959e9fe1bf0700e572a4e",
+      "outputSha256": ["705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-warm-oak-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.3/accepted-scene.blend",
+      "materialIds": ["material.warm-oak"],
+      "originalSha256": "eb58385c05b06991bd7738f3b723ecf622037b1d640566d347208c6de0d369b8",
+      "outputSha256": ["705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-graphite-metal-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.3/accepted-scene.blend",
+      "materialIds": ["material.graphite-metal"],
+      "originalSha256": "7d7f592af4a8eaf9b31db26e93920bea4b9de1a89deb8e33747f41b1454d2bc4",
+      "outputSha256": ["705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-sand-fabric-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.3/accepted-scene.blend",
+      "materialIds": ["material.sand-fabric"],
+      "originalSha256": "a932f8ba67e1e8f9fdef48f56879c730336b511fd48e2641435bef2e3dd6081b",
+      "outputSha256": ["705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-grey-green-fabric-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.3/accepted-scene.blend",
+      "materialIds": ["material.muted-grey-green-fabric"],
+      "originalSha256": "b65b8a9d17d0935ed6d291fc6856cc77567f14a4cfa51c8b64bbc9242b101092",
+      "outputSha256": ["705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-texture-exterior-vegetation-project",
+      "kind": "project-authored-generated-texture",
+      "acceptedContainerPath": "source/releases/0.3.3/accepted-scene.blend",
+      "materialIds": ["material.exterior-vegetation"],
+      "originalSha256": "ec6276174fb420445d1d7cbd1a0738e195df069f0ca64b305ead4e9db9fbcae6",
+      "outputSha256": ["705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-exterior-panorama-sphere-project",
+      "kind": "project-authored-procedural-geometry",
+      "generatorPath": "source/releases/0.3.3/reality-pass.py",
+      "generatorSha256": "6a928b97a212ee9ee3639c244fdb7fcccdb7c31191f091bd85475bf13aed2bc8",
+      "acceptedContainerPath": "source/releases/0.3.3/accepted-scene.blend",
+      "acceptedContainerSha256": "12a75782181b8cbddd8c9873517678ed018238d10649ceca4fb1d8464ff60677",
+      "outputSha256": ["705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-panorama-cannon-poly-haven-cc0",
+      "kind": "external-cc0-panorama-texture",
+      "repositoryPath": "source/releases/0.3.3/coastal-panorama-cannon.jpg",
+      "originalSha256": "4e960796faa85fc88d8e8647a713c695bcba92f8b6b27832a28f436428425d30",
+      "outputSha256": [
+        "12a75782181b8cbddd8c9873517678ed018238d10649ceca4fb1d8464ff60677",
+        "705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"
+      ],
+      "authorProvider": "poly-haven",
+      "manifestAuthor": "Greg Zaal / Poly Haven",
+      "acquiredOn": "2026-09-04",
+      "source": {
+        "assetPage": "https://polyhaven.com/a/cannon",
+        "metadataApi": "https://api.polyhaven.com/info/cannon",
+        "downloadUrl": "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/cannon.jpg",
+        "publishedMd5": "9125a8a15f6734b0366b1ab8c9e4cefc"
+      },
+      "license": {
+        "name": "CC0-1.0",
+        "reference": "provenance/releases/0.3.3/poly-haven-cannon-cc0.txt",
+        "publicUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "commercialUse": true,
+        "redistribution": true,
+        "mlProcessing": true
+      },
+      "attribution": "Cannon by Greg Zaal / Poly Haven, CC0 1.0"
+    },
+    {
+      "id": "asset-review-entry-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/entry.webp",
+      "originalSha256": "4370735c0b1aac0dc61c6c00f4f5d85413062857264a3ecbac69fad2320be218",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-diagonal-overview-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/diagonal-overview.webp",
+      "originalSha256": "eb7628d6d07744c9ddd60b34619d3dd7589dac53c3138ad670a73d6516a07d6f",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-01-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/seat-01-display.webp",
+      "originalSha256": "7db83bc71b0f1686405f994f3c98b93c5bc99d3bdbf73ec057642f714b69b979",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-02-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/seat-02-display.webp",
+      "originalSha256": "79d356816187e684669f27b8d61d8fc40b26d83972cf2b10b7f2c6868ea64332",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-03-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/seat-03-display.webp",
+      "originalSha256": "7a72186fdbaed63db656b7528f5c49544ad08150f88c8a265a103de6c277ffab",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-04-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/seat-04-display.webp",
+      "originalSha256": "89567007468a987a6808f06559eabb3b0d28016b043bca2272dc6012b503cbf3",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-05-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/seat-05-display.webp",
+      "originalSha256": "a7a30ac98021ea107e376996d4df25de559a44b9cc75e8e4dd96b243cce3bea7",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-06-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/seat-06-display.webp",
+      "originalSha256": "ebf2c48650718557d1e97ca2166094bfe9be316463b7500369a1f4475e872fa7",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-07-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/seat-07-display.webp",
+      "originalSha256": "69d24c7ad0fceedde52ba748ad98850519700aa3300115e50713d328f7bd2028",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-seat-08-display-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/seat-08-display.webp",
+      "originalSha256": "34c241d616f7e70319ce9e2ed67cbcd6f117516ca835669b5ce5256680d5bd97",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-whiteboard-standing-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/whiteboard-standing.webp",
+      "originalSha256": "b04314a06ecc705e209399b9a50396f0a733e9401e9d675a5970f4f7af327ebf",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-table-underside-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/table-underside.webp",
+      "originalSha256": "8fae4985b878123c16fe0813d2f08d32e6fc5c9f61ffed73e4714e033cbc6747",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-media-wall-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/media-wall.webp",
+      "originalSha256": "0f6140eebcbc25ef690bf87878344708660130a2948b88ca7b67eee3e1f230e6",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-door-detail-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/door-detail.webp",
+      "originalSha256": "37239093c3084791f76a918f2aa5c32eb89feb996e7fb4920089e5939d4913df",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-window-detail-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/window-detail.webp",
+      "originalSha256": "fa985782ada589657a1a764b406a2cba7c75b80e3d519a942dc50dcba8661124",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-coastal-view-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/coastal-view.webp",
+      "originalSha256": "7f8ced4ba47ea759a83f59d5bcf7fffb4bb09f3919f132a318c9b63b8ecb09f3",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    },
+    {
+      "id": "asset-review-pendant-detail-project",
+      "kind": "project-authored-review-render",
+      "repositoryPath": "source/releases/0.3.3/review/pendant-detail.webp",
+      "originalSha256": "d2953aaa7f9f28b2b792b8899bed29b945b1694768e449485217f3e495b4464e",
+      "outputSha256": [],
+      "authorProvider": "project-team",
+      "attribution": null
+    }
+  ]
+}

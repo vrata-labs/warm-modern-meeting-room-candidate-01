@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.3.3",
+  "coordinateTransform": {
+    "x": "x",
+    "y": "z",
+    "z": "-y"
+  },
+  "reason": "The accepted Blender source is Z-up; glTF export and Vrata runtime are right-handed Y-up, with Blender positive Y mapped to runtime negative Z.",
+  "bindings": {
+    "sceneRealityPath": "source/releases/0.3.3/scene-reality.json",
+    "sceneManifestPath": "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.3/scene.json",
+    "seatAnchors": 8,
+    "mediaSurfaces": 2
+  },
+  "verification": {
+    "repositoryCoordinatesLocked": true,
+    "sceneRealityValidation": "passed",
+    "staging": "pending-review-release-publication"
+  }
+}

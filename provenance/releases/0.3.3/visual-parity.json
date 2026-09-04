@@ -1,0 +1,379 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "releaseVersion": "0.3.3",
+  "acceptanceLockPath": "source/releases/0.3.3/accepted-source-lock.json",
+  "releaseGlb": {
+    "path": "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.3/scene.glb",
+    "sha256": "705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6",
+    "sizeBytes": 20320032
+  },
+  "metricTool": "ImageMagick compare",
+  "metricToolVersion": "ImageMagick 6.9.12-98 Q16 x86_64 18038 https://legacy.imagemagick.org",
+  "captureDirectory": "external/wmmr-0.3.3-runtime-capture",
+  "captureBindingFile": "capture-binding.json",
+  "captureBinding": {
+    "digest": "cc64bd987dfebda20ba6b8f3e15e63aa359b757442fe86e734267c8f8571458e",
+    "sizeBytes": 6165
+  },
+  "platformCommit": "c54edb2239d225a71e9b934316f70792b3faafb6",
+  "platformPatch": {
+    "path": "source/releases/0.3.3/platform-scene-visual-clean.patch",
+    "sha256": "897201febe0590988cc9f199367b3099deb79c4397ed70c0eb00202dae3f9755",
+    "sizeBytes": 3648
+  },
+  "captureRunner": {
+    "command": "pnpm test:e2e:private-assets tests/e2e/scene-visual.spec.ts --workers=1",
+    "executable": "pnpm",
+    "argv": [
+      "test:e2e:private-assets",
+      "tests/e2e/scene-visual.spec.ts",
+      "--workers=1"
+    ],
+    "bindingGenerator": {
+      "executable": "node",
+      "argv": [
+        "scripts/create-capture-binding.mjs",
+        "--version",
+        "0.3.3"
+      ],
+      "environment": {
+        "SCENE_VISUAL_OUTPUT_DIR": "<capture-dir>"
+      }
+    },
+    "environment": {
+      "SCENE_VISUAL_ASSET_PATH": "<candidate-root>/assets/scenes/warm-modern-meeting-room-candidate-01/0.3.3/scene.glb",
+      "SCENE_VISUAL_MANIFEST_PATH": "<candidate-root>/assets/scenes/warm-modern-meeting-room-candidate-01/0.3.3/scene.json",
+      "SCENE_VISUAL_CONFIG_PATH": "<candidate-root>/source/releases/0.3.3/visual-parity-config.json",
+      "SCENE_VISUAL_OUTPUT_DIR": "<capture-dir>",
+      "SCENE_VISUAL_VIEW_IDS": "<comma-separated runner batch>",
+      "SCENE_VISUAL_STRIP_ANCHORS": "1",
+      "SCENE_VISUAL_HIDE_MEDIA_SURFACES": "1",
+      "SCENE_VISUAL_FLIP_Z": "1",
+      "SCENE_VISUAL_ENVIRONMENT_INTENSITY": "0.35",
+      "SCENE_VISUAL_EXPOSURE": "1.2"
+    },
+    "batches": [
+      [
+        "entry",
+        "diagonal-overview",
+        "seat-01-display"
+      ],
+      [
+        "seat-02-display",
+        "seat-03-display",
+        "seat-04-display"
+      ],
+      [
+        "seat-05-display",
+        "seat-06-display",
+        "seat-07-display"
+      ],
+      [
+        "whiteboard-standing",
+        "media-wall",
+        "window-detail"
+      ],
+      [
+        "table-underside",
+        "door-detail",
+        "pendant-detail"
+      ],
+      [
+        "seat-08-display",
+        "coastal-view"
+      ]
+    ]
+  },
+  "capturePolicy": {
+    "stripAnchors": true,
+    "avatarsEnabled": true,
+    "avatarFallbackCapsulesEnabled": false,
+    "avatarSeatsEnabled": false,
+    "mediaSurfacesVisible": false,
+    "reason": "Interaction anchors, dynamic media planes, and local fallback avatar meshes are validated separately and must not occlude fixed source-to-GLB visual-composition evidence."
+  },
+  "renderSettings": {
+    "environmentIntensity": 0.35,
+    "exposure": 1.2
+  },
+  "runtimeDiagnosticsFile": "scene-debug.json",
+  "runtimeDiagnostics": {
+    "digest": "a12cbd810775fcaf7ee979b16ad811cfbef53a4fee70d9710c0b3edc5a097ee6",
+    "sizeBytes": 8540,
+    "state": "loaded",
+    "failureReason": null,
+    "renderProfile": "baked-pbr-v1",
+    "missingAssets": [],
+    "meshCount": 133,
+    "materialCount": 18,
+    "lightMappedMaterialCount": 17,
+    "triangleEstimate": 52260
+  },
+  "aggregateThresholds": {
+    "phashTotalMax": 1155,
+    "nccMeanMin": 0.44
+  },
+  "aggregate": {
+    "phashTotal": 957.6703,
+    "nccMean": 0.5075627647058822
+  },
+  "views": [
+    {
+      "view": "entry",
+      "phash": 33.2611,
+      "ncc": 0.515282,
+      "threshold": {
+        "phashMax": 50,
+        "nccMin": 0.36
+      },
+      "capture": {
+        "file": "entry.png",
+        "digest": "30fb1037fe4ed377773be5c423ddfa6f572ede93e63d95289e351fb6b7a000b0",
+        "sizeBytes": 495194
+      },
+      "passed": true
+    },
+    {
+      "view": "diagonal-overview",
+      "phash": 24.7086,
+      "ncc": 0.383046,
+      "threshold": {
+        "phashMax": 58,
+        "nccMin": 0.3
+      },
+      "capture": {
+        "file": "diagonal-overview.png",
+        "digest": "8042e90f1f76ea7ba90460465130d4410ac8043f12cc3d252ada820dacf58d9c",
+        "sizeBytes": 462475
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-01-display",
+      "phash": 120.03,
+      "ncc": 0.508878,
+      "threshold": {
+        "phashMax": 125,
+        "nccMin": 0.47
+      },
+      "capture": {
+        "file": "seat-01-display.png",
+        "digest": "8cdace8a1efb194262dec8f890471c26cc0437c47142598b6614df78b364ff6b",
+        "sizeBytes": 337301
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-02-display",
+      "phash": 53.4487,
+      "ncc": 0.425092,
+      "threshold": {
+        "phashMax": 63,
+        "nccMin": 0.41
+      },
+      "capture": {
+        "file": "seat-02-display.png",
+        "digest": "25185b51f45ee820f3ed8a52f0afe14c4238a2d32c2f7df9048a44eda6331ee4",
+        "sizeBytes": 376202
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-03-display",
+      "phash": 56.3526,
+      "ncc": 0.545101,
+      "threshold": {
+        "phashMax": 80,
+        "nccMin": 0.54
+      },
+      "capture": {
+        "file": "seat-03-display.png",
+        "digest": "03a74a9b820da3619f86a2462ad01edfb9e4c585b9bd768d4efc8febb81a86d7",
+        "sizeBytes": 416020
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-04-display",
+      "phash": 16.3697,
+      "ncc": 0.579425,
+      "threshold": {
+        "phashMax": 45,
+        "nccMin": 0.52
+      },
+      "capture": {
+        "file": "seat-04-display.png",
+        "digest": "6b1ef76064013bf55b6bac7b99a6daed536d807fdcaf71be225fb3940b9e1151",
+        "sizeBytes": 432105
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-05-display",
+      "phash": 83.3727,
+      "ncc": 0.326383,
+      "threshold": {
+        "phashMax": 90,
+        "nccMin": 0.32
+      },
+      "capture": {
+        "file": "seat-05-display.png",
+        "digest": "23058b3ea2f91e498729105f64d32ca8ba30a2d445926e27d119bda2349a7433",
+        "sizeBytes": 331751
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-06-display",
+      "phash": 63.7504,
+      "ncc": 0.345339,
+      "threshold": {
+        "phashMax": 69,
+        "nccMin": 0.32
+      },
+      "capture": {
+        "file": "seat-06-display.png",
+        "digest": "30208dcf0c43922f2e8a4d982b2448906c97e94daecb060813b87d7a3394e8c7",
+        "sizeBytes": 377653
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-07-display",
+      "phash": 101.032,
+      "ncc": 0.437745,
+      "threshold": {
+        "phashMax": 111,
+        "nccMin": 0.42
+      },
+      "capture": {
+        "file": "seat-07-display.png",
+        "digest": "64f97b2c13951923ddcc77baace622e8a3acbca9eb91b630e6569f23c5315cff",
+        "sizeBytes": 417863
+      },
+      "passed": true
+    },
+    {
+      "view": "seat-08-display",
+      "phash": 94.4017,
+      "ncc": 0.529431,
+      "threshold": {
+        "phashMax": 112,
+        "nccMin": 0.45
+      },
+      "capture": {
+        "file": "seat-08-display.png",
+        "digest": "7e0d28e29185b3fc4e1e439184b3a67be10c20eaff6a1b2c653650081772b012",
+        "sizeBytes": 434245
+      },
+      "passed": true
+    },
+    {
+      "view": "whiteboard-standing",
+      "phash": 25.9138,
+      "ncc": 0.14323,
+      "threshold": {
+        "phashMax": 35,
+        "nccMin": 0.12
+      },
+      "capture": {
+        "file": "whiteboard-standing.png",
+        "digest": "e51bee712aa2a1de45b849a34338b5ac58153f5a3ad86077e4d985ec16b10912",
+        "sizeBytes": 244728
+      },
+      "passed": true
+    },
+    {
+      "view": "table-underside",
+      "phash": 50.3625,
+      "ncc": 0.765038,
+      "threshold": {
+        "phashMax": 68,
+        "nccMin": 0.72
+      },
+      "capture": {
+        "file": "table-underside.png",
+        "digest": "00787459d3c191f2890bb8a5f1cf26373801b275780437899c5ccc33b17f8b39",
+        "sizeBytes": 243640
+      },
+      "passed": true
+    },
+    {
+      "view": "media-wall",
+      "phash": 104.77,
+      "ncc": 0.661294,
+      "threshold": {
+        "phashMax": 112,
+        "nccMin": 0.52
+      },
+      "capture": {
+        "file": "media-wall.png",
+        "digest": "5fa70b565df9a785d1dbd92383c8b3f55218b512551fd654efe516b017eafc2c",
+        "sizeBytes": 453877
+      },
+      "passed": true
+    },
+    {
+      "view": "door-detail",
+      "phash": 67.7333,
+      "ncc": 0.832566,
+      "threshold": {
+        "phashMax": 74,
+        "nccMin": 0.79
+      },
+      "capture": {
+        "file": "door-detail.png",
+        "digest": "2e9c3f5eddbaeb09699fdcf1e5b4ca95edc51f51f31248ec194ee0a6d141a2c3",
+        "sizeBytes": 226468
+      },
+      "passed": true
+    },
+    {
+      "view": "window-detail",
+      "phash": 19.8937,
+      "ncc": 0.948461,
+      "threshold": {
+        "phashMax": 152,
+        "nccMin": 0.56
+      },
+      "capture": {
+        "file": "window-detail.png",
+        "digest": "2d8ae888dbad9c839320a4b87eca7b5d12cb7985da3e6c67baa3a1a8b9c96e9d",
+        "sizeBytes": 369524
+      },
+      "passed": true
+    },
+    {
+      "view": "coastal-view",
+      "phash": 13.5522,
+      "ncc": 0.644775,
+      "threshold": {
+        "phashMax": 90,
+        "nccMin": 0.5
+      },
+      "capture": {
+        "file": "coastal-view.png",
+        "digest": "25ceadb8cd78f328158b384976998e6a78658b7233a637106cf0f52838e15d0b",
+        "sizeBytes": 381042
+      },
+      "passed": true
+    },
+    {
+      "view": "pendant-detail",
+      "phash": 28.7173,
+      "ncc": 0.037481,
+      "threshold": {
+        "phashMax": 36,
+        "nccMin": 0
+      },
+      "capture": {
+        "file": "pendant-detail.png",
+        "digest": "bd6fecab8eda99dec730413d402819111c3a3439c93fd901c5409471a559e602",
+        "sizeBytes": 355766
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}

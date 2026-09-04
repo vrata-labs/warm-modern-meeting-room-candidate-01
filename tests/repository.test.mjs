@@ -84,11 +84,12 @@ test("manifest preserves the historical prefix and one current release beside ap
     isCurrent: true,
     supersededBy: undefined
   });
-  const reviews = manifest.releases.filter(({ version }) => ["0.3.0", "0.3.1", "0.3.2"].includes(version));
+  const reviews = manifest.releases.filter(({ version }) => ["0.3.0", "0.3.1", "0.3.2", "0.3.3"].includes(version));
   assert.deepEqual(reviews.map(({ version, status, isCurrent, publicationReady, supersededBy }) => ({ version, status, isCurrent, publicationReady, supersededBy })), [
     { version: "0.3.0", status: "review", isCurrent: false, publicationReady: false, supersededBy: undefined },
     { version: "0.3.1", status: "review", isCurrent: false, publicationReady: false, supersededBy: undefined },
-    { version: "0.3.2", status: "review", isCurrent: false, publicationReady: false, supersededBy: undefined }
+    { version: "0.3.2", status: "review", isCurrent: false, publicationReady: false, supersededBy: undefined },
+    { version: "0.3.3", status: "review", isCurrent: false, publicationReady: false, supersededBy: undefined }
   ]);
   assert.ok(manifest.releases.slice(0, 3).every((release) => release.files["scene.glb"].sha256 === "bc987fd7c5931eeccc23cf260011364299c636091e9b82932af2df30db7d95f5"));
   const baked = manifest.releases.find(({ version }) => version === "0.2.0");
@@ -96,6 +97,7 @@ test("manifest preserves the historical prefix and one current release beside ap
   assert.equal(reviews[0].files["scene.glb"].sha256, "fa95f93af025ca374b53d81ffef60e5dd6e77c848cc362b56763973ce2140880");
   assert.equal(reviews[1].files["scene.glb"].sha256, "e179ccc1771f2cde544e81837fb918ea8b0d6ce4d5df8d30a48c3a8516114aae");
   assert.equal(reviews[2].files["scene.glb"].sha256, "d62ffc4df7a9d66094179cdcd82a8bc40f45e2e2cbc6e55456993ad21e1f1691");
+  assert.equal(reviews[3].files["scene.glb"].sha256, "705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6");
   assert.deepEqual(
     (await readdir(resolve(root, "assets/scenes/warm-modern-meeting-room-candidate-01"))).filter((entry) => entry !== ".gitkeep").sort(),
     manifest.releases.map(({ version }) => version).sort()
@@ -295,15 +297,56 @@ test("0.3.2 visual parity policy binds park review evidence without promotion", 
   assert.equal(lock.boundaries.publicationReady, false);
 });
 
-test("release commands select 0.3.2 explicitly and preserve legacy lock selection", async () => {
+test("0.3.3 visual parity policy binds the CC0 coastal panorama without promotion", async () => {
+  const { acceptances } = await loadReleaseAcceptanceIndex(root);
+  const { lock, visualParityConfig: visual } = acceptances.find(({ record }) => record.version === "0.3.3");
+  const ledger = await json(lock.rights.releaseLedgerPath);
+  const scene = await json(`${lock.release.path}/scene.json`);
+  assert.deepEqual(visual.releaseGlb, {
+    path: "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.3/scene.glb",
+    sha256: "705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6",
+    sizeBytes: 20320032
+  });
+  assert.equal(visual.capture.platformCommit, platformValidatorCommit);
+  assert.deepEqual(visual.capture.platformPatch, {
+    path: "source/releases/0.3.3/platform-scene-visual-clean.patch",
+    sha256: "897201febe0590988cc9f199367b3099deb79c4397ed70c0eb00202dae3f9755"
+  });
+  assert.equal(visual.capture.minimumLightMappedMaterialCount, 17);
+  assert.deepEqual(visual.capture.expectedRuntime, { meshCount: 133, materialCount: 18, triangleEstimate: 52260 });
+  assert.deepEqual(visual.capture.runner.batches.flat().sort(), visual.views.map(({ id }) => id).sort());
+  assert.equal(visual.views.length, 17);
+  assert.ok(visual.views.some(({ id }) => id === "coastal-view"));
+  assert.ok(visual.views.every(({ id }) => id !== "park-view"));
+  assert.equal(lock.acceptedSource.panoramaImageSha256, "4e960796faa85fc88d8e8647a713c695bcba92f8b6b27832a28f436428425d30");
+  assert.equal(lock.visualQuality.humanAcceptance, "accepted");
+  assert.equal(lock.visualQuality.humanAcceptanceEvidencePath, "provenance/releases/0.3.3/visual-verdict-2026-09-04.md");
+  assert.equal(lock.boundaries.visualAccepted, true);
+  assert.equal(lock.boundaries.rightsApproved, true);
+  assert.equal(lock.boundaries.publicationReady, false);
+  assert.equal(scene.rights.license, "LicenseRef-Mixed-Project-Owned-CC0-1.0");
+  assert.deepEqual(scene.rights.sourceAssets.find(({ id }) => id === "asset-panorama-cannon-poly-haven-cc0"), {
+    id: "asset-panorama-cannon-poly-haven-cc0",
+    type: "texture",
+    author: "Greg Zaal / Poly Haven",
+    licenseRef: "LICENSES.md"
+  });
+  const panoramaRecord = ledger.records.find(({ id }) => id === "asset-panorama-cannon-poly-haven-cc0");
+  assert.equal(panoramaRecord.originalSha256, lock.acceptedSource.panoramaImageSha256);
+  assert.equal(panoramaRecord.manifestAuthor, "Greg Zaal / Poly Haven");
+  assert.equal(panoramaRecord.license.name, "CC0-1.0");
+  assert.equal(panoramaRecord.source.publishedMd5, "9125a8a15f6734b0366b1ab8c9e4cefc");
+});
+
+test("release commands select 0.3.3 explicitly and preserve legacy lock selection", async () => {
   const { acceptances } = await loadReleaseAcceptanceIndex(root);
   assert.equal(selectReleaseAcceptance(acceptances, { version: null, lockPath: "source/accepted-source-lock.json" }).record.version, "0.2.0");
   const packageJson = await json("package.json");
-  assert.equal(packageJson.version, "0.3.2");
-  assert.match(packageJson.scripts["build:release"], /--version 0\.3\.2$/);
-  assert.match(packageJson.scripts["validate:visual"], /--version 0\.3\.2$/);
-  assert.match(packageJson.scripts["verify:reproducibility"], /--version 0\.3\.2 --twice$/);
-  assert.match(packageJson.scripts["capture:bind"], /create-capture-binding\.mjs --version 0\.3\.2$/);
+  assert.equal(packageJson.version, "0.3.3");
+  assert.match(packageJson.scripts["build:release"], /--version 0\.3\.3$/);
+  assert.match(packageJson.scripts["validate:visual"], /--version 0\.3\.3$/);
+  assert.match(packageJson.scripts["verify:reproducibility"], /--version 0\.3\.3 --twice$/);
+  assert.match(packageJson.scripts["capture:bind"], /create-capture-binding\.mjs --version 0\.3\.3$/);
   const buildScript = await text("scripts/build-release.mjs");
   assert.match(buildScript, /SCENE_BUILD_OUTPUT_ROOT \?\? "build\/releases"/);
   assert.match(buildScript, /"--lightmap"/);

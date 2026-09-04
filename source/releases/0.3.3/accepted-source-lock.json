@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "status": "accepted-reproducible-source",
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "acceptedOn": "2026-09-04",
+  "acceptedSource": {
+    "blendPath": "source/releases/0.3.3/accepted-scene.blend",
+    "blendSha256": "12a75782181b8cbddd8c9873517678ed018238d10649ceca4fb1d8464ff60677",
+    "lightmapPath": "source/releases/0.3.3/accepted-lightmap.png",
+    "lightmapSha256": "a2ca679e41cd071652f3328bcc6454963f14162bf66c9d346841224a102080b2",
+    "realityPassScriptPath": "source/releases/0.3.3/reality-pass.py",
+    "realityPassScriptSha256": "6a928b97a212ee9ee3639c244fdb7fcccdb7c31191f091bd85475bf13aed2bc8",
+    "exportScriptPath": "source/releases/0.3.3/export-release.py",
+    "exportScriptSha256": "7eee4deb133f23038b09a03c902f3c302dbccf4af0b969e0c3367db44253da32",
+    "sceneRealityContractPath": "source/releases/0.3.3/scene-reality.json",
+    "sceneRealityContractSha256": "ada5f9d6c3d50fb167113ef12f9bb2aecd43dd4d9c29b6ed87f3f37cb174a375",
+    "userScenariosContractPath": "source/releases/0.3.3/user-scenarios.json",
+    "userScenariosContractSha256": "2cd5e1cc00eaa8ee6ad9d4d140275e85cd291737723a27a1c418f1ef2f5cec6e",
+    "panoramaImagePath": "source/releases/0.3.3/coastal-panorama-cannon.jpg",
+    "panoramaImageSha256": "4e960796faa85fc88d8e8647a713c695bcba92f8b6b27832a28f436428425d30"
+  },
+  "toolchain": {
+    "blenderVersion": "4.5.12 LTS",
+    "blenderBuildHash": "84afd5f785f7",
+    "blenderBinarySha256": "33ac108ebce3c271f5357e5c664d0488717263bcf2145c80300edd0b12c31880",
+    "gltfExporter": "Khronos glTF Blender I/O v4.5.51",
+    "reviewImageConverter": "cwebp 1.6.0",
+    "reviewImageQuality": 90,
+    "bakedLightmap": {
+      "resolution": 2048,
+      "samples": 128,
+      "scale": 0.25,
+      "device": "CUDA",
+      "transport": "emissiveTexture TEXCOORD_1 with baked-pbr-v1 metadata"
+    }
+  },
+  "captureHarness": {
+    "platformCommit": "c54edb2239d225a71e9b934316f70792b3faafb6",
+    "patchPath": "source/releases/0.3.3/platform-scene-visual-clean.patch",
+    "patchSha256": "897201febe0590988cc9f199367b3099deb79c4397ed70c0eb00202dae3f9755"
+  },
+  "reviewViews": [
+    { "id": "entry", "path": "source/releases/0.3.3/review/entry.webp", "sha256": "4370735c0b1aac0dc61c6c00f4f5d85413062857264a3ecbac69fad2320be218" },
+    { "id": "diagonal-overview", "path": "source/releases/0.3.3/review/diagonal-overview.webp", "sha256": "eb7628d6d07744c9ddd60b34619d3dd7589dac53c3138ad670a73d6516a07d6f" },
+    { "id": "seat-01-display", "path": "source/releases/0.3.3/review/seat-01-display.webp", "sha256": "7db83bc71b0f1686405f994f3c98b93c5bc99d3bdbf73ec057642f714b69b979" },
+    { "id": "seat-02-display", "path": "source/releases/0.3.3/review/seat-02-display.webp", "sha256": "79d356816187e684669f27b8d61d8fc40b26d83972cf2b10b7f2c6868ea64332" },
+    { "id": "seat-03-display", "path": "source/releases/0.3.3/review/seat-03-display.webp", "sha256": "7a72186fdbaed63db656b7528f5c49544ad08150f88c8a265a103de6c277ffab" },
+    { "id": "seat-04-display", "path": "source/releases/0.3.3/review/seat-04-display.webp", "sha256": "89567007468a987a6808f06559eabb3b0d28016b043bca2272dc6012b503cbf3" },
+    { "id": "seat-05-display", "path": "source/releases/0.3.3/review/seat-05-display.webp", "sha256": "a7a30ac98021ea107e376996d4df25de559a44b9cc75e8e4dd96b243cce3bea7" },
+    { "id": "seat-06-display", "path": "source/releases/0.3.3/review/seat-06-display.webp", "sha256": "ebf2c48650718557d1e97ca2166094bfe9be316463b7500369a1f4475e872fa7" },
+    { "id": "seat-07-display", "path": "source/releases/0.3.3/review/seat-07-display.webp", "sha256": "69d24c7ad0fceedde52ba748ad98850519700aa3300115e50713d328f7bd2028" },
+    { "id": "seat-08-display", "path": "source/releases/0.3.3/review/seat-08-display.webp", "sha256": "34c241d616f7e70319ce9e2ed67cbcd6f117516ca835669b5ce5256680d5bd97" },
+    { "id": "whiteboard-standing", "path": "source/releases/0.3.3/review/whiteboard-standing.webp", "sha256": "b04314a06ecc705e209399b9a50396f0a733e9401e9d675a5970f4f7af327ebf" },
+    { "id": "table-underside", "path": "source/releases/0.3.3/review/table-underside.webp", "sha256": "8fae4985b878123c16fe0813d2f08d32e6fc5c9f61ffed73e4714e033cbc6747" },
+    { "id": "media-wall", "path": "source/releases/0.3.3/review/media-wall.webp", "sha256": "0f6140eebcbc25ef690bf87878344708660130a2948b88ca7b67eee3e1f230e6" },
+    { "id": "door-detail", "path": "source/releases/0.3.3/review/door-detail.webp", "sha256": "37239093c3084791f76a918f2aa5c32eb89feb996e7fb4920089e5939d4913df" },
+    { "id": "window-detail", "path": "source/releases/0.3.3/review/window-detail.webp", "sha256": "fa985782ada589657a1a764b406a2cba7c75b80e3d519a942dc50dcba8661124" },
+    { "id": "coastal-view", "path": "source/releases/0.3.3/review/coastal-view.webp", "sha256": "7f8ced4ba47ea759a83f59d5bcf7fffb4bb09f3919f132a318c9b63b8ecb09f3" },
+    { "id": "pendant-detail", "path": "source/releases/0.3.3/review/pendant-detail.webp", "sha256": "d2953aaa7f9f28b2b792b8899bed29b945b1694768e449485217f3e495b4464e" }
+  ],
+  "rights": {
+    "decision": "approved",
+    "evidencePath": "provenance/releases/0.3.3/rights-verdict-2026-09-04.md",
+    "releaseLedgerPath": "provenance/releases/0.3.3/release-asset-ledger.json"
+  },
+  "release": {
+    "version": "0.3.3",
+    "path": "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.3",
+    "sceneManifestSha256": "778a95ed74c73e9a086eb56a99ab0e2ac474163af59f3dbc2fead7249a054212",
+    "glbSha256": "705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6",
+    "previewSha256": "4370735c0b1aac0dc61c6c00f4f5d85413062857264a3ecbac69fad2320be218"
+  },
+  "runtimeCoordinates": {
+    "transform": "x=x,y=z,z=-y",
+    "reason": "Blender Z-up source maps positive Blender Y to runtime negative Z during glTF Y-up export",
+    "evidencePath": "provenance/releases/0.3.3/runtime-coordinates.json"
+  },
+  "reproducibility": {
+    "scope": "same-host-same-blender-binary-two-run",
+    "runs": 2,
+    "result": "byte-identical-glb",
+    "sha256": "705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6"
+  },
+  "visualQuality": {
+    "evidencePath": "provenance/releases/0.3.3/visual-parity.json",
+    "reviewViews": 17,
+    "phashTotal": 957.6703,
+    "nccMean": 0.5075627647058822,
+    "result": "passed",
+    "humanAcceptance": "accepted",
+    "humanAcceptanceEvidencePath": "provenance/releases/0.3.3/visual-verdict-2026-09-04.md"
+  },
+  "boundaries": {
+    "visualAccepted": true,
+    "rightsApproved": true,
+    "acceptedSourceStored": true,
+    "releaseGlbVerified": true,
+    "publicationReady": false
+  }
+}

@@ -1,0 +1,23 @@
+Mixed Project-Owned And CC0 Release Notice
+
+Project: Vrata
+Scene: warm-modern-meeting-room-candidate-01
+Release: 0.3.3
+Approved: 2026-09-04
+
+The meeting-room geometry, procedural materials, panorama sphere, Blender
+source, reality and export scripts, lightmap, review renders, GLB, preview,
+capture harness patch, and release metadata are project-authored Vrata work.
+Copyright Vrata. The human rights owner approved the project-authored assets
+listed by provenance/releases/0.3.3/release-asset-ledger.json for the release
+scope below.
+
+The embedded Cannon coastal panorama is by Greg Zaal and is published by Poly
+Haven under Creative Commons Zero v1.0 Universal (CC0 1.0). Its exact source,
+digest, and license references are recorded in poly-haven-cannon-cc0.txt.
+
+The approved release scope is staging, production, web runtime, screenshots,
+optimization, derivative builds, commercial use, and redistribution in a
+publicly downloadable scene bundle. Attribution for the CC0 asset is retained
+for provenance. This rights grant is separate from the recorded human visual
+acceptance and does not promote release 0.3.3 or make it current.
