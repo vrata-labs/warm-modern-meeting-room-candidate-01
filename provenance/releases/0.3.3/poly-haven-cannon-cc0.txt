@@ -1,0 +1,22 @@
+Poly Haven Cannon CC0 Source Record
+
+Asset: Cannon
+Creator: Greg Zaal
+Provider: Poly Haven
+Acquired: 2026-09-04
+
+Asset page: https://polyhaven.com/a/cannon
+Metadata API: https://api.polyhaven.com/info/cannon
+Downloaded file: https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/cannon.jpg
+Poly Haven license statement: https://polyhaven.com/license
+CC0 legal reference: https://creativecommons.org/publicdomain/zero/1.0/
+
+The downloaded tonemapped JPEG is 8192x4096 pixels, 5104291 bytes,
+SHA-256 4e960796faa85fc88d8e8647a713c695bcba92f8b6b27832a28f436428425d30,
+and matches the Poly Haven published MD5 9125a8a15f6734b0366b1ab8c9e4cefc.
+
+Poly Haven identifies its assets as CC0. The source photograph is retained
+unchanged and embedded as the emissive texture of the release panorama sphere.
+Attribution is not required by CC0 and is retained in release metadata for
+provenance. This factual source record does not itself constitute project human
+rights approval or a release promotion decision.

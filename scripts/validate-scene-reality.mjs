@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const repositoryRoot = resolve(import.meta.dirname, "..");
 const SCENE_ID = "warm-modern-meeting-room-candidate-01";
-const RELEASE_VERSION = "0.3.2";
+const RELEASE_VERSION = "0.3.3";
 const REALITY_PATH = `source/releases/${RELEASE_VERSION}/scene-reality.json`;
 const SCENARIOS_PATH = `source/releases/${RELEASE_VERSION}/user-scenarios.json`;
 const DEFAULT_RELEASE_ROOT = `assets/scenes/${SCENE_ID}/${RELEASE_VERSION}`;
@@ -23,14 +23,9 @@ const expectedObjects = [
   ["conference-table", "passive", ["top", "pedestal-west-base", "pedestal-west-column", "pedestal-east-base", "pedestal-east-column"]],
   ["conference-table-cable-management", "deferred", ["cable-cover", "cable-cover-support"]],
   ["debug-main", "interactive", ["frame", "surface"]],
-  ["exterior-park-furnishing", "passive", ["bench-supports", "bench-seat", "bench-back"]],
-  ["exterior-park-grove", "passive", ["tree-trunks", "tree-canopies"]],
-  ["exterior-park-horizon", "passive", ["hills", "tree-line"]],
-  ["exterior-park-landscape", "passive", ["path", "pond-water", "pond-rim"]],
-  ["exterior-site", "passive", ["near-ground"]],
-  ["exterior-sky", "passive", ["dome"]],
+  ["exterior-panorama", "passive", ["sphere"]],
   ["main-door", "deferred", ["panel", "handle-rosette", "handle-spindle", "handle-lever", "frame-head", "frame-left", "frame-right"]],
-  ["main-window", "passive", ["glass", "glazing-bead-bottom", "glazing-bead-top", "glazing-bead-left", "glazing-bead-right", "frame-bottom", "frame-head", "frame-left", "frame-right", "reveal-head", "reveal-left", "reveal-right", "sill"]],
+  ["main-window", "passive", ["glazing-bead-bottom", "glazing-bead-top", "glazing-bead-left", "glazing-bead-right", "frame-bottom", "frame-head", "frame-left", "frame-right", "reveal-head", "reveal-left", "reveal-right", "sill"]],
   ["media-wall-acoustics", "passive", ["panel-01", "panel-01-mount-lower", "panel-01-mount-upper", "panel-02", "panel-02-mount-lower", "panel-02-mount-upper", "panel-03", "panel-03-mount-lower", "panel-03-mount-upper"]],
   ["pendant-fixture", "passive", ["canopy-west", "diffuser-west", "cable-west-left", "cable-west-right", "housing-west", "canopy-east", "diffuser-east", "cable-east-left", "cable-east-right", "housing-east"]],
   ["room-shell", "passive", ["floor", "ceiling", "walls"]],
@@ -126,6 +121,10 @@ const expectedExtrasMetrics = [
   ["speakerphone-device-type", "conference-speakerphone", "body", "vrataDeviceType", "conference-speakerphone"],
   ["plant-corner-id", "route-safe-plant", "pot", "vrataCornerId", "north-west"],
   ["plant-minimum-route-margin", "route-safe-plant", "pot", "vrataMinimumRouteMarginM", 0.35],
+  ["panorama-source-asset", "exterior-panorama", "sphere", "vrataSourceAssetId", "asset-panorama-cannon-poly-haven-cc0"],
+  ["panorama-source-sha256", "exterior-panorama", "sphere", "vrataPanoramaSha256", "4e960796faa85fc88d8e8647a713c695bcba92f8b6b27832a28f436428425d30"],
+  ["panorama-radius", "exterior-panorama", "sphere", "vrataPanoramaRadiusM", 40],
+  ["panorama-yaw", "exterior-panorama", "sphere", "vrataPanoramaYawDegrees", 45],
   ...Array.from({ length: 8 }, (_, index) => {
     const chairId = `chair-${String(index + 1).padStart(2, "0")}`;
     return [
@@ -146,19 +145,14 @@ export function expectedMeshNodeName(objectId, partId) {
   if (objectId === "conference-table") return `component.conference-table.${partId}`;
   if (objectId === "conference-table-cable-management") return `component.conference-table.${partId}`;
   if (objectId === "debug-main") return `media.debug-main.${partId === "surface" ? "backing" : partId}`;
-  if (objectId === "exterior-park-furnishing") return `exterior.park.${partId}`;
-  if (objectId === "exterior-park-grove") return `exterior.park.${partId}`;
-  if (objectId === "exterior-park-horizon") return `exterior.park.${partId}`;
-  if (objectId === "exterior-park-landscape") return `exterior.park.${partId}`;
-  if (objectId === "exterior-site") return "exterior.near-ground";
-  if (objectId === "exterior-sky") return "exterior.sky-dome";
+  if (objectId === "exterior-panorama") return "exterior.coastal-panorama";
   if (objectId === "main-door") {
     if (partId === "panel") return "opening.main-door.panel";
     if (partId.startsWith("handle-")) return `opening.main-door.hardware.${partId.slice("handle-".length)}`;
     return `opening.main-door.${partId.replace("-", ".")}`;
   }
   if (objectId === "main-window") {
-    if (partId === "glass" || partId === "sill" || partId.startsWith("glazing-bead-")) return `opening.main-window.${partId}`;
+    if (partId === "sill" || partId.startsWith("glazing-bead-")) return `opening.main-window.${partId}`;
     return `opening.main-window.${partId.replace("-", ".")}`;
   }
   if (objectId === "media-wall-acoustics") return `reality.media-wall.acoustic-${partId}`;
@@ -252,7 +246,7 @@ function validateSupportDag(reality, partByKey) {
   assertUnique(rootKeys, "duplicate_support_root");
   assertCanonicalEqual(reality.supportRoots, [
     { objectId: "room-shell", partId: "floor" },
-    { objectId: "exterior-site", partId: "near-ground" }
+    { objectId: "exterior-panorama", partId: "sphere" }
   ], "support_roots_drift");
   const rootSet = new Set(rootKeys);
   let supportEdges = 0;
@@ -936,7 +930,7 @@ export function validateGlbDocument(document, reality, scenarios, realityContext
       assert(extras.vrataBakeExclusionReason === "transparent-glass", `invalid_mesh_bake_exclusion:${name}`);
       transparentExclusions.add(key);
     } else if (extras.vrataBakePolicy === "exclude-unlit-background") {
-      assert(extras.vrataBakeExclusionReason === "unlit-sky", `invalid_mesh_sky_exclusion:${name}`);
+      assert(extras.vrataBakeExclusionReason === "unlit-panorama", `invalid_mesh_panorama_exclusion:${name}`);
       unlitExclusions.add(key);
     }
     const localBounds = meshLocalBounds(document, node.mesh, name);
@@ -951,8 +945,8 @@ export function validateGlbDocument(document, reality, scenarios, realityContext
   assert(meshNodes.length === expectedPartKeys.length, `glb_mesh_node_count_mismatch:${meshNodes.length}`);
   assertCanonicalEqual([...nodeByPart.keys()].sort(), [...expectedPartKeys].sort(), "glb_object_part_set_drift");
   assertCanonicalEqual(statuses, expectedPartsByStatus, "glb_status_counts_drift");
-  assertCanonicalEqual([...transparentExclusions].sort(), ["main-window/glass"], "glb_transparent_exclusions_drift");
-  assertCanonicalEqual([...unlitExclusions].sort(), ["exterior-sky/dome"], "glb_unlit_exclusions_drift");
+  assertCanonicalEqual([...transparentExclusions].sort(), [], "glb_transparent_exclusions_drift");
+  assertCanonicalEqual([...unlitExclusions].sort(), ["exterior-panorama/sphere"], "glb_unlit_exclusions_drift");
   const objectBounds = new Map([...objectPartBounds].map(([objectId, bounds]) => [objectId, unionBounds(bounds, `object_bounds_missing:${objectId}`)]));
   const geometry = validateGeometryAcceptance(partBounds, objectBounds, nodeByPart, reality, scenarios);
   return { meshNodeCount: meshNodes.length, objectCount: objectBounds.size, ...geometry };
@@ -1019,7 +1013,7 @@ export async function runSceneRealityValidation(options = {}) {
   if (!scenePath && !glbPath) {
     const [defaultSceneExists, defaultGlbExists] = await Promise.all([exists(defaultScenePath), exists(defaultGlbPath)]);
     if (defaultSceneExists || defaultGlbExists) {
-      assert(defaultSceneExists && defaultGlbExists, "incomplete_0_3_0_release_artifacts");
+      assert(defaultSceneExists && defaultGlbExists, "incomplete_0_3_3_release_artifacts");
       scenePath = defaultScenePath;
     }
   }

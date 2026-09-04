@@ -412,6 +412,18 @@ for (const { record, lock, visualParityConfig } of acceptances) {
   const releaseLedger = await json(repositoryFilePath(root, lock.rights.releaseLedgerPath));
   assert(releaseLedger.schemaVersion === 1 && releaseLedger.sceneId === config.sceneId
     && releaseLedger.releaseVersion === version, `invalid_release_asset_ledger:${version}`);
+  const releaseRecordIds = releaseLedger.records?.map(({ id }) => id) ?? [];
+  assert(releaseRecordIds.length > 0 && new Set(releaseRecordIds).size === releaseRecordIds.length,
+    `invalid_release_asset_record_set:${version}`);
+  for (const assetRecord of releaseLedger.records) {
+    if (assetRecord.repositoryPath !== undefined) {
+      assert((await fileRecord(repositoryFilePath(root, assetRecord.repositoryPath))).sha256 === assetRecord.originalSha256,
+        `release_asset_digest_drift:${version}:${assetRecord.id}`);
+    }
+    if (assetRecord.license?.reference !== undefined) {
+      await readFile(repositoryFilePath(root, assetRecord.license.reference, `invalid_asset_license_path:${version}:${assetRecord.id}`));
+    }
+  }
   assert(releaseLedger.approval?.decision === "approved"
     && releaseLedger.allowedUse?.staging === true
     && releaseLedger.allowedUse?.production === true
@@ -772,12 +784,16 @@ for (const release of manifest.releases) {
   assert(scene.rights?.sourceAssets?.length > 0, `missing_rights_provenance:${releaseKey}`);
   const rightsLedger = releaseLedgerByVersion.get(release.version) ?? (historicalReleaseVersions.includes(release.version) ? releaseAssetLedger : null);
   assert(rightsLedger, `release_rights_ledger_missing:${releaseKey}`);
-  const rightsRecordIds = rightsLedger.records.map(({ id }) => id);
+  const rightsRecordsById = new Map(rightsLedger.records.map((record) => [record.id, record]));
   assert(scene.rights?.owner === "vrata"
     && scene.rights?.license === rightsLedger.license.name
     && ["staging", "production", "web-runtime", "screenshots", "optimization", "redistribution"].every((use) => scene.rights.clearedFor?.includes(use)), `invalid_release_rights:${releaseKey}`);
-  assert(scene.rights.sourceAssets.every(({ id, author, licenseRef }) => rightsRecordIds.includes(id)
-    && author === "Vrata project team" && licenseRef === "LICENSES.md"), `invalid_release_source_asset_binding:${releaseKey}`);
+  assert(scene.rights.sourceAssets.every(({ id, author, licenseRef }) => {
+    const record = rightsRecordsById.get(id);
+    const expectedAuthor = record?.manifestAuthor
+      ?? (record?.authorProvider === "project-team" ? "Vrata project team" : null);
+    return record !== undefined && author === expectedAuthor && licenseRef === "LICENSES.md";
+  }), `invalid_release_source_asset_binding:${releaseKey}`);
   assert(!/(^\/|^[A-Za-z]:[\\/]|^\\\\|\/home\/|\/mnt\/)/.test(scene.source ?? ""), `private_source_path:${releaseKey}`);
   assert(!/(alpha|beta|curated|ai[- ]?generated)/i.test(scene.label ?? ""), `non_neutral_release_label:${releaseKey}`);
   if (release.status === "review") {
