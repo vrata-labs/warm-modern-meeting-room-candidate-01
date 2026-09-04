@@ -137,3 +137,10 @@ procedural park and sky geometry. Rights and human visual acceptance are recorde
 for the exact deterministic GLB and seventeen-view runtime evidence. The release
 remains non-current and `publicationReady` remains false until a separate explicit
 promotion decision.
+
+The full-SHA release at merge commit
+`75dee4bfab39bd5965a867a5c44259dda4a53c26` passed staging runtime verification
+with `sceneDebug.state=loaded`, the expected main spawn, visible interior and park,
+matching asset bytes, and zero missing assets. Public staging report
+`rpt_acfa6ee5-a23c-4d22-a772-7a4e666c5f40` was captured in review room
+`8adc89d4-aeb0-4214-825c-c96001ecaeee` without promoting the release.
