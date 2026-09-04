@@ -144,3 +144,21 @@ with `sceneDebug.state=loaded`, the expected main spawn, visible interior and pa
 matching asset bytes, and zero missing assets. Public staging report
 `rpt_acfa6ee5-a23c-4d22-a772-7a4e666c5f40` was captured in review room
 `8adc89d4-aeb0-4214-825c-c96001ecaeee` without promoting the release.
+
+Release `0.3.3` is an append-only coastal panorama correction review release and
+leaves `0.2.0` current. It preserves the accepted interior while replacing the
+modeled park and artifact-producing window glass with one unlit panorama sphere
+using the CC0 `Cannon` panorama by Greg Zaal / Poly Haven. Human visual and rights
+acceptance are recorded for the exact seventeen-view evidence; the release
+remains non-current and `publicationReady` remains false.
+
+The full-SHA release at merge commit
+`5580a7b080cf6195e28ebc77b654fd71111b0cd1` passed staging runtime verification
+with `sceneDebug.state=loaded`, the expected main spawn, visible interior and
+coastal panorama, all `20,320,032` GLB bytes loaded, 133 meshes, 18 materials,
+52,260 triangles, and zero missing assets. The network-fetched manifest matched
+SHA-256 `778a95ed74c73e9a086eb56a99ab0e2ac474163af59f3dbc2fead7249a054212`.
+Public staging report `rpt_f07947a9-12a1-4fff-ac56-d5bbc23b518d` was captured in
+review room `8adc89d4-aeb0-4214-825c-c96001ecaeee` without promoting the release.
+The full deployed-platform staging suite passed all 38 scenarios against platform
+commit `892e4c1ed34145d39fe33e5f6026bad5da4d386c`.
