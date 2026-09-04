@@ -129,3 +129,11 @@ closes the window glass-to-frame contacts. The accepted source binds 26 objects,
 137 mesh parts, 18 role-based user scenarios, a deterministic 2048px baked atlas,
 and sixteen fixed Blender/runtime review views. Human visual acceptance remains
 pending, so `isCurrent` and `publicationReady` remain false.
+
+Release `0.3.2` is an append-only park correction review release and leaves
+`0.2.0` current. It preserves the accepted interior and collaboration whiteboard
+while replacing the former gray neighboring volume with project-authored
+procedural park and sky geometry. Rights and human visual acceptance are recorded
+for the exact deterministic GLB and seventeen-view runtime evidence. The release
+remains non-current and `publicationReady` remains false until a separate explicit
+promotion decision.

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "version": "0.3.2",
+  "label": "Warm Modern Meeting Room Candidate 01",
+  "source": "Vrata project-authored deterministic Blender reality and baked-lightmap pass",
+  "glbPath": "scene.glb",
+  "renderMode": "clean",
+  "renderProfile": "baked-pbr-v1",
+  "spawnPoints": [
+    {
+      "id": "main",
+      "position": { "x": 2.6, "y": 0, "z": 1.64 },
+      "yaw": 1.0648120280696147
+    }
+  ],
+  "anchors": {
+    "teleportFloorY": 0,
+    "seatAnchors": [
+      { "id": "seat-01", "position": { "x": -1.95, "y": 0, "z": -1.15 }, "yaw": 3.141593, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 01" },
+      { "id": "seat-02", "position": { "x": -0.95, "y": 0, "z": -1.15 }, "yaw": 3.141593, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 02" },
+      { "id": "seat-03", "position": { "x": 0.05, "y": 0, "z": -1.15 }, "yaw": 3.141593, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 03" },
+      { "id": "seat-04", "position": { "x": 1.05, "y": 0, "z": -1.15 }, "yaw": 3.141593, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 04" },
+      { "id": "seat-05", "position": { "x": -1.95, "y": 0, "z": 1.1 }, "yaw": 0, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 05" },
+      { "id": "seat-06", "position": { "x": -0.95, "y": 0, "z": 1.1 }, "yaw": 0, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 06" },
+      { "id": "seat-07", "position": { "x": 0.05, "y": 0, "z": 1.1 }, "yaw": 0, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 07" },
+      { "id": "seat-08", "position": { "x": 1.05, "y": 0, "z": 1.1 }, "yaw": 0, "seatHeight": 0.47, "radius": 0.4, "label": "Seat 08" }
+    ]
+  },
+  "mediaSurfaces": [
+    {
+      "surfaceId": "debug-main",
+      "label": "Shared display",
+      "kind": "wall",
+      "widthM": 3.2,
+      "heightM": 1.8,
+      "widthPx": 1920,
+      "heightPx": 1080,
+      "transform": { "x": -3.31, "y": 1.55, "z": -0.15, "yaw": 1.5707963267948966 },
+      "visible": true
+    },
+    {
+      "surfaceId": "whiteboard-wall",
+      "label": "Collaboration wall",
+      "kind": "wall",
+      "widthM": 2.4,
+      "heightM": 1.25,
+      "widthPx": 1920,
+      "heightPx": 1000,
+      "transform": { "x": 3.31, "y": 1.5, "z": 0, "yaw": -1.5707963267948966 },
+      "visible": true
+    }
+  ],
+  "bounds": { "width": 19, "height": 5.98, "depth": 18.59 },
+  "preview": "preview.webp",
+  "rights": {
+    "owner": "vrata",
+    "license": "LicenseRef-Project-Owned-Release",
+    "clearedFor": ["staging", "production", "web-runtime", "screenshots", "optimization", "redistribution"],
+    "sourceAssets": [
+      { "id": "asset-accepted-scene-source-project", "type": "mesh", "author": "Vrata project team", "licenseRef": "LICENSES.md" },
+      { "id": "asset-baked-lightmap-project", "type": "texture", "author": "Vrata project team", "licenseRef": "LICENSES.md" },
+      { "id": "asset-texture-mineral-plaster-project", "type": "texture", "author": "Vrata project team", "licenseRef": "LICENSES.md" },
+      { "id": "asset-texture-floor-oak-project", "type": "texture", "author": "Vrata project team", "licenseRef": "LICENSES.md" },
+      { "id": "asset-texture-warm-oak-project", "type": "texture", "author": "Vrata project team", "licenseRef": "LICENSES.md" },
+      { "id": "asset-texture-graphite-metal-project", "type": "texture", "author": "Vrata project team", "licenseRef": "LICENSES.md" },
+      { "id": "asset-texture-sand-fabric-project", "type": "texture", "author": "Vrata project team", "licenseRef": "LICENSES.md" },
+      { "id": "asset-texture-grey-green-fabric-project", "type": "texture", "author": "Vrata project team", "licenseRef": "LICENSES.md" },
+      { "id": "asset-texture-exterior-vegetation-project", "type": "texture", "author": "Vrata project team", "licenseRef": "LICENSES.md" },
+      { "id": "asset-texture-ground-mineral-project", "type": "texture", "author": "Vrata project team", "licenseRef": "LICENSES.md" },
+      { "id": "asset-exterior-park-procedural-project", "type": "mesh", "author": "Vrata project team", "licenseRef": "LICENSES.md" },
+      { "id": "asset-exterior-sky-procedural-project", "type": "mesh", "author": "Vrata project team", "licenseRef": "LICENSES.md" }
+    ]
+  },
+  "visual": {
+    "intentionalDark": false,
+    "reviewStage": "accepted"
+  },
+  "notes": "Human-accepted review-only eight-seat warm-modern meeting-room release with the accepted interior preserved and the former neighboring-building mock replaced by a layered park exterior. The new view includes a winding path, pond, bench, sparse grove, distant hills and tree belt, plus an unlit three-tone sky dome. This version remains non-current and does not replace the current release without an explicit promotion decision."
+}
