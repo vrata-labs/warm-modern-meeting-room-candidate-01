@@ -3,6 +3,13 @@
 Single-scene source and immutable release repository for the neutral
 warm-modern meeting-room candidate `01`.
 
+The transferable authoring rules are the platform [scene-quality contract](https://github.com/vrata-labs/platform/blob/8ba49739d44518a3e877bc93432be591ce2e72da/docs/scene-quality-contract.md)
+and [task packet](https://github.com/vrata-labs/platform/blob/8ba49739d44518a3e877bc93432be591ce2e72da/docs/scene-authoring-task-template.md).
+This room's 0.3.3 at `5580a7b080cf6195e28ebc77b654fd71111b0cd1` is the accepted
+visual benchmark for the shared realistic quality level. Future rooms inherit
+its User/Builder/Physics and visual lessons, not its layout. Technical validators
+remain necessary but do not certify another room's visual quality.
+
 The shared experiment, brief, schemas, and cross-candidate reports live in
 `vrata-labs/warm-modern-meeting-room-scene-factory`. The normative plan lives
 in `vrata-labs/platform` at
