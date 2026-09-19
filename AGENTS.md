@@ -8,3 +8,11 @@
 - Every accepted external or generated asset needs a complete provenance record and human rights approval before publication.
 - Published release paths are immutable and runtime URLs use full commit SHA.
 - Run `pnpm validate && pnpm test` before commit and push.
+
+## Shared scene-quality workflow
+
+- Every new or resumed scene task reads the [shared quality contract](https://github.com/vrata-labs/platform/blob/8ba49739d44518a3e877bc93432be591ce2e72da/docs/scene-quality-contract.md) and uses its [task packet](https://github.com/vrata-labs/platform/blob/8ba49739d44518a3e877bc93432be591ce2e72da/docs/scene-authoring-task-template.md). Record the exact revision and later applicable feedback.
+- Preserve the User/Builder/Physics lessons from this room: every object has meaning, plausible use, construction/materials and real support. Passive/deferred props remain valid without implemented runtime interaction.
+- Inspect actual source/browser images against the accepted 0.3.3 visual benchmark, including photographic panorama quality. Mesh tags, hash identity, loaded-state and self-calibrated image metrics cannot replace this inspection.
+- Failed quality checks or unresolved user rejection mean `REWORK_REQUIRED`. General feedback must update the shared process and every affected scene task before the next room; local fixes alone do not close that obligation.
+- Documentation-only updates do not require rebuilding unchanged scene binaries.
