@@ -1,0 +1,835 @@
+{
+  "platformCommit": "33c7485ffa1773105c496b43542ea53bf4c5ae9a",
+  "variant": "candidate",
+  "assetSha256": "7553a8dea3dd61521b887bba5657f5f2f8bd37b9bed6e0b2337396f08dacb2cb",
+  "assetBytes": 11576640,
+  "syntheticReviewCameras": true,
+  "policy": {
+    "stripAnchors": true,
+    "avatarsEnabled": true,
+    "fallbackCapsules": false,
+    "seatAvatars": false,
+    "mediaSurfacesVisible": true
+  },
+  "cameras": [
+    {
+      "id": "entry",
+      "requestedEye": {
+        "x": 2.6,
+        "y": 1.6,
+        "z": 1.64
+      },
+      "fovDegrees": 58,
+      "camera": {
+        "world": {
+          "x": 2.6,
+          "y": 1.6,
+          "z": 1.64
+        },
+        "forward": {
+          "x": -0.866,
+          "y": -0.142,
+          "z": -0.48
+        }
+      }
+    },
+    {
+      "id": "diagonal-overview",
+      "requestedEye": {
+        "x": -2.8,
+        "y": 1.6,
+        "z": 2
+      },
+      "fovDegrees": 62,
+      "camera": {
+        "world": {
+          "x": -2.8,
+          "y": 1.6,
+          "z": 2
+        },
+        "forward": {
+          "x": 0.747,
+          "y": -0.127,
+          "z": -0.652
+        }
+      }
+    },
+    {
+      "id": "seat-01-display",
+      "requestedEye": {
+        "x": -1.95,
+        "y": 1.2,
+        "z": -1.15
+      },
+      "fovDegrees": 55,
+      "camera": {
+        "world": {
+          "x": -1.95,
+          "y": 1.2,
+          "z": -1.15
+        },
+        "forward": {
+          "x": -0.794,
+          "y": 0.185,
+          "z": 0.579
+        }
+      }
+    },
+    {
+      "id": "seat-02-display",
+      "requestedEye": {
+        "x": -0.95,
+        "y": 1.2,
+        "z": -1.15
+      },
+      "fovDegrees": 55,
+      "camera": {
+        "world": {
+          "x": -0.95,
+          "y": 1.2,
+          "z": -1.15
+        },
+        "forward": {
+          "x": -0.914,
+          "y": 0.123,
+          "z": 0.386
+        }
+      }
+    },
+    {
+      "id": "seat-03-display",
+      "requestedEye": {
+        "x": 0.05,
+        "y": 1.2,
+        "z": -1.15
+      },
+      "fovDegrees": 55,
+      "camera": {
+        "world": {
+          "x": 0.05,
+          "y": 1.2,
+          "z": -1.15
+        },
+        "forward": {
+          "x": -0.955,
+          "y": 0.091,
+          "z": 0.283
+        }
+      }
+    },
+    {
+      "id": "seat-04-display",
+      "requestedEye": {
+        "x": 1.05,
+        "y": 1.2,
+        "z": -1.15
+      },
+      "fovDegrees": 55,
+      "camera": {
+        "world": {
+          "x": 1.05,
+          "y": 1.2,
+          "z": -1.15
+        },
+        "forward": {
+          "x": -0.972,
+          "y": 0.071,
+          "z": 0.223
+        }
+      }
+    },
+    {
+      "id": "seat-05-display",
+      "requestedEye": {
+        "x": -1.95,
+        "y": 1.2,
+        "z": 1.1
+      },
+      "fovDegrees": 55,
+      "camera": {
+        "world": {
+          "x": -1.95,
+          "y": 1.2,
+          "z": 1.1
+        },
+        "forward": {
+          "x": -0.728,
+          "y": 0.17,
+          "z": -0.664
+        }
+      }
+    },
+    {
+      "id": "seat-06-display",
+      "requestedEye": {
+        "x": -0.95,
+        "y": 1.2,
+        "z": 1.1
+      },
+      "fovDegrees": 55,
+      "camera": {
+        "world": {
+          "x": -0.95,
+          "y": 1.2,
+          "z": 1.1
+        },
+        "forward": {
+          "x": -0.878,
+          "y": 0.119,
+          "z": -0.463
+        }
+      }
+    },
+    {
+      "id": "seat-07-display",
+      "requestedEye": {
+        "x": 0.05,
+        "y": 1.2,
+        "z": 1.1
+      },
+      "fovDegrees": 55,
+      "camera": {
+        "world": {
+          "x": 0.05,
+          "y": 1.2,
+          "z": 1.1
+        },
+        "forward": {
+          "x": -0.934,
+          "y": 0.089,
+          "z": -0.346
+        }
+      }
+    },
+    {
+      "id": "seat-08-display",
+      "requestedEye": {
+        "x": 1.05,
+        "y": 1.2,
+        "z": 1.1
+      },
+      "fovDegrees": 55,
+      "camera": {
+        "world": {
+          "x": 1.05,
+          "y": 1.2,
+          "z": 1.1
+        },
+        "forward": {
+          "x": -0.959,
+          "y": 0.07,
+          "z": -0.274
+        }
+      }
+    },
+    {
+      "id": "whiteboard-standing",
+      "requestedEye": {
+        "x": 1.62,
+        "y": 1.65,
+        "z": 0.12
+      },
+      "fovDegrees": 52,
+      "camera": {
+        "world": {
+          "x": 1.62,
+          "y": 1.65,
+          "z": 0.12
+        },
+        "forward": {
+          "x": 0.991,
+          "y": -0.117,
+          "z": -0.07
+        }
+      }
+    },
+    {
+      "id": "table-underside",
+      "requestedEye": {
+        "x": -0.45,
+        "y": 0.29,
+        "z": 0.91
+      },
+      "fovDegrees": 68,
+      "camera": {
+        "world": {
+          "x": -0.45,
+          "y": 0.29,
+          "z": 0.91
+        },
+        "forward": {
+          "x": 0,
+          "y": 0.073,
+          "z": -0.997
+        }
+      }
+    },
+    {
+      "id": "media-wall",
+      "requestedEye": {
+        "x": 1.52,
+        "y": 1.55,
+        "z": -0.15
+      },
+      "fovDegrees": 60,
+      "camera": {
+        "world": {
+          "x": 1.52,
+          "y": 1.55,
+          "z": -0.15
+        },
+        "forward": {
+          "x": -0.999,
+          "y": -0.039,
+          "z": 0
+        }
+      }
+    },
+    {
+      "id": "door-detail",
+      "requestedEye": {
+        "x": 2.25,
+        "y": 1.22,
+        "z": 1.42
+      },
+      "fovDegrees": 44,
+      "camera": {
+        "world": {
+          "x": 2.25,
+          "y": 1.22,
+          "z": 1.42
+        },
+        "forward": {
+          "x": -0.27,
+          "y": -0.158,
+          "z": 0.95
+        }
+      }
+    },
+    {
+      "id": "window-detail",
+      "requestedEye": {
+        "x": -0.2,
+        "y": 1.62,
+        "z": -0.1
+      },
+      "fovDegrees": 54,
+      "camera": {
+        "world": {
+          "x": -0.2,
+          "y": 1.62,
+          "z": -0.1
+        },
+        "forward": {
+          "x": 0,
+          "y": -0.008,
+          "z": -1
+        }
+      }
+    },
+    {
+      "id": "coastal-view",
+      "requestedEye": {
+        "x": 0,
+        "y": 1.58,
+        "z": 0.62
+      },
+      "fovDegrees": 62,
+      "camera": {
+        "world": {
+          "x": 0,
+          "y": 1.58,
+          "z": 0.62
+        },
+        "forward": {
+          "x": 0,
+          "y": -0.06,
+          "z": -0.998
+        }
+      }
+    },
+    {
+      "id": "pendant-detail",
+      "requestedEye": {
+        "x": -0.45,
+        "y": 2.08,
+        "z": 0.82
+      },
+      "fovDegrees": 50,
+      "camera": {
+        "world": {
+          "x": -0.45,
+          "y": 2.08,
+          "z": 0.82
+        },
+        "forward": {
+          "x": 0,
+          "y": 0.638,
+          "z": -0.77
+        }
+      }
+    }
+  ],
+  "debug": {
+    "bundleUrl": "candidate/scene.json",
+    "state": "loaded",
+    "failureReason": null,
+    "loadStage": "loaded",
+    "assetBytesLoaded": 11576640,
+    "assetBytesExpected": null,
+    "label": "Warm Modern Meeting Room Candidate 01",
+    "source": "Vrata deterministic Blender reality pass with a Poly Haven CC0 coastal panorama",
+    "renderProfile": "baked-pbr-v1",
+    "assetUrl": "candidate/scene.glb",
+    "assetType": "glb",
+    "spawnPointId": "main",
+    "spawnYaw": 1.0648120280696147,
+    "spawnApplied": true,
+    "loadMs": 1189,
+    "renderProfileApplyMs": 73,
+    "objectCount": 135,
+    "meshCount": 133,
+    "materialCount": 18,
+    "texturedMaterialCount": 133,
+    "lightMappedMaterialCount": 17,
+    "geometryCount": 133,
+    "triangleEstimate": 52260,
+    "textureCount": 25,
+    "missingAssets": [],
+    "materialSamples": [
+      {
+        "name": "material.graphite-metal",
+        "meshCount": 84,
+        "hasMap": true,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.3,
+        "metalness": 0.78,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.warm-oak",
+        "meshCount": 14,
+        "hasMap": true,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 6,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.5,
+        "metalness": 0,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.sand-fabric",
+        "meshCount": 12,
+        "hasMap": true,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.84,
+        "metalness": 0,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.muted-grey-green-fabric",
+        "meshCount": 4,
+        "hasMap": true,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.86,
+        "metalness": 0,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.reality.acoustic",
+        "meshCount": 3,
+        "hasMap": false,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.9,
+        "metalness": 0,
+        "color": {
+          "r": 0.242,
+          "g": 0.279,
+          "b": 0.246
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.mineral-plaster",
+        "meshCount": 2,
+        "hasMap": true,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.82,
+        "metalness": 0,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.exterior-vegetation",
+        "meshCount": 2,
+        "hasMap": true,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.9,
+        "metalness": 0,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.reality.diffuser",
+        "meshCount": 2,
+        "hasMap": false,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.4,
+        "metalness": 0,
+        "color": {
+          "r": 0.88,
+          "g": 0.658,
+          "b": 0.386
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.review-floor-oak",
+        "meshCount": 1,
+        "hasMap": true,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 5,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.64,
+        "metalness": 0,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.reality.display",
+        "meshCount": 1,
+        "hasMap": false,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 5,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.3,
+        "metalness": 0,
+        "color": {
+          "r": 0.006,
+          "g": 0.019,
+          "b": 0.026
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.reality.whiteboard",
+        "meshCount": 1,
+        "hasMap": false,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.34,
+        "metalness": 0,
+        "color": {
+          "r": 0.815,
+          "g": 0.784,
+          "b": 0.723
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.reality.rug",
+        "meshCount": 1,
+        "hasMap": false,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.94,
+        "metalness": 0,
+        "color": {
+          "r": 0.162,
+          "g": 0.195,
+          "b": 0.171
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.reality.grille",
+        "meshCount": 1,
+        "hasMap": false,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.52,
+        "metalness": 0.35,
+        "color": {
+          "r": 0.009,
+          "g": 0.012,
+          "b": 0.013
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.reality.mute",
+        "meshCount": 1,
+        "hasMap": false,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.54,
+        "metalness": 0,
+        "color": {
+          "r": 0.328,
+          "g": 0.047,
+          "b": 0.038
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.reality.status",
+        "meshCount": 1,
+        "hasMap": false,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.48,
+        "metalness": 0,
+        "color": {
+          "r": 0.078,
+          "g": 0.254,
+          "b": 0.15
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.reality.planter",
+        "meshCount": 1,
+        "hasMap": false,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.76,
+        "metalness": 0,
+        "color": {
+          "r": 0.102,
+          "g": 0.067,
+          "b": 0.048
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.reality.marker-body",
+        "meshCount": 1,
+        "hasMap": false,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": true,
+        "lightMapIntensity": 4,
+        "bakedEnvironmentMode": "legacy",
+        "roughness": 0.48,
+        "metalness": 0,
+        "color": {
+          "r": 0.784,
+          "g": 0.761,
+          "b": 0.701
+        },
+        "mapSource": null
+      },
+      {
+        "name": "material.exterior.coastal-panorama",
+        "meshCount": 1,
+        "hasMap": false,
+        "hasNormalMap": false,
+        "hasAoMap": false,
+        "hasLightMap": false,
+        "lightMapIntensity": null,
+        "bakedEnvironmentMode": null,
+        "roughness": 1,
+        "metalness": 0,
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0
+        },
+        "mapSource": null
+      }
+    ],
+    "boundingBox": {
+      "min": {
+        "x": -40,
+        "y": -43,
+        "z": -40
+      },
+      "max": {
+        "x": 40,
+        "y": 37,
+        "z": 40
+      },
+      "size": {
+        "x": 80,
+        "y": 80,
+        "z": 80
+      },
+      "center": {
+        "x": 0,
+        "y": -3,
+        "z": 0
+      }
+    },
+    "camera": {
+      "world": {
+        "x": -0.45,
+        "y": 2.08,
+        "z": 0.82
+      },
+      "forward": {
+        "x": 0,
+        "y": 0.638,
+        "z": -0.77
+      }
+    },
+    "screenshot": {
+      "width": 320,
+      "height": 180,
+      "centerPixel": {
+        "r": 173,
+        "g": 169,
+        "b": 162,
+        "a": 255
+      },
+      "averageColor": {
+        "r": 154,
+        "g": 149,
+        "b": 142,
+        "a": 255
+      },
+      "darkPixelRatio": 0.0939,
+      "pixelSamples": [
+        {
+          "x": 160,
+          "y": 90,
+          "r": 173,
+          "g": 169,
+          "b": 162,
+          "a": 255
+        },
+        {
+          "x": 32,
+          "y": 18,
+          "r": 170,
+          "g": 165,
+          "b": 157,
+          "a": 255
+        },
+        {
+          "x": 287,
+          "y": 18,
+          "r": 169,
+          "g": 162,
+          "b": 153,
+          "a": 255
+        },
+        {
+          "x": 32,
+          "y": 161,
+          "r": 138,
+          "g": 131,
+          "b": 121,
+          "a": 255
+        },
+        {
+          "x": 287,
+          "y": 161,
+          "r": 149,
+          "g": 140,
+          "b": 128,
+          "a": 255
+        },
+        {
+          "x": 160,
+          "y": 36,
+          "r": 168,
+          "g": 163,
+          "b": 155,
+          "a": 255
+        },
+        {
+          "x": 160,
+          "y": 143,
+          "r": 195,
+          "g": 193,
+          "b": 186,
+          "a": 255
+        }
+      ]
+    }
+  }
+}

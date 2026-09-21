@@ -1,0 +1,13 @@
+{
+  "name": "meeting-shipping-pairs",
+  "stats": {
+    "startTime": "2026-09-21T22:05:14.532Z",
+    "duration": 258779.382,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "reportSha256": "fc7ac2c3660f0e1649c66175e8facbbe2db2f71baa93ba3c64e5a5eaa92de985",
+  "platformCommit": "33c7485ffa1773105c496b43542ea53bf4c5ae9a"
+}

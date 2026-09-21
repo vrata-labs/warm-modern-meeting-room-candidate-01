@@ -1,0 +1,444 @@
+{
+  "platformCommit": "33c7485ffa1773105c496b43542ea53bf4c5ae9a",
+  "baselineGlbSha256": "705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6",
+  "candidateGlbSha256": "7553a8dea3dd61521b887bba5657f5f2f8bd37b9bed6e0b2337396f08dacb2cb",
+  "views": [
+    {
+      "id": "entry",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "f1f5f9512d59d26d303467220fb3eaa2358af3461f5cb0951fbc93dcb7eebc96",
+        "f1f5f9512d59d26d303467220fb3eaa2358af3461f5cb0951fbc93dcb7eebc96"
+      ]
+    },
+    {
+      "id": "diagonal-overview",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "8162be38b9cd84c638e87ebc41ad8cbd871e512108db6510b1b167af371c7b2c",
+        "8162be38b9cd84c638e87ebc41ad8cbd871e512108db6510b1b167af371c7b2c"
+      ]
+    },
+    {
+      "id": "seat-01-display",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "46b1d2a03f53d0400c73ca1f2dc7b12ced9c1800bf0656c1dc1af4fa334516e4",
+        "46b1d2a03f53d0400c73ca1f2dc7b12ced9c1800bf0656c1dc1af4fa334516e4"
+      ]
+    },
+    {
+      "id": "seat-02-display",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "fd4b3065b7a46c3900e775833e9400b12ea84eed38c7bd652faf2236ac03956d",
+        "fd4b3065b7a46c3900e775833e9400b12ea84eed38c7bd652faf2236ac03956d"
+      ]
+    },
+    {
+      "id": "seat-03-display",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "ec16aa72fb455f81d7857f4de5985aff2e9db9d3705956706dd52ce1bcc34baa",
+        "ec16aa72fb455f81d7857f4de5985aff2e9db9d3705956706dd52ce1bcc34baa"
+      ]
+    },
+    {
+      "id": "seat-04-display",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "56ce0b2f149bb5e04cbb1faa9070f652933b428f17f4ae51d26d7eec50b2dcaa",
+        "56ce0b2f149bb5e04cbb1faa9070f652933b428f17f4ae51d26d7eec50b2dcaa"
+      ]
+    },
+    {
+      "id": "seat-05-display",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "7735d294a368f6c354cae9ad59b32df4257011195475d3d6cd729dff2bb131d9",
+        "7735d294a368f6c354cae9ad59b32df4257011195475d3d6cd729dff2bb131d9"
+      ]
+    },
+    {
+      "id": "seat-06-display",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "ac30f635479689640f65643394d34b05874aa2a5ed36f3ea19243d5a81bc0ef5",
+        "ac30f635479689640f65643394d34b05874aa2a5ed36f3ea19243d5a81bc0ef5"
+      ]
+    },
+    {
+      "id": "seat-07-display",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "c4cb5bfabc55430509133aab84ce7d4d6d3a8f6b51c0f35aa292493a527e7305",
+        "c4cb5bfabc55430509133aab84ce7d4d6d3a8f6b51c0f35aa292493a527e7305"
+      ]
+    },
+    {
+      "id": "seat-08-display",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "fe2f47fdd60bc11116f1a6beb1752141354914d90350c7516f8d2324ee5f5600",
+        "fe2f47fdd60bc11116f1a6beb1752141354914d90350c7516f8d2324ee5f5600"
+      ]
+    },
+    {
+      "id": "whiteboard-standing",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "dfe67dd758b3724bf070147903504f05018fccccb481ccea5e928a4183349ade",
+        "dfe67dd758b3724bf070147903504f05018fccccb481ccea5e928a4183349ade"
+      ]
+    },
+    {
+      "id": "table-underside",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "8f3d197d2f2807d87e30279ede00c2eb0f3c2a455203811a8094bc9147878c6f",
+        "8f3d197d2f2807d87e30279ede00c2eb0f3c2a455203811a8094bc9147878c6f"
+      ]
+    },
+    {
+      "id": "media-wall",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "348eac10e7ce3283a9b4ffaa62153a45a003ba42a0ff8a4601a4bd10b16f2c7d",
+        "348eac10e7ce3283a9b4ffaa62153a45a003ba42a0ff8a4601a4bd10b16f2c7d"
+      ]
+    },
+    {
+      "id": "door-detail",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "bc289bfa69e4c2d51f48540bc2c9bf595d0f678f5c1bcf9f57fb86c595e5fa03",
+        "bc289bfa69e4c2d51f48540bc2c9bf595d0f678f5c1bcf9f57fb86c595e5fa03"
+      ]
+    },
+    {
+      "id": "window-detail",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "180ce7259fa61ddcca50faef66b9e92fa2e5ff78f5a40c0ccf0727629fe1aa76",
+        "180ce7259fa61ddcca50faef66b9e92fa2e5ff78f5a40c0ccf0727629fe1aa76"
+      ]
+    },
+    {
+      "id": "coastal-view",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "07bcdc1b48324fbe97c059ef0e34645abd50577cc3ee8bcd87e4a8023b3f99d0",
+        "07bcdc1b48324fbe97c059ef0e34645abd50577cc3ee8bcd87e4a8023b3f99d0"
+      ]
+    },
+    {
+      "id": "pendant-detail",
+      "differentBytes": 0,
+      "maxDifference": 0,
+      "normalizedRmse": 0,
+      "pngSha256": [
+        "d5ee05ab3de5a766146668c429e29b38143332af81bee5cf3cbcfb0d78b3f531",
+        "d5ee05ab3de5a766146668c429e29b38143332af81bee5cf3cbcfb0d78b3f531"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "provenance/releases/0.3.4/baseline/capture.json",
+      "sha256": "e44a6c57b35af8186c36ebb392231e5f81336842696a24eb3c5fc3d84cd88b93",
+      "sizeBytes": 17262
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/coastal-view.png",
+      "sha256": "07bcdc1b48324fbe97c059ef0e34645abd50577cc3ee8bcd87e4a8023b3f99d0",
+      "sizeBytes": 384115
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/diagonal-overview.png",
+      "sha256": "8162be38b9cd84c638e87ebc41ad8cbd871e512108db6510b1b167af371c7b2c",
+      "sizeBytes": 450855
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/door-detail.png",
+      "sha256": "bc289bfa69e4c2d51f48540bc2c9bf595d0f678f5c1bcf9f57fb86c595e5fa03",
+      "sizeBytes": 252028
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/entry.png",
+      "sha256": "f1f5f9512d59d26d303467220fb3eaa2358af3461f5cb0951fbc93dcb7eebc96",
+      "sizeBytes": 458611
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/media-wall.png",
+      "sha256": "348eac10e7ce3283a9b4ffaa62153a45a003ba42a0ff8a4601a4bd10b16f2c7d",
+      "sizeBytes": 416976
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/pendant-detail.png",
+      "sha256": "d5ee05ab3de5a766146668c429e29b38143332af81bee5cf3cbcfb0d78b3f531",
+      "sizeBytes": 306286
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/seat-01-display.png",
+      "sha256": "46b1d2a03f53d0400c73ca1f2dc7b12ced9c1800bf0656c1dc1af4fa334516e4",
+      "sizeBytes": 137645
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/seat-02-display.png",
+      "sha256": "fd4b3065b7a46c3900e775833e9400b12ea84eed38c7bd652faf2236ac03956d",
+      "sizeBytes": 226693
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/seat-03-display.png",
+      "sha256": "ec16aa72fb455f81d7857f4de5985aff2e9db9d3705956706dd52ce1bcc34baa",
+      "sizeBytes": 329417
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/seat-04-display.png",
+      "sha256": "56ce0b2f149bb5e04cbb1faa9070f652933b428f17f4ae51d26d7eec50b2dcaa",
+      "sizeBytes": 374207
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/seat-05-display.png",
+      "sha256": "7735d294a368f6c354cae9ad59b32df4257011195475d3d6cd729dff2bb131d9",
+      "sizeBytes": 154341
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/seat-06-display.png",
+      "sha256": "ac30f635479689640f65643394d34b05874aa2a5ed36f3ea19243d5a81bc0ef5",
+      "sizeBytes": 232145
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/seat-07-display.png",
+      "sha256": "c4cb5bfabc55430509133aab84ce7d4d6d3a8f6b51c0f35aa292493a527e7305",
+      "sizeBytes": 333583
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/seat-08-display.png",
+      "sha256": "fe2f47fdd60bc11116f1a6beb1752141354914d90350c7516f8d2324ee5f5600",
+      "sizeBytes": 378130
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/table-underside.png",
+      "sha256": "8f3d197d2f2807d87e30279ede00c2eb0f3c2a455203811a8094bc9147878c6f",
+      "sizeBytes": 238571
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/whiteboard-standing.png",
+      "sha256": "dfe67dd758b3724bf070147903504f05018fccccb481ccea5e928a4183349ade",
+      "sizeBytes": 130538
+    },
+    {
+      "path": "provenance/releases/0.3.4/baseline/window-detail.png",
+      "sha256": "180ce7259fa61ddcca50faef66b9e92fa2e5ff78f5a40c0ccf0727629fe1aa76",
+      "sizeBytes": 369075
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/capture.json",
+      "sha256": "ac585aa8ead2fc0310468e856da423b3325f50461950d72436f3fbae8c79ca17",
+      "sizeBytes": 17265
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/coastal-view.png",
+      "sha256": "07bcdc1b48324fbe97c059ef0e34645abd50577cc3ee8bcd87e4a8023b3f99d0",
+      "sizeBytes": 384115
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/diagonal-overview.png",
+      "sha256": "8162be38b9cd84c638e87ebc41ad8cbd871e512108db6510b1b167af371c7b2c",
+      "sizeBytes": 450855
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/door-detail.png",
+      "sha256": "bc289bfa69e4c2d51f48540bc2c9bf595d0f678f5c1bcf9f57fb86c595e5fa03",
+      "sizeBytes": 252028
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/entry.png",
+      "sha256": "f1f5f9512d59d26d303467220fb3eaa2358af3461f5cb0951fbc93dcb7eebc96",
+      "sizeBytes": 458611
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/media-wall.png",
+      "sha256": "348eac10e7ce3283a9b4ffaa62153a45a003ba42a0ff8a4601a4bd10b16f2c7d",
+      "sizeBytes": 416976
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/pendant-detail.png",
+      "sha256": "d5ee05ab3de5a766146668c429e29b38143332af81bee5cf3cbcfb0d78b3f531",
+      "sizeBytes": 306286
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/seat-01-display.png",
+      "sha256": "46b1d2a03f53d0400c73ca1f2dc7b12ced9c1800bf0656c1dc1af4fa334516e4",
+      "sizeBytes": 137645
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/seat-02-display.png",
+      "sha256": "fd4b3065b7a46c3900e775833e9400b12ea84eed38c7bd652faf2236ac03956d",
+      "sizeBytes": 226693
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/seat-03-display.png",
+      "sha256": "ec16aa72fb455f81d7857f4de5985aff2e9db9d3705956706dd52ce1bcc34baa",
+      "sizeBytes": 329417
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/seat-04-display.png",
+      "sha256": "56ce0b2f149bb5e04cbb1faa9070f652933b428f17f4ae51d26d7eec50b2dcaa",
+      "sizeBytes": 374207
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/seat-05-display.png",
+      "sha256": "7735d294a368f6c354cae9ad59b32df4257011195475d3d6cd729dff2bb131d9",
+      "sizeBytes": 154341
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/seat-06-display.png",
+      "sha256": "ac30f635479689640f65643394d34b05874aa2a5ed36f3ea19243d5a81bc0ef5",
+      "sizeBytes": 232145
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/seat-07-display.png",
+      "sha256": "c4cb5bfabc55430509133aab84ce7d4d6d3a8f6b51c0f35aa292493a527e7305",
+      "sizeBytes": 333583
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/seat-08-display.png",
+      "sha256": "fe2f47fdd60bc11116f1a6beb1752141354914d90350c7516f8d2324ee5f5600",
+      "sizeBytes": 378130
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/table-underside.png",
+      "sha256": "8f3d197d2f2807d87e30279ede00c2eb0f3c2a455203811a8094bc9147878c6f",
+      "sizeBytes": 238571
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/whiteboard-standing.png",
+      "sha256": "dfe67dd758b3724bf070147903504f05018fccccb481ccea5e928a4183349ade",
+      "sizeBytes": 130538
+    },
+    {
+      "path": "provenance/releases/0.3.4/candidate/window-detail.png",
+      "sha256": "180ce7259fa61ddcca50faef66b9e92fa2e5ff78f5a40c0ccf0727629fe1aa76",
+      "sizeBytes": 369075
+    },
+    {
+      "path": "provenance/releases/0.3.4/normal/collaboration.png",
+      "sha256": "8c3bea02f43a8e7b5b520d628d1a29f338408fedbe624c1c47562d933d2170b1",
+      "sizeBytes": 572468
+    },
+    {
+      "path": "provenance/releases/0.3.4/normal/functional.json",
+      "sha256": "7ad34ddbe1ed4c03e3b20c73b9c4b6208eaae15a43a7399c30e3f231130d1cd7",
+      "sizeBytes": 22797
+    },
+    {
+      "path": "provenance/releases/0.3.4/normal/seat-01.png",
+      "sha256": "1f9322897e9ba26612fd62e80ae790bf191a0f4f26b6f79ecc578a765db478c6",
+      "sizeBytes": 563880
+    },
+    {
+      "path": "provenance/releases/0.3.4/normal/seat-02.png",
+      "sha256": "74ce3d6ae62f956159cab527d1307026eff6c1be8d6fc8379dd1f97dddfc0648",
+      "sizeBytes": 623935
+    },
+    {
+      "path": "provenance/releases/0.3.4/normal/seat-03.png",
+      "sha256": "dc46019f892039a55cfe47eaeac2e76d2ed571cb6fda7a2f42d62cc810ef41f1",
+      "sizeBytes": 626973
+    },
+    {
+      "path": "provenance/releases/0.3.4/normal/seat-04.png",
+      "sha256": "4d495b8c6a1716b5e9a0de3f20142fb45f62282b3558252ac19528df66b581ce",
+      "sizeBytes": 639636
+    },
+    {
+      "path": "provenance/releases/0.3.4/normal/seat-05.png",
+      "sha256": "1ad1e45ed14051d7df4e90e5b6a48a15d0bfb172ea8a18e59432a65690e9a4bc",
+      "sizeBytes": 512366
+    },
+    {
+      "path": "provenance/releases/0.3.4/normal/seat-06.png",
+      "sha256": "300ec6fea4925d3985a22a1ac20d94fb0c73d1efe90ecfedb8c7ae07459b2b6f",
+      "sizeBytes": 532745
+    },
+    {
+      "path": "provenance/releases/0.3.4/normal/seat-07.png",
+      "sha256": "9bf5e8c50864ebe7d1db4425c10ed94389152ec9c9b2ac16078ab32861ddc7fe",
+      "sizeBytes": 562425
+    },
+    {
+      "path": "provenance/releases/0.3.4/normal/seat-08.png",
+      "sha256": "79f63022a1d902d728e08891128d9c02cac9252754090da1b8de3a6474b22f92",
+      "sizeBytes": 581376
+    },
+    {
+      "path": "provenance/releases/0.3.4/normal/spawn.png",
+      "sha256": "17ecb09ed8f040ab57490b8715a3f66852b5ec4d317f5fb5eeac726f893bd79f",
+      "sizeBytes": 825758
+    },
+    {
+      "path": "provenance/releases/0.3.4/meeting-shipping-pairs-runner.json",
+      "sha256": "132a31709f9a68ef2a8bd66ed37e3f2856fa24c73cfb2a277ffdc3ffdfbbae90",
+      "sizeBytes": 353
+    },
+    {
+      "path": "provenance/releases/0.3.4/meeting-shipping-normal-runner.json",
+      "sha256": "7a98a76c9e2b2ca159061f7b538b31343e790135b3c6aeb400bbacd9a49c0a43",
+      "sizeBytes": 353
+    },
+    {
+      "path": "provenance/releases/0.3.4/browser-texels.json",
+      "sha256": "1a307fbec51717880feed279d182455014ed5eeed24b952273e1f9bd00122e5c",
+      "sizeBytes": 883
+    }
+  ],
+  "capturePaths": [
+    "provenance/releases/0.3.4/baseline/capture.json",
+    "provenance/releases/0.3.4/candidate/capture.json"
+  ],
+  "runner": {
+    "path": "provenance/releases/0.3.4/meeting-shipping-pairs-runner.json",
+    "sha256": "132a31709f9a68ef2a8bd66ed37e3f2856fa24c73cfb2a277ffdc3ffdfbbae90",
+    "sizeBytes": 353
+  },
+  "normalRunner": {
+    "path": "provenance/releases/0.3.4/meeting-shipping-normal-runner.json",
+    "sha256": "7a98a76c9e2b2ca159061f7b538b31343e790135b3c6aeb400bbacd9a49c0a43",
+    "sizeBytes": 353
+  },
+  "normalEvidencePath": "provenance/releases/0.3.4/normal/functional.json"
+}

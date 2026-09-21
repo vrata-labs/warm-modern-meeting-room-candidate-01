@@ -1,0 +1,33 @@
+{
+  "browser": "145.0.7632.6",
+  "textures": [
+    {
+      "sha256": "a2ca679e41cd071652f3328bcc6454963f14162bf66c9d346841224a102080b2",
+      "bytes": 10808992
+    },
+    {
+      "sha256": "32cb67b66f5c3a48d0295f765be94227509817fa581d57df593ac0de36eef26d",
+      "bytes": 3631025
+    }
+  ],
+  "comparisons": [
+    {
+      "colorSpaceConversion": "default",
+      "maxDifference": 0,
+      "differentBytes": 0,
+      "digests": [
+        "de653e0f4b1cfa57d237c2e5aefa1ce50e69e674ac3269ccb64e21cbe22deb91",
+        "de653e0f4b1cfa57d237c2e5aefa1ce50e69e674ac3269ccb64e21cbe22deb91"
+      ]
+    },
+    {
+      "colorSpaceConversion": "none",
+      "maxDifference": 0,
+      "differentBytes": 0,
+      "digests": [
+        "de653e0f4b1cfa57d237c2e5aefa1ce50e69e674ac3269ccb64e21cbe22deb91",
+        "de653e0f4b1cfa57d237c2e5aefa1ce50e69e674ac3269ccb64e21cbe22deb91"
+      ]
+    }
+  ]
+}

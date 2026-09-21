@@ -1,0 +1,349 @@
+{
+  "schemaVersion": 1,
+  "sceneId": "warm-modern-meeting-room-candidate-01",
+  "status": "accepted-reproducible-source",
+  "acceptedOn": "2026-09-04",
+  "acceptedSource": {
+    "packagingScriptPath": "source/releases/0.3.4/package-glb.mjs",
+    "packagingScriptSha256": "7d7d80222684e68a76c3c4ec1e6d5ff6f35bf2e4ef314f6aabec2a738a7d11a3"
+  },
+  "toolchain": {
+    "blenderVersion": "4.5.12 LTS",
+    "blenderBuildHash": "84afd5f785f7",
+    "blenderBinarySha256": "33ac108ebce3c271f5357e5c664d0488717263bcf2145c80300edd0b12c31880",
+    "gltfExporter": "Khronos glTF Blender I/O v4.5.51",
+    "reviewImageConverter": "cwebp 1.6.0",
+    "reviewImageQuality": 90,
+    "bakedLightmap": {
+      "resolution": 2048,
+      "samples": 128,
+      "scale": 0.25,
+      "device": "CUDA",
+      "transport": "emissiveTexture TEXCOORD_1 with baked-pbr-v1 metadata"
+    }
+  },
+  "reviewViews": [
+    {
+      "id": "entry",
+      "path": "source/releases/0.3.4/review/entry.webp",
+      "sha256": "4370735c0b1aac0dc61c6c00f4f5d85413062857264a3ecbac69fad2320be218"
+    },
+    {
+      "id": "diagonal-overview",
+      "path": "source/releases/0.3.4/review/diagonal-overview.webp",
+      "sha256": "eb7628d6d07744c9ddd60b34619d3dd7589dac53c3138ad670a73d6516a07d6f"
+    },
+    {
+      "id": "seat-01-display",
+      "path": "source/releases/0.3.4/review/seat-01-display.webp",
+      "sha256": "7db83bc71b0f1686405f994f3c98b93c5bc99d3bdbf73ec057642f714b69b979"
+    },
+    {
+      "id": "seat-02-display",
+      "path": "source/releases/0.3.4/review/seat-02-display.webp",
+      "sha256": "79d356816187e684669f27b8d61d8fc40b26d83972cf2b10b7f2c6868ea64332"
+    },
+    {
+      "id": "seat-03-display",
+      "path": "source/releases/0.3.4/review/seat-03-display.webp",
+      "sha256": "7a72186fdbaed63db656b7528f5c49544ad08150f88c8a265a103de6c277ffab"
+    },
+    {
+      "id": "seat-04-display",
+      "path": "source/releases/0.3.4/review/seat-04-display.webp",
+      "sha256": "89567007468a987a6808f06559eabb3b0d28016b043bca2272dc6012b503cbf3"
+    },
+    {
+      "id": "seat-05-display",
+      "path": "source/releases/0.3.4/review/seat-05-display.webp",
+      "sha256": "a7a30ac98021ea107e376996d4df25de559a44b9cc75e8e4dd96b243cce3bea7"
+    },
+    {
+      "id": "seat-06-display",
+      "path": "source/releases/0.3.4/review/seat-06-display.webp",
+      "sha256": "ebf2c48650718557d1e97ca2166094bfe9be316463b7500369a1f4475e872fa7"
+    },
+    {
+      "id": "seat-07-display",
+      "path": "source/releases/0.3.4/review/seat-07-display.webp",
+      "sha256": "69d24c7ad0fceedde52ba748ad98850519700aa3300115e50713d328f7bd2028"
+    },
+    {
+      "id": "seat-08-display",
+      "path": "source/releases/0.3.4/review/seat-08-display.webp",
+      "sha256": "34c241d616f7e70319ce9e2ed67cbcd6f117516ca835669b5ce5256680d5bd97"
+    },
+    {
+      "id": "whiteboard-standing",
+      "path": "source/releases/0.3.4/review/whiteboard-standing.webp",
+      "sha256": "b04314a06ecc705e209399b9a50396f0a733e9401e9d675a5970f4f7af327ebf"
+    },
+    {
+      "id": "table-underside",
+      "path": "source/releases/0.3.4/review/table-underside.webp",
+      "sha256": "8fae4985b878123c16fe0813d2f08d32e6fc5c9f61ffed73e4714e033cbc6747"
+    },
+    {
+      "id": "media-wall",
+      "path": "source/releases/0.3.4/review/media-wall.webp",
+      "sha256": "0f6140eebcbc25ef690bf87878344708660130a2948b88ca7b67eee3e1f230e6"
+    },
+    {
+      "id": "door-detail",
+      "path": "source/releases/0.3.4/review/door-detail.webp",
+      "sha256": "37239093c3084791f76a918f2aa5c32eb89feb996e7fb4920089e5939d4913df"
+    },
+    {
+      "id": "window-detail",
+      "path": "source/releases/0.3.4/review/window-detail.webp",
+      "sha256": "fa985782ada589657a1a764b406a2cba7c75b80e3d519a942dc50dcba8661124"
+    },
+    {
+      "id": "coastal-view",
+      "path": "source/releases/0.3.4/review/coastal-view.webp",
+      "sha256": "7f8ced4ba47ea759a83f59d5bcf7fffb4bb09f3919f132a318c9b63b8ecb09f3"
+    },
+    {
+      "id": "pendant-detail",
+      "path": "source/releases/0.3.4/review/pendant-detail.webp",
+      "sha256": "d2953aaa7f9f28b2b792b8899bed29b945b1694768e449485217f3e495b4464e"
+    }
+  ],
+  "rights": {
+    "decision": "approved",
+    "evidencePath": "provenance/releases/0.3.4/rights-verdict.md",
+    "releaseLedgerPath": "provenance/releases/0.3.4/release-asset-ledger.json"
+  },
+  "release": {
+    "version": "0.3.4",
+    "path": "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.4",
+    "glbSha256": "7553a8dea3dd61521b887bba5657f5f2f8bd37b9bed6e0b2337396f08dacb2cb",
+    "sceneManifestSha256": "35f9d9c3045308f5d36095293f1f130262003202a3cdc33c103f715f53f658f8",
+    "previewSha256": "5553f8d0aee2b65c15a59fce1877da3c27b847313da1e58bfad8a9000269cdfd"
+  },
+  "runtimeCoordinates": {
+    "transform": "x=x,y=z,z=-y",
+    "evidencePath": "provenance/releases/0.3.4/runtime-coordinates.json"
+  },
+  "reproducibility": {
+    "runs": 2,
+    "scope": "two-pinned-Blender-base-exports-then-deterministic-packaging",
+    "sha256": "7553a8dea3dd61521b887bba5657f5f2f8bd37b9bed6e0b2337396f08dacb2cb"
+  },
+  "visualQuality": {
+    "result": "unchanged-accepted-appearance",
+    "humanAcceptance": "accepted",
+    "acceptedBaseVersion": "0.3.3",
+    "humanAcceptanceEvidencePath": "provenance/releases/0.3.4/visual-verdict.md",
+    "evidencePath": "provenance/releases/0.3.4/visual-equivalence.json"
+  },
+  "boundaries": {
+    "visualAccepted": true,
+    "rightsApproved": true,
+    "acceptedSourceStored": true,
+    "releaseGlbVerified": true,
+    "publicationReady": false
+  },
+  "shipping": {
+    "baseVersion": "0.3.3",
+    "baseSourceLock": {
+      "path": "source/releases/0.3.3/accepted-source-lock.json",
+      "sha256": "f9693c28cb7184449dc0f8e0075cae08e241edc1a7d6dbac047605c5ea7f1d61",
+      "sizeBytes": 6584
+    },
+    "baseGlb": {
+      "path": "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.3/scene.glb",
+      "sha256": "705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6",
+      "sizeBytes": 20320032
+    },
+    "acceptedSource": {
+      "blendPath": "source/releases/0.3.3/accepted-scene.blend",
+      "blendSha256": "12a75782181b8cbddd8c9873517678ed018238d10649ceca4fb1d8464ff60677",
+      "lightmapPath": "source/releases/0.3.3/accepted-lightmap.png",
+      "lightmapSha256": "a2ca679e41cd071652f3328bcc6454963f14162bf66c9d346841224a102080b2",
+      "realityPassScriptPath": "source/releases/0.3.3/reality-pass.py",
+      "realityPassScriptSha256": "6a928b97a212ee9ee3639c244fdb7fcccdb7c31191f091bd85475bf13aed2bc8",
+      "exportScriptPath": "source/releases/0.3.3/export-release.py",
+      "exportScriptSha256": "7eee4deb133f23038b09a03c902f3c302dbccf4af0b969e0c3367db44253da32",
+      "sceneRealityContractPath": "source/releases/0.3.3/scene-reality.json",
+      "sceneRealityContractSha256": "ada5f9d6c3d50fb167113ef12f9bb2aecd43dd4d9c29b6ed87f3f37cb174a375",
+      "userScenariosContractPath": "source/releases/0.3.3/user-scenarios.json",
+      "userScenariosContractSha256": "2cd5e1cc00eaa8ee6ad9d4d140275e85cd291737723a27a1c418f1ef2f5cec6e",
+      "panoramaImagePath": "source/releases/0.3.3/coastal-panorama-cannon.jpg",
+      "panoramaImageSha256": "4e960796faa85fc88d8e8647a713c695bcba92f8b6b27832a28f436428425d30"
+    },
+    "platformCommit": "33c7485ffa1773105c496b43542ea53bf4c5ae9a",
+    "acceptanceBasis": "unchanged-geometry-materials-and-rendered-views-from-accepted-0.3.3",
+    "packagingReport": {
+      "inputSha256": "705999f50ce98c9a6760509ee731610f8e416e53d0f3b48b1d87481d267549d6",
+      "inputBytes": 20320032,
+      "outputSha256": "7553a8dea3dd61521b887bba5657f5f2f8bd37b9bed6e0b2337396f08dacb2cb",
+      "outputBytes": 11576640,
+      "geometryUnchanged": true,
+      "textureBrowserEquivalence": "pending-browser-check",
+      "sharpDecodedTexelsUnchanged": true,
+      "textures": [
+        {
+          "name": "accepted-lightmap",
+          "width": 2048,
+          "height": 2048,
+          "inputDepth": "ushort",
+          "beforeBytes": 10808992,
+          "afterBytes": 3631025,
+          "beforeSha256": "a2ca679e41cd071652f3328bcc6454963f14162bf66c9d346841224a102080b2",
+          "afterSha256": "32cb67b66f5c3a48d0295f765be94227509817fa581d57df593ac0de36eef26d"
+        },
+        {
+          "name": "texture.material",
+          "width": 128,
+          "height": 128,
+          "inputDepth": "uchar",
+          "beforeBytes": 15039,
+          "afterBytes": 15039,
+          "beforeSha256": "c25ead50e2613b7dfc4a5f7f541d23114155e67fc3753b934a7c04016a85a2e1",
+          "afterSha256": "c25ead50e2613b7dfc4a5f7f541d23114155e67fc3753b934a7c04016a85a2e1"
+        },
+        {
+          "name": "texture.material",
+          "width": 256,
+          "height": 256,
+          "inputDepth": "uchar",
+          "beforeBytes": 47508,
+          "afterBytes": 47508,
+          "beforeSha256": "5d69649d20cb53d609ed34d8cf32806f9515db1ba53959e9fe1bf0700e572a4e",
+          "afterSha256": "5d69649d20cb53d609ed34d8cf32806f9515db1ba53959e9fe1bf0700e572a4e"
+        },
+        {
+          "name": "texture.material",
+          "width": 256,
+          "height": 256,
+          "inputDepth": "uchar",
+          "beforeBytes": 47762,
+          "afterBytes": 47762,
+          "beforeSha256": "eb58385c05b06991bd7738f3b723ecf622037b1d640566d347208c6de0d369b8",
+          "afterSha256": "eb58385c05b06991bd7738f3b723ecf622037b1d640566d347208c6de0d369b8"
+        },
+        {
+          "name": "texture.material",
+          "width": 128,
+          "height": 128,
+          "inputDepth": "uchar",
+          "beforeBytes": 3389,
+          "afterBytes": 3389,
+          "beforeSha256": "7d7f592af4a8eaf9b31db26e93920bea4b9de1a89deb8e33747f41b1454d2bc4",
+          "afterSha256": "7d7f592af4a8eaf9b31db26e93920bea4b9de1a89deb8e33747f41b1454d2bc4"
+        },
+        {
+          "name": "texture.material",
+          "width": 128,
+          "height": 128,
+          "inputDepth": "uchar",
+          "beforeBytes": 14832,
+          "afterBytes": 14832,
+          "beforeSha256": "a932f8ba67e1e8f9fdef48f56879c730336b511fd48e2641435bef2e3dd6081b",
+          "afterSha256": "a932f8ba67e1e8f9fdef48f56879c730336b511fd48e2641435bef2e3dd6081b"
+        },
+        {
+          "name": "texture.material",
+          "width": 128,
+          "height": 128,
+          "inputDepth": "uchar",
+          "beforeBytes": 11341,
+          "afterBytes": 11341,
+          "beforeSha256": "b65b8a9d17d0935ed6d291fc6856cc77567f14a4cfa51c8b64bbc9242b101092",
+          "afterSha256": "b65b8a9d17d0935ed6d291fc6856cc77567f14a4cfa51c8b64bbc9242b101092"
+        },
+        {
+          "name": "texture.material",
+          "width": 128,
+          "height": 128,
+          "inputDepth": "uchar",
+          "beforeBytes": 5736,
+          "afterBytes": 5736,
+          "beforeSha256": "ec6276174fb420445d1d7cbd1a0738e195df069f0ca64b305ead4e9db9fbcae6",
+          "afterSha256": "ec6276174fb420445d1d7cbd1a0738e195df069f0ca64b305ead4e9db9fbcae6"
+        },
+        {
+          "name": "coastal-panorama-cannon",
+          "width": 8192,
+          "height": 4096,
+          "inputDepth": "uchar",
+          "beforeBytes": 5104291,
+          "afterBytes": 5104291,
+          "beforeSha256": "4e960796faa85fc88d8e8647a713c695bcba92f8b6b27832a28f436428425d30",
+          "afterSha256": "4e960796faa85fc88d8e8647a713c695bcba92f8b6b27832a28f436428425d30"
+        }
+      ],
+      "gltfErrors": 0,
+      "gltfWarnings": 0
+    },
+    "preview": {
+      "sourcePath": "provenance/releases/0.3.4/normal/spawn.png",
+      "crop": {
+        "left": 0,
+        "top": 80,
+        "width": 1280,
+        "height": 720
+      },
+      "quality": 90,
+      "reason": "Remove only the top HUD strip from the actual normal spawn capture"
+    },
+    "harness": {
+      "path": "source/releases/0.3.4/capture-pairs.ts",
+      "sha256": "974ce53b0ba9aa0792547bb00b6be0ccaa631867793bae60d39289a8b35f0511",
+      "sizeBytes": 7655
+    },
+    "normalHarness": {
+      "path": "source/releases/0.3.4/capture-normal.ts",
+      "sha256": "fdeb742f1203a77e0f384ad1a09eff6e1b5c8a39897524a708b9bde65015dda3",
+      "sizeBytes": 8915
+    },
+    "inputs": [
+      {
+        "path": "source/releases/0.3.4/package-glb.mjs",
+        "sha256": "7d7d80222684e68a76c3c4ec1e6d5ff6f35bf2e4ef314f6aabec2a738a7d11a3",
+        "sizeBytes": 6073
+      },
+      {
+        "path": "source/releases/0.3.4/capture-pairs.ts",
+        "sha256": "974ce53b0ba9aa0792547bb00b6be0ccaa631867793bae60d39289a8b35f0511",
+        "sizeBytes": 7655
+      },
+      {
+        "path": "source/releases/0.3.4/capture-normal.ts",
+        "sha256": "fdeb742f1203a77e0f384ad1a09eff6e1b5c8a39897524a708b9bde65015dda3",
+        "sizeBytes": 8915
+      },
+      {
+        "path": "source/releases/0.3.4/visual-parity-config.json",
+        "sha256": "e794544d91138c4df97cc3253a6d37312c19077edca75b0d968746ea486cc7b0",
+        "sizeBytes": 9318
+      },
+      {
+        "path": "provenance/releases/0.3.4/visual-equivalence.json",
+        "sha256": "214f465cf0fd36e606d0007f97fe6aebb9b7605c908e9f7ca4d21907ae8158bb",
+        "sizeBytes": 15653
+      },
+      {
+        "path": "provenance/releases/0.3.4/rights-verdict.md",
+        "sha256": "3656f9b3873e17845f95ffa6a0107b2a5b05ab9a9d753fb0dd80d7d0f479e019",
+        "sizeBytes": 296
+      },
+      {
+        "path": "provenance/releases/0.3.4/visual-verdict.md",
+        "sha256": "4050512cf934e99019609fd1eae71742372b141e10ae1e50a9e255dfc7e8b9ce",
+        "sizeBytes": 509
+      },
+      {
+        "path": "provenance/releases/0.3.4/release-asset-ledger.json",
+        "sha256": "7d5af19cf1e95dde33e817b3154aa22b49a4d1595ec62cbf47b2d0af100deac8",
+        "sizeBytes": 17977
+      },
+      {
+        "path": "provenance/releases/0.3.4/runtime-coordinates.json",
+        "sha256": "c0507dd00b50f292bdfa2c869e8b82d2b414fdf4f475a1b078d390a7a61ae8d5",
+        "sizeBytes": 2950
+      }
+    ]
+  }
+}
