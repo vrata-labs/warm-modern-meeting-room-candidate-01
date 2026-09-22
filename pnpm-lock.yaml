@@ -20,6 +20,12 @@ importers:
       gltf-validator:
         specifier: 2.0.0-dev.3.10
         version: 2.0.0-dev.3.10
+      meshoptimizer:
+        specifier: 1.0.1
+        version: 1.0.1
+      sharp:
+        specifier: 0.34.5
+        version: 0.34.5
 
 packages:
 

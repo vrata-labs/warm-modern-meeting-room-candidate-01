@@ -61,8 +61,8 @@ test("repository is pinned to one neutral scene", async () => {
   assert.equal(config.oneSceneOnly, true);
   assert.equal(config.sceneId, "warm-modern-meeting-room-candidate-01");
   assert.equal(config.reviewIdentity, "neutral-candidate-01");
-  assert.equal(config.platformValidatorCommit, platformValidatorCommit);
-  assert.equal((await text("platform-validator.lock")).trim(), platformValidatorCommit);
+  assert.equal(config.platformValidatorCommit, "33c7485ffa1773105c496b43542ea53bf4c5ae9a");
+  assert.equal((await text("platform-validator.lock")).trim(), config.platformValidatorCommit);
 });
 
 test("manifest preserves the historical prefix and one current release beside append-only review releases", async () => {
@@ -338,15 +338,15 @@ test("0.3.3 visual parity policy binds the CC0 coastal panorama without promotio
   assert.equal(panoramaRecord.source.publishedMd5, "9125a8a15f6734b0366b1ab8c9e4cefc");
 });
 
-test("release commands select 0.3.3 explicitly and preserve legacy lock selection", async () => {
+test("release commands select shipping 0.3.4 and preserve legacy lock selection", async () => {
   const { acceptances } = await loadReleaseAcceptanceIndex(root);
   assert.equal(selectReleaseAcceptance(acceptances, { version: null, lockPath: "source/accepted-source-lock.json" }).record.version, "0.2.0");
   const packageJson = await json("package.json");
-  assert.equal(packageJson.version, "0.3.3");
-  assert.match(packageJson.scripts["build:release"], /--version 0\.3\.3$/);
-  assert.match(packageJson.scripts["validate:visual"], /--version 0\.3\.3$/);
-  assert.match(packageJson.scripts["verify:reproducibility"], /--version 0\.3\.3 --twice$/);
-  assert.match(packageJson.scripts["capture:bind"], /create-capture-binding\.mjs --version 0\.3\.3$/);
+  assert.equal(packageJson.version, "0.3.4");
+  assert.match(packageJson.scripts["build:release"], /--version 0\.3\.4$/);
+  assert.equal(packageJson.scripts["validate:visual"], "node scripts/validate-shipping-release.mjs");
+  assert.match(packageJson.scripts["verify:reproducibility"], /--version 0\.3\.4 --twice$/);
+  assert.match(packageJson.scripts["capture:bind:legacy"], /create-capture-binding\.mjs --version 0\.3\.3$/);
   const buildScript = await text("scripts/build-release.mjs");
   assert.match(buildScript, /SCENE_BUILD_OUTPUT_ROOT \?\? "build\/releases"/);
   assert.match(buildScript, /"--lightmap"/);

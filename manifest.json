@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "blenderVersion": "4.5.12 LTS",
-  "platformValidatorCommit": "c54edb2239d225a71e9b934316f70792b3faafb6",
+  "platformValidatorCommit": "33c7485ffa1773105c496b43542ea53bf4c5ae9a",
   "sceneId": "warm-modern-meeting-room-candidate-01",
   "releases": [
     {
@@ -271,6 +271,41 @@
         "LICENSES.md": {
           "sha256": "e0ca95304650601b9bd09bcdcd91bb21663b7fad242b6ed3bb4fd0193f73cb6e",
           "sizeBytes": 1736
+        }
+      },
+      "stats": {
+        "triangles": 52260,
+        "nodes": 133,
+        "meshes": 133,
+        "primitives": 133,
+        "materials": 18,
+        "textures": 9,
+        "animations": 0
+      }
+    },
+    {
+      "sceneId": "warm-modern-meeting-room-candidate-01",
+      "version": "0.3.4",
+      "status": "review",
+      "isCurrent": false,
+      "publicationReady": false,
+      "releasePath": "assets/scenes/warm-modern-meeting-room-candidate-01/0.3.4",
+      "files": {
+        "LICENSES.md": {
+          "sha256": "e0ca95304650601b9bd09bcdcd91bb21663b7fad242b6ed3bb4fd0193f73cb6e",
+          "sizeBytes": 1736
+        },
+        "preview.webp": {
+          "sha256": "5553f8d0aee2b65c15a59fce1877da3c27b847313da1e58bfad8a9000269cdfd",
+          "sizeBytes": 71300
+        },
+        "scene.glb": {
+          "sha256": "7553a8dea3dd61521b887bba5657f5f2f8bd37b9bed6e0b2337396f08dacb2cb",
+          "sizeBytes": 11576640
+        },
+        "scene.json": {
+          "sha256": "35f9d9c3045308f5d36095293f1f130262003202a3cdc33c103f715f53f658f8",
+          "sizeBytes": 5864
         }
       },
       "stats": {

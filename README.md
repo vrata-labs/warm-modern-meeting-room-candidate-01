@@ -3,6 +3,48 @@
 Single-scene source and immutable release repository for the neutral
 warm-modern meeting-room candidate `01`.
 
+## Shipping candidate 0.3.4
+
+Version 0.3.4 packages the accepted eight-seat 0.3.3 scene for the standard-room
+catalog. GLB size falls from 20,320,032 to **11,576,640 bytes**, keeping 52,260
+triangles, 133 meshes/primitives, 18 materials and 9 textures. Float32 geometry,
+hierarchy, material semantics, anchors and the original 8K Cannon panorama are
+preserved. The lightmap uses an 8-bit PNG representation matching the texels the
+browser already decoded from the 16-bit source; original source precision remains
+archived in 0.3.3. This reduces download size, not decoded texture GPU memory.
+
+All seventeen baseline/candidate browser PNGs are byte-identical on platform
+33c7485ffa1773105c496b43542ea53bf4c5ae9a. A separate normal-product run checks eight
+authoritative seat claims/releases, seated movement locking, floor return and
+rendered synchronized content on both scene surfaces. The preview is a 16:9 crop
+of the real runtime spawn, excluding its top HUD strip. See [shipping evidence](provenance/releases/0.3.4/visual-equivalence.json)
+and [the task packet](docs/shipping-0.3.4-task.md).
+
+Visual acceptance is inherited specifically from the unchanged accepted 0.3.3
+appearance; this is not a new human-review claim. Rights already include optimization
+and redistribution. Product catalog activation and physical Android/iOS/Quest
+acceptance are recorded separately. The historical current release remains 0.2.0.
+
+Shipping commands:
+
+```bash
+pnpm install --frozen-lockfile
+SCENE_FACTORY_DIR=.scene-factory pnpm validate
+pnpm test
+pnpm validate:visual
+BLENDER_BIN=/path/to/pinned/blender pnpm verify:reproducibility
+```
+
+The scene-factory checkout must match source/scene-contract-lock.json. Shipping
+reproduction performs two original Blender exports, verifies their accepted 0.3.3
+hashes, then packages each into identical 0.3.4 bytes. New capture inputs are frozen
+before commit by scripts/freeze-shipping-release.mjs with a platform checkout
+argument. To replay its private asset checks, install the versioned capture-pairs.ts
+and capture-normal.ts snapshots as tests/e2e/scene-shipping-pairs.spec.ts and
+tests/e2e/scene-shipping-normal.spec.ts in the pinned platform checkout; use
+MEETING_SHIPPING_ROOT and the recorded single-worker invocation. Published snapshots
+are immutable and cannot be rebound in place.
+
 The transferable authoring rules are the platform [scene-quality contract](https://github.com/vrata-labs/platform/blob/8ba49739d44518a3e877bc93432be591ce2e72da/docs/scene-quality-contract.md)
 and [task packet](https://github.com/vrata-labs/platform/blob/8ba49739d44518a3e877bc93432be591ce2e72da/docs/scene-authoring-task-template.md).
 This room's 0.3.3 at `5580a7b080cf6195e28ebc77b654fd71111b0cd1` is the accepted
@@ -77,8 +119,8 @@ pnpm validate
 pnpm inspect
 pnpm test
 BLENDER_BIN=/path/to/pinned/blender pnpm verify:reproducibility
-SCENE_VISUAL_OUTPUT_DIR=/path/to/runtime-captures pnpm capture:bind
-SCENE_VISUAL_OUTPUT_DIR=/path/to/runtime-captures pnpm validate:visual
+SCENE_VISUAL_OUTPUT_DIR=/path/to/runtime-captures pnpm capture:bind:legacy
+SCENE_VISUAL_OUTPUT_DIR=/path/to/runtime-captures node scripts/validate-visual-parity.mjs --version 0.3.3
 ```
 
 No scene binary may be committed before source rights are cleared. A release

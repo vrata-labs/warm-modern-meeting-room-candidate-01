@@ -8,6 +8,8 @@ import { promisify } from "node:util";
 import { NodeIO } from "@gltf-transform/core";
 import { ALL_EXTENSIONS } from "@gltf-transform/extensions";
 import validator from "gltf-validator";
+import { MeshoptDecoder } from "meshoptimizer";
+import { validateShippingRelease } from "./validate-shipping-release.mjs";
 
 import {
   LEGACY_ACCEPTANCE_VERSION,
@@ -21,6 +23,7 @@ const requiredReleaseFiles = ["LICENSES.md", "preview.webp", "scene.glb", "scene
 const execFileAsync = promisify(execFile);
 const projectOwnedLicenseSha256 = "56be457108896a56b706ffcd10d7e1e45778cb33812d98fea6979eb5539fb490";
 const projectOwnedReleaseLicenseSha256 = "a99a2ae2a44522eac4713085699f0623b1f766f0ee26d565153393243fdd2152";
+const legacyCapturePlatformCommit = "c54edb2239d225a71e9b934316f70792b3faafb6";
 
 function assert(condition, code) {
   if (!condition) throw new Error(code);
@@ -63,7 +66,8 @@ function primitiveTriangleCount(primitive) {
 }
 
 async function glbStats(path) {
-  const document = await new NodeIO().registerExtensions(ALL_EXTENSIONS).read(path);
+  await MeshoptDecoder.ready;
+  const document = await new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ "meshopt.decoder": MeshoptDecoder }).read(path);
   const gltfRoot = document.getRoot();
   const meshes = gltfRoot.listMeshes();
   return {
@@ -325,6 +329,10 @@ for (const { record, lock, visualParityConfig } of acceptances) {
   const version = record.version;
   const expectedReleasePath = `assets/scenes/${config.sceneId}/${version}`;
   const manifestRelease = manifest.releases.find((release) => release.version === version);
+  if (version === "0.3.4") {
+    releaseLedgerByVersion.set(version, await validateShippingRelease(root, { record, lock, visualParityConfig }, manifestRelease));
+    continue;
+  }
   assert(lock.schemaVersion === 1
     && lock.status === "accepted-reproducible-source"
     && lock.sceneId === config.sceneId
@@ -546,7 +554,7 @@ assert(runtimeCoordinateCorrection.sceneId === config.sceneId
   && runtimeCoordinateCorrection.verification.staging.consoleErrorCount === 0, "invalid_runtime_coordinate_correction");
 assert(bakedLightmapEvidence.sceneId === config.sceneId
   && bakedLightmapEvidence.releaseVersion === acceptedSourceLock.release.version
-  && bakedLightmapEvidence.platformCommit === validatorCommit
+  && bakedLightmapEvidence.platformCommit === legacyCapturePlatformCommit
   && bakedLightmapEvidence.bake?.lightmapSha256 === acceptedSourceLock.acceptedSource.lightmapSha256
   && bakedLightmapEvidence.asset?.glbSha256 === acceptedSourceLock.release.glbSha256
   && bakedLightmapEvidence.localRuntime?.state === "loaded"

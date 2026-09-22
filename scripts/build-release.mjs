@@ -96,6 +96,11 @@ function exportArguments(inputs, scale, output) {
 }
 
 const options = parseArguments(process.argv.slice(2));
+if (options.version === "0.3.4") {
+  const { buildShippingRelease } = await import("./build-shipping-release.mjs");
+  await buildShippingRelease(options);
+  process.exit(0);
+}
 const { acceptances } = await loadReleaseAcceptanceIndex(root);
 const acceptance = selectReleaseAcceptance(acceptances, options);
 const { lock, record } = acceptance;
